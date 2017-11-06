@@ -100,16 +100,55 @@ Within the Artificial Neural Networks (ANN), we can find great variety of units 
 
 	If we define the error with the previous formula, its representation (with two inputs, so it will be easier to understand) would be a parabolic surface with only one local minimum. The gradient descent will start using an arbitrary (random) initial vector and the algorithm will modify its direction step by step. In each step, the algorithm will choose the variation that go the deepest along the error surface. By this way, the process will continue until the local (and global minimum in this case) is reached.
 
-	\subsection{Derivation of Gradient Descent}
-	*complete later*
+	\subsubsection{Derivation of Gradient Descent}
+	To modify the direction of the vector we will derivate the error function ($E(\vec{w})$) respect of $\vec{w}$, form that is called \textit{gradient of E}:
 
-	\subsection{Gradient Descent Algorithm}
+	\begin{equation}
+		\label{gradient_of_E}
+		\nabla E(\vec{w})= [\frac{\partial{E}}{\partial{w_{0}}}, \frac{\partial{E}}{\partial{w_{1}}}, ..., \frac{\partial{E}}{\partial{w_{n}}}]
+	\end{equation}
+
+	This vector specifies the direction that produces the steepest increase in E, so adding a negative factor ($-1$) we can calculate the steepest decrease in E. We can represent the training rule with its component form:
+
+	\begin{equation}
+		\label{training_rule_component_form}
+		w_{i}^{'} \leftarrow w_{i} + \Delta w_{i} \hspace{1.5cm} ; \hspace{1.5cm} \Delta{w_{i}}=-\eta \frac{\partial{E}}{\partial{w_i}}
+	\end{equation}
+
+	The derivative process would be as follows:
+
+	\begin{equation}
+		\label{derivating_error_function_1}
+		\frac{\partial{E}}{\partial{w_i}} = \frac{\partial{}}{\partial{w_i}} \frac{1}{2} \sum_{d \varepsilon D} (t_d - o_d)^2
+	\end{equation}
+
+	\begin{equation}
+		\label{derivating_error_function_2}
+		\frac{\partial{E}}{\partial{w_i}}  = \frac{1}{2} \sum_{d \varepsilon D} 2(t_d - o_d) \frac{\partial{}}{\partial{w_i}} (t_d - \vec{w} \cdot \vec{x}_d)
+	\end{equation}
+
+	\begin{equation}
+		\label{derivating_error_function_3}
+		\frac{\partial{E}}{\partial{w_i}} = \sum_{d \varepsilon D} (t_d - o_d) (-x_{id})
+	\end{equation}
+
+	So the final expression of the gradient descent is:
+
+	\begin{equation}
+		\label{gradient_descent_final_expr}
+		\Delta w_i = -\eta \frac{\partial{E}}{\partial{w_i}} = \eta \sum_{d \varepsilon D} (t_d - o_d) x_{id}
+	\end{equation}
+
+
+	\subsubsection{Gradient Descent Algorithm}
 
 	\begin{enumerate}
+
 		\item Pick an initial random weight vector.
 		\item Apply the \hyperref[linear_unit]{linear unit} to all training examples and then compute $\Delta w_i$  using the previous formula [ref].
 		\item Update each weight adding $\Delta w_i$.
 		\item If the algorithm hasn’t reached the local (global in this case) minimum, repeat from step 2.
+	
 	\end{enumerate}
 
 	\subsection{Stochastic Approximation}
