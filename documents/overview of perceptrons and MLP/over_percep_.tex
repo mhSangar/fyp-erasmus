@@ -1,0 +1,132 @@
+\documentclass{article}
+
+% PACKAGES %
+	\usepackage[utf8]{inputenc}	% UTF-8 %
+	\usepackage[a4paper, portrait, margin=3cm]{geometry}	% A4, portrait orientation and 2.5cm margin %
+	\usepackage{amsmath}	% Maths %
+	\usepackage{mathtools}	% Maths %
+	\usepackage{hyperref}	% Linked references %
+
+% CONSTANTS %
+	\setlength{\parindent}{4em}
+	\setlength{\parskip}{1em}
+
+
+\begin{document}
+
+\title{Overview of the Perceptron and MLP}
+\author{Mario Sánchez García}
+
+\maketitle
+
+\vfill
+\begin{abstract}
+	\begin{center}
+	Summary of Chapter 4: Artificial Neural Networks from Tom M. Mitchell's book ``"Machine Learning``", 1997.
+	\end{center}
+\end{abstract}
+\clearpage
+
+\tableofcontents
+\clearpage
+
+\section{The perceptron}
+Within the Artificial Neural Networks (ANN), we can find great variety of units that define the type of ANN involved, but this time we are going to use a perceptron. It has several inputs, it performs an operation that involves all the values obtained from the inputs and calculate a single value as a result in a single output.
+
+	\subsection{Structure}
+	It has several inputs, composed of a value and a weight, which will indicate the contribution that will contribute to the output of the perceptron. The operation involving all inputs is a linear combination:
+
+	\begin{equation}
+	    \label{linear_combination}
+	        y=\sum_{i=0}^{n} w_n x_n = w_0 + w_1 x_1 + w_2 x_2 + w_3 x_3 + ...%
+	\end{equation}
+
+	where $x_n$ are the inputs of the perceptron and $w_n$ are the weights( $x_0=1$ is not an input, it's an useful constant to allow us to write the linear operation with a summatory). Finally, the (unique) output of the perceptron depends on the result of the linear operation, being 1 if the result is positive; or -1 in another case. All these data allow us to define the perceptron as follows:
+
+	\begin{equation}
+	    \label{perceptron_rule}
+		perceptron(y) =
+			\begin{cases}
+		     	1 & \text{if $y>0$} \\
+		          -1 & \text{otherwise} \\
+			\end{cases}
+	\end{equation}
+
+	\subsection{Linearly separable attribute}
+	With a 2 input perceptron, we can produce a Cartesian map with all the inputs that we're going to use (first input would be X axis, second input Y axis). Instead of using a point to represent the input, we use the output symbol (``"+``" or ``"-``").
+
+	If we can draw a line that divides the map in two sides, so that on each side of the line there was only one kind of symbol (all positives or all negatives), then we can say that the set of points we have used is linearly separable. The fact of using only two inputs is because we can imagine a scenario that allows us to easily understand the attribute of being linearly separable. This attribute can be achieved with any number of inputs if there is a hyperplane that separate the values in the same way as in the example.
+	
+	Therefore, with a single perceptron there are sets of points that can't be linearly separable. That's why the networks of perceptrons with more than one layer are created, whose first layer perceptron's outputs is not the final result, but performs the role as input to another perceptron in the next layer. This way, even the non-linear surfaces can be represented by the perceptrons.
+
+\section{Training perceptrons}
+	\subsection{Training Rule}
+	We begin assigning random values to the weights and then we apply the perceptron to each training example. If the perceptron misclassifies an example, the training rule will modify the weights according to:
+
+	\begin{equation*}
+		\label{training_rule_proccess}
+		w_{i}^{'} \leftarrow w_{i} + \Delta w_{i} \hspace{1.5cm} ; \hspace{1.5cm} \Delta w_{i}= \eta (t - o) x_{i}
+	\end{equation*}
+	
+	\begin{equation}
+		\label{training_rule}
+		w_{i}^{'} \leftarrow w_{i} + \eta (t - o) x_{i}
+	\end{equation}
+
+	where $\eta$ is the learning rate (constant usually small that determines how much weights vary in each step), $t$ is the target value, $o$ is the actual output that we have obtained from the perceptron and $x_{i}$ is the input value.
+
+	The weights will converge to a value that classify correctly within a finite number of iterations if (and only if):
+	\begin{itemize}
+		\item Examples are linearly separable.
+		\item The $\eta$ value used is sufficiently small.
+	\end{itemize}
+	
+	\subsection{Delta Rule and Gradient Descent}
+	When the input set is not linearly separable, we need an alternative to the training rule: delta rule. Delta rule uses gradient descent to search for the hypothesis space (set of outputs) that best fit the training example. 
+
+	To explain this we’re going to use a linear unit (another kind of perceptron that is not thresholded) which output is calculated by:
+	
+	\begin{equation}
+		\label{linear_unit}
+		o = \vec{w} \cdot \vec{x}
+	\end{equation}
+
+	To measure the training error we’re going to use the next formula, where $D$ is the set of examples. It depends only of $\vec{w}$ because we assume that its relation with the examples set $\vec{x}$ will be gone after the training.
+
+	\begin{equation}
+		\label{error_function_full_square}
+		E(\vec{w}) = \frac{1}{2} \sum_{d \varepsilon D} (t_d-o_d)^2 
+	\end{equation}
+
+	If we define the error with the previous formula, its representation (with two inputs, so it will be easier to understand) would be a parabolic surface with only one local minimum. The gradient descent will start using an arbitrary (random) initial vector and the algorithm will modify its direction step by step. In each step, the algorithm will choose the variation that go the deepest along the error surface. By this way, the process will continue until the local (and global minimum in this case) is reached.
+
+	\subsection{Derivation of Gradient Descent}
+	*complete later*
+
+	\subsection{Gradient Descent Algorithm}
+
+	\begin{enumerate}
+		\item Pick an initial random weight vector.
+		\item Apply the \hyperref[linear_unit]{linear unit} to all training examples and then compute $\Delta w_i$  using the previous formula [ref].
+		\item Update each weight adding $\Delta w_i$.
+		\item If the algorithm hasn’t reached the local (global in this case) minimum, repeat from step 2.
+	\end{enumerate}
+
+	\subsection{Stochastic Approximation}
+	Instead of using all the examples to update the weight each step (which could imply a lot of work) there is another option: incremental/stochastic gradient descent. This way we will approximate the gradient descent updating the weights with each training example:
+
+	\begin{equation}
+		\label{delta_rule}
+		\Delta w_{i}= \eta (t - o) x_{i}
+	\end{equation}
+
+	So the error function must be changed to:
+
+	\begin{equation}
+		\label{error_function_stoc_square}
+		E(\vec{w}) = \frac{1}{2} (t_d-o_d)^2 
+	\end{equation}
+
+\section{Multilayer Perceptron Networks}
+
+\end{document}
