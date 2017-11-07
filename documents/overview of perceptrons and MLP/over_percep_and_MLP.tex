@@ -169,23 +169,57 @@ Within the Artificial Neural Networks (ANN), we can find great variety of units 
 \section{Multilayer Perceptron Networks}
 A single perceptron can only express linear decision surfaces, so it is very limited for real life situations.  In contrast, a multilayer network learned by the backpropagation algorithm can express a rich variety of non-linear decision surfaces, which are more suitable for that kind of problems.
 
-\subsection{Is a perceptron valid for MLP?}
-A perceptron unit is perfectly valid for a MLP, but its discontinuous threshold output make it not suitable at all for gradient descent. Also, as a linear unit, multiple layers of cascaded units will only produce linear functions. Then, another option is required: a \textbf{sigmoid threshold unit}. This unit works pretty similar to the perceptron, but has another function at the output to perform the threshold, which is called logistic or sigmoid function ($\sigma(y)$).
+	\subsection{Is a perceptron valid for MLP?}
+	A perceptron unit is perfectly valid for a MLP, but its discontinuous threshold output make it not suitable at all for gradient descent. Also, as a linear unit, multiple layers of cascaded units will only produce linear functions. Then, another option is required: a \textbf{sigmoid threshold unit}. This unit works pretty similar to the perceptron, but has another function at the output to perform the threshold, which is called logistic or sigmoid function ($\sigma(y)$).
 
-	\begin{equation}
-		\label{sigmoid_function}
-		\sigma(y) = \frac{1}{1+e^{-y}}
-	\end{equation}
+		\begin{equation}
+			\label{sigmoid_function}
+			\sigma(y) = \frac{1}{1+e^{-y}}
+		\end{equation}
 
-This function increases monotonically and continuously with its input and is able to map a large input domain to a small range (0, 1) of outputs, reason because is usually called \textit{squashing function}. Finally, being easy derivable make it a really good choice for our task. 
+	This function increases monotonically and continuously with its input and is able to map a large input domain to a small range (0, 1) of outputs, reason because is usually called \textit{squashing function}. Finally, being easy derivable make it a really good choice for our task. 
 
 
-\subsection{Backpropagation Algorithm}
-\subsubsection{Momentum}
-\subsubsection{Acyclic Networks}
-\subsection{Derivation of Backpropagation Rule}
-\subsubsection{Output unit weights}
-\subsubsection{Hidden unit weights}
-\subsection{Remarks of the Backpropagation Algorithm}
+	\subsection{Backpropagation Algorithm}
+	The Backpropagation Algorithm learns the weights for a multilayer  network, given a network with a fixed set of units  and interconnections. It uses gradient descent to minimize the squared error between the output and its target values of the network:
+
+		\begin{equation}
+			\label{squared_error_function_network}
+			E(\vec{w}) = \frac{1}{2} \sum_{d \varepsilon D} \sum_{k \varepsilon outputs} (t_{kd}-o_{kd})^2 
+		\end{equation}
+
+	As we have changed the error function definition, the error surface will have more than one local minima (not as before with a single perceptron). This means that gradient descent may fail in order to find the global minima and only reach a local minima instead. Anyway, it has been proved to produce excellent results even with this problem.
+
+	The stochastic version of the Backpropagation Algorithm, applied for each training example, would be:
+
+		\begin{enumerate}
+
+			\item Input the values in the network and obtain the output values computing every unit of the network.
+			\item For each output unit ($k$), calculate its error term $\delta_k$, which is the usual $(t-o)$ multipied to the derivate of the sigmoid function:
+				\begin{equation}
+					\label{backpropagation_output_error}
+					\delta_k \leftarrow o_k (1 - o_k)(t_k - o_k)
+				\end{equation}				
+
+			\item For each hidden unit ($h$), calculate its error term $\delta_h$. This is similar to the output formula, but as we don't have a target value for a hidden unit, we must calculate it summing up the errors of the downstream units weigthing each error by the weight of the connection that links them. 
+				\begin{equation}
+					\label{backpropagation_hidden_error}
+					\delta_h \leftarrow o_h (1 - o_h) \sum_{l \varepsilon downstream} (w_{hl} \delta_i)
+				\end{equation}
+
+			\item Update each network weight:
+				\begin{equation}
+					\label{backpropagation_weight_update}
+					w^{'}_{ji} \leftarrow w_{ji} + \Delta w_{ji} \hspace{1.5cm} ; \hspace{1.5cm} \Delta w_{ji} = \eta \delta_j x_{ji}
+				\end{equation}
+
+		\end{enumerate} 
+
+		\subsubsection{Momentum}
+		\subsubsection{Acyclic Networks}
+	\subsection{Derivation of Backpropagation Rule}
+		\subsubsection{Output unit weights}
+		\subsubsection{Hidden unit weights}
+	\subsection{Remarks of the Backpropagation Algorithm}
 
 \end{document}
