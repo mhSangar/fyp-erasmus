@@ -167,9 +167,20 @@ Within the Artificial Neural Networks (ANN), we can find great variety of units 
 	\end{equation}
 
 \section{Multilayer Perceptron Networks}
+A single perceptron can only express linear decision surfaces, so it is very limited for real life situations.  In contrast, a multilayer network learned by the backpropagation algorithm can express a rich variety of non-linear decision surfaces, which are more suitable for that kind of problems.
 
 \subsection{Is a perceptron valid for MLP?}
-\subsection{Backpropagation Algorithm in MLP}
+A perceptron unit is perfectly valid for a MLP, but its discontinuous threshold output make it not suitable at all for gradient descent. Also, as a linear unit, multiple layers of cascaded units will only produce linear functions. Then, another option is required: a \textbf{sigmoid threshold unit}. This unit works pretty similar to the perceptron, but has another function at the output to perform the threshold, which is called logistic or sigmoid function ($\sigma(y)$).
+
+	\begin{equation}
+		\label{sigmoid_function}
+		\sigma(y) = \frac{1}{1+e^{-y}}
+	\end{equation}
+
+This function increases monotonically and continuously with its input and is able to map a large input domain to a small range (0, 1) of outputs, reason because is usually called \textit{squashing function}. Finally, being easy derivable make it a really good choice for our task. 
+
+
+\subsection{Backpropagation Algorithm}
 \subsubsection{Momentum}
 \subsubsection{Acyclic Networks}
 \subsection{Derivation of Backpropagation Rule}
