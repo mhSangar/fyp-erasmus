@@ -5,8 +5,12 @@
 %
 \usepackage[utf8]{inputenc}
 \usepackage[export]{adjustbox} % loads also graphicx
+\usepackage{amsmath}	% maths 
+\usepackage{mathtools}	% maths 
+\usepackage{hyperref}	% linked references 
 \usepackage{epsf}
 \usepackage{psfig}
+\usepackage[nottoc,numbib]{tocbibind}
 %\usepackage{thesis}
 
 %
@@ -85,7 +89,8 @@
 \include{\chapterspath/project-plan}
 %\include{\chapterspath/references}
 
-\bibliographystyle{plainat}
-\bibliography{sample}  
+%\bibliographystyle{plainat}
+\bibliographystyle{unsrt}
+\bibliography{ref}  
 
 \end{document}   
