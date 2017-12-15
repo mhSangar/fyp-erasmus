@@ -1,22 +1,54 @@
 \chapter{Introduction}
 \label{introduction}
 
+%\section{General Introduction}
+%\section{Technologies Used}
+%	\subsection{Why Raspberry}
+%	\subsection{Why Pyhton?}
+%	\subsection{Why TensorFlow?}
+%\section{Motivation}
+
+
 \section{General Introduction}
-Humans have used body characteristics such as face, voice or even gait for thousands of years to recognize each other. Back in the 19th century Alphonse Bertillon (chief of the criminal identification division of the police department in Paris, France) laid the foundation of biometrics by his idea of using a number of body measurements to identify criminals. However, his idea was finally obscured by a far more practical discovery: the distinctiveness of the human fingerprints \cite{jain_biometrics}. 
-time has passed, technology advancedd to identify by itself, no humans needed. in this project, face recognition. this 
+Humans have used body characteristics such as face, voice or even gait for thousands of years to recognize each other. Back in the 19th century Alphonse Bertillon (chief of the criminal identification division of the police department in Paris, France) laid the foundation of biometrics by his idea of using a number of body measurements to identify criminals. However, his idea was finally obscured by the far more practical discovery of the distinctiveness of human fingerprints (\cite{jain_biometrics}).
+
+Time has passed since that discovery, and technology has advanced enough to do the recognition labour by itself, no humans are needed. In this project we are going to use one kind of recognition that has been limited for a long time by technology and processing power of computers: face recognition. Fortunately in the last years the Google Brain team developed TensorFlow, an open source library for face recognition based in deep learning and written in Python, doing the task a bit easier. 
+
+Using this library, this project sets out to build an \textit{intelligent assistant} that will recognise the user face and, once identified, it will give personalised support. 
 
 
-Time has passed since that moment and technology has advanced enough to offer new ways to identify a person. 
-
-
-face recognition was unfortunately limited severely by the technology of the era and computer processing power. However, it was an important first step in proving that face recognition was a viable biometric.
-
-%\section{Objectives}
-%\section{Scope}	% to explain what's in and out the project.
-\section{Technologies Used}	% enumerate with the steps followed
+\section{Technologies Used}	
 	\subsection{Why Raspberry?}
+	TensorFlow still needs a computer with a certain computing power, which also means that it will have a considerable size. In order to provide mobility to the assistant, the Raspberry Pi 3 is going to be used as the user and camera interface:
+
+	\begin{itemize}
+		\item Camera interface. The Raspberry have a camera connected that will be responsible to take the photos of the user's face.
+		\item User interface. Once the user is identified, he/she will introduce the required support.
+	\end{itemize}
+
+	This device will also provide a lightweight structure to the project, dividing it in client (Raspberry) and server. The latter is the one who actually will do the face recognition proccess using the TensorFlow library.
+
 	\subsection{Why Python?}
-	%\subsection{Why Flask?}
-	%\subsection{Why SQL-Alchemy?}
+	In addition to the fact that TensorFlow is written in it, Python has become a really widely used language for machine learning. Many reasons have been given to this (\cite{why_python}):
+
+	\begin{itemize}
+		\item Proven language. It is used by many important companies, such as Dropbox, Google or Amazon. 
+		\item Fast prototypes. Python's dynamic nature and simple syntax make it perfect for prototyping, preventing us from worrying about the actual implementation and helping to focus on data and algorithms (which the main task of machine learning).
+		\item For everyone. Many data scientist and engineers have a background in maths and statistics, but they may not have any experience in programming. Python's readability (is said to have a math-like syntax) and simplicity make it easier to pick up.
+		\item Mature Data Science Ecosystem. There is a great collection of math and data science for Python, incremented by new libraries that are built on top of the older ones (but controlled by the solid Python's packaging). 
+	\end{itemize}
+
 	\subsection{Why TensorFlow?}
+	We have talked about the other matters of the project around TensorFlow, but why choose it instead other deep learning libraries (e.g. Theano, Caffe)? First, TensorFlow is one of the newest libraries at the moment of writing for deep learning in Python and we want this project to deal with a current issue. In addition, this library has two APIs (\cite{tensorflow_main_website}): a high level API (MNIST), which makes it accessible for everyone and it will be easy to start with; and a low level API (Deep MNIST), which can provide a more advanced control for the final development of the project.
+
+
+%\section{Objectives}				% should I include this section??
+%\section{Proposed Objectives}		% ??
+
 \section{Motivation}
+The use of face recognition have experimented an incredible rise in the last times. Not long ago we saw how Apple brought out the new iPhoneX. This new model says goodbye to the usual ways to unblock the terminal (e.g. codes, patterns or fingerprints) incorporating the FaceID software, which is nothing but a face recognition approach. This may be a more known case of face recognition, but as we see in \cite{iphonex_and_other_uses}, it is already used around the world to examine, investigate, and monitor. For example in China, police use it to identify the people who commit the crime of jaywalking. In the United States, more than a half of all American adults are in a face recognition database that can be used for criminal investigations (thanks to their driver’s license).
+
+
+
+
+
