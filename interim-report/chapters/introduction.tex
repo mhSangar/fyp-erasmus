@@ -14,11 +14,18 @@ Humans have used body characteristics such as face, voice or even gait for thous
 
 Time has passed since that discovery, and technology has advanced enough to do the recognition labour by itself, no humans are needed. In this project we are going to use one kind of recognition that has been limited for a long time by technology and processing power of computers: face recognition. Fortunately in the last years the Google Brain team developed TensorFlow, an open source library for face recognition based in deep learning and written in Python, doing the task a bit easier. 
 
-Using this library, this project sets out to build an \textit{intelligent assistant} that will recognise the user face and, once identified, it will give personalised support. 
+Using this library, this project sets out to build an \textit{intelligent assistant} that will recognise the user face and, once identified, it will give personalised support. [extend saying that is to help Erasmus students in the first days] 
 
 
 \section{Technologies Used}	
+
+	\subsection{Why TensorFlow?}
+	[edit to be the first]
+	We have talked about the other matters of the project around TensorFlow, but why choose it instead other deep learning libraries (e.g. Theano, Caffe)? First, TensorFlow is one of the newest libraries at the moment of writing for deep learning in Python and we want this project to deal with a current issue. In addition, this library has two APIs (\cite{tensorflow_main_website}): a high level API (MNIST), which makes it accessible for everyone and it will be easy to start with; and a low level API (Deep MNIST), which can provide a more advanced control for the final development of the project.
+
 	\subsection{Why Raspberry?}
+	[include brief discussion of what it is, specs, motivation]
+
 	TensorFlow still needs a computer with a certain computing power, which also means that it will have a considerable size. In order to provide mobility to the assistant, the Raspberry Pi 3 is going to be used as the user and camera interface:
 
 	\begin{itemize}
@@ -38,11 +45,9 @@ Using this library, this project sets out to build an \textit{intelligent assist
 		\item Mature Data Science Ecosystem. There is a great collection of math and data science for Python, incremented by new libraries that are built on top of the older ones (but controlled by the solid Python's packaging). 
 	\end{itemize}
 
-	\subsection{Why TensorFlow?}
-	We have talked about the other matters of the project around TensorFlow, but why choose it instead other deep learning libraries (e.g. Theano, Caffe)? First, TensorFlow is one of the newest libraries at the moment of writing for deep learning in Python and we want this project to deal with a current issue. In addition, this library has two APIs (\cite{tensorflow_main_website}): a high level API (MNIST), which makes it accessible for everyone and it will be easy to start with; and a low level API (Deep MNIST), which can provide a more advanced control for the final development of the project.
+\section{Objectives}				% should I include this section?? YAS
 
 
-%\section{Objectives}				% should I include this section??
 %\section{Proposed Objectives}		% ??
 
 \section{Motivation}

@@ -12,11 +12,6 @@
 %\section{Multilayer Perceptron Networks}
 %	\subsection{Is a perceptron valid for MLP? The Sigmoid Unit}
 %	\subsection{Backpropagation Algorithm}
-%		%\subsubsection{Momentum}
-%		%\subsubsection{Acyclic Networks}
-%	\subsection{Derivation of Backpropagation Rule}
-%		\subsubsection{Output unit weights}
-%		\subsubsection{Hidden unit weights}
 %\section{ANNs and CNNs}
 %\section{Face Recognition using CNNs}
 %\section{Voice Recognition}	% disabled for now
@@ -176,22 +171,6 @@ A single perceptron can only express linear decision surfaces, so it is very lim
 				\end{equation}
 
 		\end{enumerate} 
-
-%		\subsubsection{Momentum}
-%		The backpropagation is widely used and because of that, it has many variations. Probably the most common one is to add momentum to the formula, altering the weight update function including a partial dependance on the update occurred during the previous iteration:
-%
-%			\begin{equation}
-%				\label{backpropagation_momentum}
-%				w_{ji} (n) = \eta \delta_j x_{ji} + \alpha \Delta w_{ji}(n-1) 
-%			\end{equation}
-%
-%		Here $w_{ji}(n)$ is the weight update of the $n$th iteration and $\alpha$ is a constant called \textit{momentum} that is contained in the range [0, 1). Using this dependance, the algorithm would be able to go through a small local minima to keep looking for the global minimum, while the "momentumless" algorithm would be stuck.
-
-%		\subsubsection{Acyclic Networks}
-	\subsection{Derivation of Backpropagation Rule}
-	*complete with notes*
-		\subsubsection{Output unit weights}
-		\subsubsection{Hidden unit weights}
 
 \section{ANNs and CNNs}
 \section{Face Recognition using CNNs}
