@@ -1,0 +1,19 @@
+\chapter{Future Work}
+\label{future-work}
+
+This project is designed to be completed within an academic full year, so there are many things to be done yet. The research part still needs to include sections referring to Convolutional Neural Networks, essentially how do they work and how is the face recognition actually performed. On the other hand, a voice recognition feature (in order to recognise voice commands) was included initially, but for now it is disabled. In case it is finally included in the project, the report will also include a section about voice recognition. 
+
+With the research almost done, it is time to start working in something practical. First, TensorFlow have a total of three tutorials in their website (\cite{tensorflow_main_website}):
+
+\begin{itemize}
+	\item MNIST for ML Beginners. Introduce MNIST using the high-level API.
+	\item Deep MNIST for Experts. More in depth than the previous tutorial, as it assumes familiarity with machine learning concepts.
+	\item TensorFlow Mechanics 101. Introduce MNIST using the low-level API.
+\end{itemize}  
+
+We will start immediately "MNIST for ML Beginners" to learn about this library, although the second tutorial should not be so difficult now that research about Machine Learning has been done. Last tutorial, however, will be for later in the semester as first we need to get used to the high-level API.
+
+As the project will need to capture images using the camera in order to identify the user, we will develop a small application within the Raspberry Pi. This application consist of capture video using the camera module and then showing it in real time in a screen. In order to achive this, we are going to use OpenCV library, which is also the one that is going to be used in the real project.
+
+Finally, the project is designed to be divided in a client-server structure, so in order to get used to work with it, another application will be developed using a Flask Server. This server will be deployed in a computer and the Raspberry Pi will connect to it by a REST API, sending a JPG image.
+

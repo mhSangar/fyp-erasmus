@@ -20,7 +20,7 @@
 %\section{Python}									**				
 
 \section{Introduction to Machine Learning}
-Machine learning is a term difficult to define because it can be seen from many points of view. It could be Data Mining if it is applied to databases, Inference in statistics or Pattern Recognition in engineering. One clear thing is that machine learning is a field of artificial intelligence that studies systems that can learn from data. As Kevin P. Murphy said, "The goal of machine learning is to develop methods that can automatically detect patterns in data, and then to use the uncovered patterns to predict future data or other outcomes of interest". 
+Machine learning is a term difficult to define, it can be seen from many points of view: it could be Data Mining (applied to databases), Inference (Statistics) or Pattern Recognition (Engineering). One clear thing is that machine learning is a field of artificial intelligence that studies systems that can learn from data. As Kevin P. Murphy said, "The goal of machine learning is to develop methods that can automatically detect patterns in data, and then to use the uncovered patterns to predict future data or other outcomes of interest". 
 
 Within machine learning we can find two different approaches: supervised or unsupervised learning. If you suppose you are providing solution to your kids for each and every situation in their life, it is called they are supervised. But, if your kids take their decisions out of their own understanding, it is called they are unsupervised . Well, something similar happens with machine larning. If you train your model for every input with a corresponding target, then it is supersived learning (you give extra information apart from the data itself) and it will be able to provide target for any new input after sufficient training. Contrary, if you train your model with only a set of inputs it is unsupervised learning and it will be able to find relationships between the different inputs (\cite{sup_unsup_learning}). 
 
@@ -35,15 +35,13 @@ ANN are based in singular units of computation, called neurons, nodes or simplyl
 	\caption{Neuron model}
 \end{figure}
 
-These neurons are arranged in layers to construct an ANN. Nodes from adjacent layers have connections between them, so each connection has associated a weight. 
+These neurons are arranged in layers to construct an ANN. Nodes from adjacent layers have connections between them, so each connection has associated a weight. Because of the position of these nodes and the connections between them we can differentiate three types of nodes: input, hidden and output nodes. 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{ann_basic_model.jpg}
 	\caption{Basic Artificial Neural Network}
 \end{figure}
-
-In this network we can have three types of nodes (\cite{intro_ann}):
 
 \begin{itemize}
 	\item Input Nodes. Provide information from the outside world without computing anything, they just past the information to the hidden nodes. Together are referred to as the \textit{Input Layer}. 
@@ -220,3 +218,30 @@ Face recognition is nothing but another kind of machine learning and as such, it
 \end{itemize}
 
 \section{Python}
+In the Introduction of this project we already have enumerated some of the features of this language, but there is much more. First, it is a high-level language designed to be easily readable. One interesting example of this is the lack of brackets ("{}"), which is the usual way to delimit control flow blocks in other languages. Instead, Python uses indentation, so to indicate a line is inside a function or an \textit{if} block, we just have to indent it one level more. We can see it clearly in the next comparative.
+
+\noindent\begin{minipage}[t]{.45\textwidth}
+\begin{lstlisting}[caption=C code,frame=tlrb, language=C]{Name}
+void foo(int x)
+{
+    if (x == 0) {
+        bar();
+    } else {
+        foo2(x + 3);
+    }
+}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}[t]{.45\textwidth}
+\begin{lstlisting}[caption=Python code,frame=tlrb, language=Python]{Name}
+def foo(x):
+    if x == 0:
+        bar()
+    else:
+        foo2(x + 3)
+\end{lstlisting}
+\end{minipage}
+
+Second, Python is interactive. When we install Python in our computer we can launch it in the terminal and a prompt will show up, allowing us to interact with the interpreter directly to write our programs. Directly related with this feature is that Python is interpreted. This means that it does not need to be compiled before executing (what happens to languages like C, C++ or Lisp), as it is processed by at runtime by the interpreter (\cite{python_overview}). 
+
+And finally, Python is easy to learn. It has fewer keywords than other languages, its strucure is much simpler and the syntax is easily readable with a certain level of English. It is because all of this why it has become very popular in recent years, being used from to start learning programming to advanced investigation projects.
