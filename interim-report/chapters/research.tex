@@ -1,9 +1,11 @@
 \chapter{Research}
 \label{research}
 
-%\section{Introduction to Machine Learning}			**
+%\section{Introduction to Machine Learning}			
+%\section{Artificial Neural Networks}				
+%\section{ANNs vs CNNs} 					% disabled for now
 %\section{The Perceptron}
-%	\subsection{Linearly Separable attribute}
+%	\subsection{Linearly Separable attribute}		** (img)
 %	\subsection{Training Rule}
 %	\subsection{Delta Rule and Gradient Descent}
 %	\subsection{Derivation of Gradient Descent}
@@ -12,37 +14,68 @@
 %\section{Multilayer Perceptron Networks}
 %	\subsection{Is a perceptron valid for MLP? The Sigmoid Unit}
 %	\subsection{Backpropagation Algorithm}
-%\section{ANNs and CNNs} 							**
-%\section{Face Recognition using CNNs}				**
-%\section{Voice Recognition}	% disabled for now
-%\section{Public Data Sets}							**
+%\section{Face Recognition using CNNs}		% disabled for now
+%\section{Voice Recognition}				% disabled for now
+%\section{Public Data Sets}
+%\section{Python}									**				
 
 \section{Introduction to Machine Learning}
+Machine learning is a term difficult to define because it can be seen from many points of view. It could be Data Mining if it is applied to databases, Inference in statistics or Pattern Recognition in engineering. One clear thing is that machine learning is a field of artificial intelligence that studies systems that can learn from data. As Kevin P. Murphy said, "The goal of machine learning is to develop methods that can automatically detect patterns in data, and then to use the uncovered patterns to predict future data or other outcomes of interest". 
 
+Within machine learning we can find two different approaches: supervised or unsupervised learning. If you suppose you are providing solution to your kids for each and every situation in their life, it is called they are supervised. But, if your kids take their decisions out of their own understanding, it is called they are unsupervised . Well, something similar happens with machine larning. If you train your model for every input with a corresponding target, then it is supersived learning (you give extra information apart from the data itself) and it will be able to provide target for any new input after sufficient training. Contrary, if you train your model with only a set of inputs it is unsupervised learning and it will be able to find relationships between the different inputs (\cite{sup_unsup_learning}). 
+
+\section{Artificial Neural Networks}
+Artificial Neural Networks (ANN) have generated a lot of excitement in Machine Learning research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing. It is a computational model that is inspired by the way biological neural networks in the human brain process information (\cite{intro_ann}). 
+
+ANN are based in singular units of computation, called neurons, nodes or simplyly units. It receives input from some other nodes, or from an external source and computes an output. Each input has an associated weight ($w$), which is assigned depending of its relative importance to other inputs. The node applies a function $f$ to the weighted sum of its inputs, as we can see in the next figure (\cite{intro_ann}).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{neuron.jpg}
+	\caption{Neuron model}
+\end{figure}
+
+These neurons are arranged in layers to construct an ANN. Nodes from adjacent layers have connections between them, so each connection has associated a weight. 
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{ann_basic_model.jpg}
+	\caption{Basic Artificial Neural Network}
+\end{figure}
+
+In this network we can have three types of nodes (\cite{intro_ann}):
+
+\begin{itemize}
+	\item Input Nodes. Provide information from the outside world without computing anything, they just past the information to the hidden nodes. Together are referred to as the \textit{Input Layer}. 
+	\item Hidden Nodes. They have no connection with the outside world (hence the name "hidden"), but they compute the information provided from the previous layer and give the output to the next one. Together are referred to as the \textit{Hidden Layer}. Although these networks must have only one input layer and one output layer, they can have more than one hidden layer (or none). 
+	\item Output Nodes. Together are referred to as the \textit{Output Layer} and they are responsible to transfer the computed information to the outside world again.
+\end{itemize}
 
 \section{The perceptron}
 Within the Artificial Neural Networks (ANN), we can find great variety of units that define the type of ANN involved, but in order to explain how they work, we are going to use a perceptron. This unit has several inputs that are used to perform an operation involving all of them, to finally calculate a single value as a result in a single output.
 
-	Each input is composed of a value and a weight, which will indicate the contribution that will contribute to the output of the perceptron. The operation involving all inputs is a linear combination:
+Each input is composed of a value and a weight, which will indicate the contribution that will contribute to the output of the perceptron. The operation involving all inputs is a linear combination:
 
-	\begin{equation}
-	    \label{linear_combination}
-	        y=\sum_{i=0}^{n} w_n x_n = w_0 + w_1 x_1 + w_2 x_2 + w_3 x_3 + ...%
-	\end{equation}
+\begin{equation}
+    \label{linear_combination}
+        y=\sum_{i=0}^{n} w_n x_n = w_0 + w_1 x_1 + w_2 x_2 + w_3 x_3 + ...%
+\end{equation}
 
-	where $x_n$ are the inputs of the perceptron and $w_n$ are the weights ($x_0=1$ is not an input, it's an useful constant to allow us to write the linear operation with a summatory). Finally, the (unique) output of the perceptron depends on the result of the linear operation, being 1 if the result is positive; or -1 in another case. All these data allow us to define the perceptron as follows:
+where $x_n$ are the inputs of the perceptron and $w_n$ are the weights ($x_0=1$ is not an input, it's an useful constant to allow us to write the linear operation with a summatory). Finally, the (unique) output of the perceptron depends on the result of the linear operation, being 1 if the result is positive; or -1 in another case. All these data allow us to define the perceptron as follows:
 
-	\begin{equation}
-	    \label{perceptron_rule}
-		perceptron(y) =
-			\begin{cases}
-		     	1 & \text{if $y>0$} \\
-		        -1 & \text{otherwise} \\
-			\end{cases}
-	\end{equation}
+\begin{equation}
+    \label{perceptron_rule}
+	perceptron(y) =
+		\begin{cases}
+	     	1 & \text{if $y>0$} \\
+	        -1 & \text{otherwise} \\
+		\end{cases}
+\end{equation}
 
 	\subsection{Linearly Separable attribute}
-	This atribute refers to the fact that an hyperplane can separate (or not) the different output values of the perceptron, dividing the space in two sides where there is only one kind of output (1 or -1). With a single perceptron, there are sets of points that can't be linearly separable. That's why the networks of perceptrons with more than one layer are created, whose first layer perceptron's outputs is not the final result, but performs the role as input to another perceptron in the next layer. This way, even the non-linear surfaces can be represented.
+	This atribute refers to the fact that an hyperplane can separate (or not) the different output values of the perceptron, dividing the space in two sides where there is only one kind of output (1 or -1). To explain it better, we are going to use a percetron with two inputs. With this inputs we can produce a Cartesian map (first input would be X axis; and second input, Y axis). Instead of using a point to represent the input, we use the output symbol (``"+``" or ``"-``"). If we can draw a line (our hyperplane in a 2-dimension space) that divides the map in two sides, so that on each side of the line we can only find one kind of symbol (all positives or all negatives), then we can say that the set of points we have used is linearly separable.  
+	
+	With a single perceptron there are sets of points that can't be linearly separable. That's why networks of perceptrons with more than one layer are created, whose first layer perceptron's outputs is not the final result, but performs the role as input to another perceptron in the next layer. This way, even the non-linear surfaces can be represented.
 
 	\subsection{Training Rule}
 	In order to train perceptrons, we begin assigning random values to the weights and then we apply the perceptron to each training example. If the perceptron misclassifies an example, the training rule will modify the weights according to:
@@ -54,12 +87,7 @@ Within the Artificial Neural Networks (ANN), we can find great variety of units 
 
 	where $\eta$ is the \textit{learning rate} (constant usually small that determines how much weights vary in each step), $t$ is the target value, $o$ is the actual output that we have obtained from the perceptron and $x_{i}$ is the input value.
 
-	The weights will converge to a value that classify correctly within a finite number of iterations if (and only if):
-	
-	\begin{itemize}
-		\item Examples are linearly separable.
-		\item The $\eta$ value used is sufficiently small.
-	\end{itemize}
+	The weights will converge to a value that classify correctly within a finite number of iterations if (and only if) examples are linearly separable and the $\eta$ value used is sufficiently small.
 	
 	\subsection{Delta Rule and Gradient Descent}
 	When the input set is not linearly separable, we need an alternative to the training rule: delta rule. Delta rule uses gradient descent to search for the hypothesis space (set of outputs) that best fit the training example. 
@@ -72,6 +100,12 @@ Within the Artificial Neural Networks (ANN), we can find great variety of units 
 	\end{equation}
 
 	If error is defined by this formula, its representation (assuming two inputs) would be a parabolic surface with only one local minimum. The gradient descent will start using a random initial vector and the algorithm will modify its direction step by step. In each step, the algorithm will choose the variation that go the deepest along the error surface. By this way, the process will continue until the local (and global minimum in this case) is reached.
+
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=\textwidth-30mm]{parabolic_surface.jpg}
+		\caption{Parabolic Surface with one local minimum}
+	\end{figure}
 
 	\subsection{Derivation of Gradient Descent}
 	To modify the direction of the vector we will derivate the error function ($E(\vec{w})$) respect of $\vec{w}$, form that is called \textit{gradient of E}:
@@ -172,12 +206,17 @@ A single perceptron can only express linear decision surfaces, so it is very lim
 
 		\end{enumerate} 
 
-\section{ANNs and CNNs}
-\section{Face Recognition using CNNs}
+%\section{Face Recognition using CNNs}
+
 %\section{Voice Recognition}	% disabled for now until I ask JJ
+
 \section{Public Data Sets} 
-CASIA DB - second largest DB (first is private and belongs to Facebook). Needs JJ's signature, so not public at all. Maybe too large. http://www.cbsr.ia.ac.cn/english/CASIA-WebFace-Database.html
+Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data, face images in this case. The problem is that we need a high amount of them, in addition to that each face image has to be different (or the model would only work well with the data we worked with, and not any face, which is our purpose). As we cannot generate this dataset by ourselves, we must look for a public dataset with enough and different face images:
 
-WIDERFACE - real open access, i can download now. not the largest, but with a big amount of data 32k imgs. Labelled. http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/
+\begin{itemize}
+	\item CASIA Webface Database. It is the second largest database of faces (first is private and belongs to Facebook), with more than 10,000 subjects and almost 500,000 images. In order to use it an agreement needs to be signed so the database will only be used for non-comercial, research or educational purposes. We finally discarded it because its size, which would be more suitable for a big project with a research group (\cite{casia_db}). 
+	\item WIDER FACE. This database counts with more than 32,000 images and can be freely accessed by a Google or Baidu Drive. It has the advantage that its images are already labelled and the faces in them are marked. However, many of the images have more than one face on them (they say they count with almost 400,000 faces in the dataset) and we need them to have only one person (\cite{widerf_db}).
+	\item Labelled Faces in the Wild (LFW). This database only counts with more than 13,000 images that only have one person in them, which is perfect for the scope of this project. It can be explored online and has been recently updated, solving some erratum. Finally, it also has the option to download the images aligned with funneling or commercial software, reducing the work to do on the dataset. Because of all these reasons, it is the dataset that is going to be used for the project (\cite{lfw_db}).
+\end{itemize}
 
-*** Labelled Faces in the Wild (LFW) - downloadable by direct link. can explore it online. images aligned (funnelling and external software). 13k imgs. Used in many related works. Favourite. %http://vis-www.cs.umass.edu/lfw/#download
+\section{Python}
