@@ -27,7 +27,7 @@ try:
         print('Image received...')
         #image.verify()
         #print('Image is verified')
-        image.show()
+#        image.show()
         image.close()
         print('\n')
 finally:
