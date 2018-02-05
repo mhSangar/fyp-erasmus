@@ -8,6 +8,13 @@
 \usepackage{epsf}
 \usepackage{psfig}
 %\usepackage{thesis}
+\usepackage{amsmath}	% maths 
+\usepackage{mathtools}	% maths 
+%\usepackage{hyperref}	% linked references 
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{natbib}
+\usepackage{listings}	% code
+\usepackage{parcolumns}	% columns
 
 %
 % PATH CONFIGURATION %
@@ -80,12 +87,13 @@
 \listoftables
 
 \include{\chapterspath/introduction}
-\include{\chapterspath/background}
+\include{\chapterspath/research}
 \include{\chapterspath/design}
 \include{\chapterspath/empirical-study}
 \include{\chapterspath/last}
 
-\bibliographystyle{plainat}
-\bibliography{sample}  
+%\bibliographystyle{unsrt}
+\bibliographystyle{agsm}
+\bibliography{ref}  
 
 \end{document}   

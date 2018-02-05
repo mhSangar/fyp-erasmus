@@ -1,11 +1,10 @@
 \begin{abstract}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet purus quis nisl mollis sagittis. Duis vitae ante a tortor pharetra fermentum. In orci diam, tempor et ornare vel, maximus sed nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras eget lacus quis magna elementum hendrerit. Nunc condimentum magna id dolor venenatis, porta viverra purus gravida. Duis ac metus est. Pellentesque id tempor mauris. Cras interdum dui id mi sodales tincidunt. Vivamus bibendum lacus nisl, a semper nunc auctor ut. Nulla ultrices vitae dolor eget sodales. Donec condimentum ante in enim ultricies, quis fringilla ligula dignissim. Praesent feugiat justo leo, eget pellentesque eros fringilla a. Mauris rhoncus porta nisl vel scelerisque. Donec quis justo ipsum.
-
-Cras sagittis ex in malesuada condimentum. Fusce viverra ligula turpis, non fringilla mauris mollis id. Integer tincidunt quis est non luctus. Mauris tristique ullamcorper nisi, a accumsan felis rutrum eget. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed vel rutrum leo. Nam cursus lectus sed quam lobortis, et tincidunt dui imperdiet. Integer rhoncus lobortis lorem ac elementum.
+The aim of this project is to design and implement an \textit{intelligent assistant}, whose objective will be to recognise and identify the face of a person in order to give personalised support. This personalised support will have as target Erasmus students who have recently come to the University of Limerick, showing them their timetable of the day and the route for their next class. There are multiple approaches on how to develop face recognisement, but in this case we have chosen Convolutional Neural Networks by using the open source library TensorFlow (originally developed by Google). However, the calculations done by this library need the computer used to have a certain power, which supposes it also will have a considerable size.\\
+\\
+To provide mobility to the intelligent assistant and achieve a lightweight structure, the system is divided in two independent applications. First, a small, low-cost and basic computer (named \textit{Raspberry Pi}) is going to be used to get the data from the camera and interact with the user interface. This Raspberry will communicate as a client with a Flask Server allocated in another machine with higher specs, which will use the data captured by the camera and the TensorFlow library to procced with the facial recognition, as well as doing the required tasks to help the Erasmus student. 
 
 \end{abstract}
-
 
 
 
