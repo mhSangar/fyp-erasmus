@@ -1,10 +1,52 @@
 \chapter{Design and Implementation}
 \label{design}
 
+%\section{Scenario}
+%\section{Requeriments}
+%\section{Design and Architecture}
+%	\section{Related work}
+%		\subsection{Using Pi-camera to stream}
+%\section{Implementation}
+%\section{Testing}
+%\section{Software Quality}
 
 \section{Scenario}
 \section{Requeriments}
 \section{Design and Architecture}
+
+\section{Related work}
+This section will include all the work that has been done for the project, but that is finally not included in the final version. For each related work, along with its explanation, we will also find the pros and cons of the solution and the reasons why it has not been included in the final version.
+
+	\subsection{Using Pi-Camera to stream}
+	As we explained in previous sections, the objective of the project is to capture (and after analyse) a photo of the face of a user, using the camera connected to the Raspberry Pi (Pi-Camera). Due to the limited scope of a Final Year Project, we added some constraints on how the photo should be, like that the face of the user must be centered in the photo or that they must look directly to the camera (in the Figure XX we can see an example of a photo). 
+
+	In order to provide to the users a way to place themselves correctly in front of the camera before the photo is taken, a preview is needed.	This preview must be shown in a screen, so assuming that the Raspberry Pi is not connected to it, we need a way to stream it in real-time to another computer (which will have a screen connected).
+
+	To start the development, we chose to use the code of an already written server that sends via HTTP a pre-recorded video (\cite{mjpeg_server_base_code}). In this project, the author aims to create "virtual cameras" using the format Motion JPEG (MJPEG), which is basically a sequence of JPEG images showed one after another. Until now, it fits perfectly for our Pi-camera, as it is able to capture in JPEG format.
+
+	However, the performance of this method is way worse than its competitor in the Raspberry Pi for video: h.264. Why choose MJPEG then? As we can see in \cite{mjpeg_format_info}, the MJPEG format "is natively supported by the QuickTime Player, the PlayStation console, and web browsers such as Safari, Google Chrome, Mozilla Firefox and Microsoft Edge". The four most used browsers support natively it, what takes away the work of create an application for the client side to show the stream. 
+
+	The GitHub project was designed to send a pre-recorded video, but we need a real-time video, so we changed the code to include the task of capturing the images. To do this task simultaneously with the image sending, we chose to use threads with a producer-consumer paradigm, synchronizing them using semaphores. The thread capturing the images acts as producer, and the one that computes the server is the consumer.    
+
+	* ask JJ if I should explain how it works or a brief explanation is enough *
+
+		\subsubsection{Pros and Cons}
+		Pros:
+		\begin{itemize}
+			\item Video format (MJPEG) is supported by the most used browsers natively.
+			\item This solution does not require the Raspberry Pi to be connected to the screen. 
+		\end{itemize}
+
+		Cons:
+		\begin{itemize}
+			\item The performance of the video format is poor, reaching a mean of 0.5fps after some testing.
+			\item The Raspberry Pi is included in the project to act as the user interface, so we don't need it away from the screen.
+			\item With only one core, the Raspberry Pi does not work well with threads.
+		\end{itemize}
+		
+		\subsubsection{Why is it not included in the final version?}
+		The poor performance of the stream makes difficult to place correctly the face in the camera, not only because of the mean 0.5 fps reached in the tests, but also for the delay that exits since the camera captures the photo until the browser shows it. 
+
 \section{Implementation}
 \section{Testing}
 \section{Software Quality}
