@@ -1,24 +1,8 @@
 #!/usr/bin/python
 
 #
-# A simple Motion JPEG server in python for creating "virtual cameras" from video sequences.
-# 
-# The cameras will support MJPEG streaming over HTTP. The MJPEG streams are formed from static JPEG images.
-# If you wish to stream a video file, use a tool like VirtualDub to break the video into a sequence of JPEGs.
-# 
-# The list of cameras should be defined as a series of entries in a file named 'mjpeg-server.conf', with
-# each entry having the following format:
-# 
-# [Camera-1]
-# images: /tmp/video-1/frames
-# port: 8001
-# maxfps: 10
-# 
-# The above entry creates a virtual camera named "Camera-1" on local port 8001. The .jpg files found in the
-# "/tmp/video-1/frames" directory will be served as an MJPEG stream with a max speed of 10 fps. You can access
-# this stream from any MJPEG client (such as your browser) at: http://<server ip>:8001
-# 
-# Copyright (c) 2013 Arun Nair (http://nairteashop.org).
+# Original code:
+#   Copyright (c) 2013 Arun Nair (http://nairteashop.org).
 # Licensed under the MIT license.
 #
 
@@ -31,12 +15,10 @@ import logging
 import time
 import os
 import picamera
-#from Queue import Queue
 
 SERVERS = {}
 want_send = Semaphore(0)
 want_capt = Semaphore(1)
-alive = True
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -61,11 +43,8 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         while True:
             for index in range(10):
-                #logging.info( "Before the acquire. Frame %02d", index )
 
                 want_send.acquire()
-
-                #logging.info( "After the acquire. Frame %02d", index )
 
                 f = open( os.path.join(imageDir, 'img%02d.jpeg' % index) )
                 contents = f.read()
