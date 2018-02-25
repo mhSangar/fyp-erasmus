@@ -2,7 +2,7 @@
 
 ## Final Year Project (FYP) - 2017/18 Course 
 
-	_Mario Sánchez García_, Erasmus Student, Dept. of CSIS, **University of Limerick** (Ireland) 
+	Mario Sánchez García, Erasmus Student, Dept. of CSIS, **University of Limerick** (Ireland) 
 
 ### Abstract
 The aim of this project is to design and implement an intelligent assistant, whose objective will be to recognise and identify the face of a person in order to give personalised support. There are multiple approaches on how to develop this face recognisement, but in this case we have chosen Convolutional Neural Networks by using the open source library TensorFlow (originally developed by Google). However, the calculations done by this library need the computer used to have a certain power, which supposes it also will have a considerable size.
