@@ -256,7 +256,7 @@ Convolutional layers, in the other hand, follow a proccess more complex. They ap
 
 If we apply this to the algorithm of a CNN, the first input function would be a part of the image itself, that is called \textit{receptive field} or \textit{window}; and the second would be the \textit{filter}, which is a matrix of weights of the same size of the window. The result of this convolution is a \textit{feature map}, a new image that shows how the feature recognised by the filter is distributed in the original picture. 
 
-If the image is in color, it is composed by the three different channels of the RBG standard, so the multiplication has to be applied to all of them. This element-wise multiplication in matrices has the name of Hadamard Product and it produces a matrix of the same size of the inputs. Once the multiplication is done, we have three matrices that we sum to obtain the value of the first pixel of the feature map. Now, the window moves one pixel to the right (or to the first pixel of the next row, if the end is reached) and applies again convolution to obtain the next pixel of the feature map. 
+If the image is in color, it is composed by the three different channels of the RBG standard, so the multiplication has to be applied to all of them. This element-wise multiplication in matrices has the name of Hadamard Product and it produces a matrix of the same size of the inputs. Once the multiplication is done, we have three matrices that we sum in one value. Now a function $f$ is applied to this output to finally obtain the value of the first pixel of the feature map. After that, the window moves one pixel to the right (or to the first pixel of the next row, if the end is reached) and applies again convolution to obtain the next pixel of the feature map. 
 
 \begin{figure}[ht]
 	\centering
@@ -264,24 +264,13 @@ If the image is in color, it is composed by the three different channels of the 
 	\caption{Convolution proccess for the creation of a Feature Map}
 \end{figure}
 
-uses relu. explain why to use relu. refer to russian paper. paper which initiated the cnn fever.
+In the previous paragraph we said that a function $f$ is applied to the sum, as is usual in the structure of a neuron. Before \cite{krizhevsky2012deep}, the standard way to model this function was $f(x)=tanh(x)$. However, in this paper it is explained that these kind of saturating nonlinearities are much slower than a non-saturating nonlinearity as $f(x)=max(0, x)$. The neurons with this nonlinearity are called Rectified Linear Units or ReLUs, and help to train a deep convolutional network several times faster than their equivalents with $f(x)=tanh(x)$.
 
-convolution, after pooling and repeat a number of times.. include image from lecun fig2. pooling helps to detect the combination of the learned features (reference). 
+At this point, we know how convolution and pooling works. Two or three stages of convolution, followed by the non-linearity function, and then pooling; are stacked. After that, in the structure of a CNN we find fully-connected layers, like a usual neural network, and finally an output layer that shows the prediction as the class with highest percenteage.
 
-after these stages, a full connected network. not many layers are needed (it would be a pain to train, as said before). 
+Backpropagation through a CNN is as simple as through a regular deep network, allowing all the weights of the network (which also includes the filters of the convolution) to be trained.
 
-finally, even a beyesian network would be fine to output the option with higher percenteage. backpropagation used to train weights and filters.
-
-origin of the idea comes from simple_and_complex cells in visual neuroscience. refer to lecun the god. 
-
-
-
-
-
-
-
-
-%\section{Face Recognition using CNNs}
+\section{Face Recognition using CNNs}
 
 \section{Public Data Sets} 
 Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data, face images in this case. The problem is that we need a high amount of them, in addition to that each face image has to be different (or the model would only work well with the data we worked with, and not any face, which is our purpose). As we cannot generate this dataset by ourselves, we must look for a public dataset with enough and different face images:
