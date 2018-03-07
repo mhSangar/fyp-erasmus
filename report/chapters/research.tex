@@ -3,7 +3,6 @@
 
 %\section{Introduction to Machine Learning}			
 %\section{Artificial Neural Networks}				
-%\section{ANNs vs CNNs} 					% disabled for now
 %\section{The Perceptron}
 %	\subsection{Linearly Separable attribute}		** (img)
 %	\subsection{Training Rule}
@@ -14,8 +13,8 @@
 %\section{Multilayer Perceptron Networks}
 %	\subsection{Is a perceptron valid for MLP? The Sigmoid Unit}
 %	\subsection{Backpropagation Algorithm}
+%\section{ANNs vs CNNs} 					% **
 %\section{Face Recognition using CNNs}		% disabled for now
-%\section{Voice Recognition}				% disabled for now
 %\section{Public Data Sets}
 %\section{Raspberry Pi}											*new*
 %	\subsection{Using the Pi-camera}							*new*
@@ -24,34 +23,55 @@
 %	\subsection{Synchronization}								*new*		
 
 \section{Introduction to Machine Learning}
-Machine learning is a term difficult to define, it can be seen from many points of view: it could be Data Mining (applied to databases), Inference (Statistics) or Pattern Recognition (Engineering). One clear thing is that machine learning is a field of artificial intelligence that studies systems that can learn from data. As Kevin P. Murphy said, "The goal of machine learning is to develop methods that can automatically detect patterns in data, and then to use the uncovered patterns to predict future data or other outcomes of interest". 
+Machine learning is a term difficult to define, it can be seen from many points of view: it could be Data Mining (applied to databases), Inference (Statistics) or Pattern Recognition (Engineering). It was defined in 1959  by Arthur Samuel as "the field of study that gives computer the ability to learn without being explicitly programmed". This means that knowledge can be imbued to a machine without the need to hard-code it, something that could amaze some of the people outside the Computer Science environment. They are not aware that the goal of machine learning is to predict the future, or how the future data will be, by automatically dicovering patterns in the input data (\cite{kevin_p_murphy_book}). 
 
-Within machine learning we can find two different approaches: supervised or unsupervised learning. If you suppose you are providing solution to your kids for each and every situation in their life, it is called they are supervised. But, if your kids take their decisions out of their own understanding, it is called they are unsupervised . Well, something similar happens with machine learning. If you train your model for every input with a corresponding target, then it is supersived learning (you give extra information apart from the data itself) and it will be able to provide target for any new input after sufficient training. Contrary, if you train your model with only a set of inputs it is unsupervised learning and it will be able to find relationships between the different inputs (\cite{sup_unsup_learning}). 
+As we can see in the cite from Arthur Samuel (1959), the "idea" of machine learning is not something new. However it has not been until really recently that we have been able to use it for something apart from theory. Nowadays anyone can rent a 100.000\$ GPU cluster for a few dollars an hour, the stuff that PhD students dreamed about just 10 years ago (\cite{pyhton_n_intro_to_ML}).  
+
+Within machine learning we can find two different approaches: supervised or unsupervised learning. To make it simple, if you are providing solution to your kids for each and every situation in their life, then they are \textit{supervised}. But, if your kids take their decisions out of their own understanding, then they are \textit{unsupervised} . Well, something similar happens with machine learning. If you train your model for every input with a corresponding target, then it is supersived learning (you are giving extra information apart from the data itself) and eventually, it will be able to provide a target for any new input after sufficient training. Contrary, in unsupervised learning, if you train your model with only a set of inputs it only will be able to find relationships between the different inputs (\cite{sup_unsup_learning}). 
 
 \section{Artificial Neural Networks}
-Artificial Neural Networks (ANN) have generated a lot of excitement in Machine Learning research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing. It is a computational model that is inspired by the way biological neural networks in the human brain process information (\cite{intro_ann}). 
+Artificial Neural Networks (ANN) have generated a lot of excitement in Machine Learning research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing. They are a biologically-inspired methodology to apply machine learning, trying to mimic how the human brain process the information (\cite{intro_ann}). 
 
-ANN are based in singular units of computation, called neurons, nodes or simplyly units. It receives input from some other nodes, or from an external source and computes an output. Each input has an associated weight ($w$), which is assigned depending of its relative importance to other inputs. The node applies a function $f$ to the weighted sum of its inputs, as we can see in the next figure (\cite{intro_ann}).
+The model of a neural network is a very simple concept. First, like a real neural network, ANNs are based in singular units called neurons, nodes or simplyly units. As we can see in the \textit{Figure ~\ref{fig:org_neuron}}, these neurons are composed by dendrites, a nucleus, an axon and axon terminals. To create a network is as simple as connecting two of this neurons with an axon terminal (output) of the first neuron to a dendrite (input) of the second.
+
+ORGANIC NEURON FIGURE
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=\textwidth]{neuron.jpg}
-	\caption{Neuron model}
+	\includegraphics[width=\textwidth]{bio-neuron.jpg}
+	\caption{Organic Neuron}
+	\label{fig:org_neuron}
 \end{figure}
 
-These neurons are arranged in layers to construct an ANN. Nodes from adjacent layers have connections between them, so each connection has associated a weight. Because of the position of these nodes and the connections between them we can differentiate three types of nodes: input, hidden and output nodes. 
+Now going back to our artificial neural networks, we can see how the model of one of its units is pretty similar (\textit{Figure ~\ref{fig:art_neuron}}). In first place, the unit receives inputs ($x_i$) from an external source or from other units. Each of these inputs have an associated weight ($w_i$), assigned depending of its relative importance to the other inputs. After the unit applies a function $f$ to the weighted sum of its inputs, and finally it gives an output.
 
+ARTIFICIAL NETWORK FIGURE
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{artificial-neuron.jpg}
+	\caption{Artificial Neuron model}
+	\label{fig:art_neuron}
+\end{figure}
+
+To construct a network we could connect two of this units as we did before with the neurons, but this time we are going to go one step forward creating a feedforward network. This network is divided in layers, so nodes from the same layer are not connected and between adjacent layers each connection has associated a weight. 
+
+%%%%%%%%%%%%% CHANGE IMAGE %%%%%%%%%%%%%
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{ann_basic_model.jpg}
 	\caption{Basic Artificial Neural Network}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Because of the position of these nodes and the connections between them we can differentiate three types of nodes: input, hidden and output nodes.
 
 \begin{itemize}
 	\item Input Nodes. Provide information from the outside world without computing anything, they just past the information to the hidden nodes. Together are referred to as the \textit{Input Layer}. 
 	\item Hidden Nodes. They have no connection with the outside world (hence the name "hidden"), but they compute the information provided from the previous layer and give the output to the next one. Together are referred to as the \textit{Hidden Layer}. Although these networks must have only one input layer and one output layer, they can have more than one hidden layer (or none). 
 	\item Output Nodes. Together are referred to as the \textit{Output Layer} and they are responsible to transfer the computed information to the outside world again.
 \end{itemize}
+
 
 \section{The perceptron}
 Within the Artificial Neural Networks (ANN), we can find great variety of units that define the type of ANN involved, but in order to explain how they work, we are going to use a perceptron. This unit has several inputs that are used to perform an operation involving all of them, to finally calculate a single value as a result in a single output.
@@ -208,9 +228,60 @@ A single perceptron can only express linear decision surfaces, so it is very lim
 
 		\end{enumerate} 
 
-%\section{Face Recognition using CNNs}
 
-%\section{Voice Recognition}	% disabled for now
+\section{ANN vs CNN}
+The Artificial Neural Networks (ANNs) we have seen until now have their applications, but the current state of the art for detecting what an image is (or what does it contains) are Convolutional Neural Networks (CNNs). First of all we need to explain that this two kinds of neural networks are not at the same level. The ANNs we have seen until now usually have had few or not hidden layers at all, but CNNs need to have multiple of these hidden layers in order to achieve what is known as Deep Learning. 
+
+It may seem normal that adding more hidden layers to a network will improve its learning potential, but the problem with deep networks is that it becomes harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}, explaining that the features of the input instance (or those computed by previous layers) are "washed out" in the proccess of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (even impossible) to achieve learning in a deep neural network using backpropagation. Here is where Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
+
+Convolutional Neural Networks are one of the options Deep Learning provides. As \cite{lecun2015deep} explain, they are designed to proccess data that comes in the form of multiple arrays, which suits perfectly to our needs to work with images. For example, a colour image could be decomposed in three two-dimensions arrays that contain the pixel intensities in the three colour channel of RGB. 
+
+%%% maybe include something from lecun paper, first page %%%
+
+In terms of architecture, CNNs are structured as a series of stages. First few stages are composed by convolutional and pooling layers (\cite{lecun2015deep}). 
+
+Pooling is simple, it is just a down-sampling. We start with an image of a certain size, 30x30 pixels (which are just values from 0 to 255) for example. From this full image, taking it as a matrix, we select a window of a certain size. Usually we choose a size that makes possible to divide the full image in little windows that do not collide with each other. In this case, from a image of 30x30 we are going to take a 3x3 window, leaving us a total of 100 windows. 
+
+Now, in each window we are going to perform a "max-pooling", which is to take the highest value of the window and output it to a new "image" in the position where the window was in the previous image. After doing this to all windows, we obtain a new image or matrix of 10x10, smaller than the initial one, but also with a worse quality.
+
+%%%%%% INCLUDE IMAGE EXPAINING POOLING %%%%%%
+image explaining pooling
+
+Convolutional layers, in the other hand, follow a proccess more complex. They apply convolution (hence the name of the network) to the input image, which can be defined in a simple way as mixing information from two sources according to a specific rule. From the mathematical point of view, convolution is the integral of the element-wise multiplication of the two input functions. While it is complex itself, it is usually used to simplify even more complex equations. In our case we are going to work only with integers, so the convolution used here is a \textit{discrete convolution}. 
+
+\begin{equation}
+	\label{discrete_conv}
+	f*g(n) = \sum_{m= -\infty}^{\infty} f(m) g(n-m) 
+\end{equation}
+
+If we apply this to the algorithm of a CNN, the first input function would be a part of the image itself, that is called \textit{receptive field} or \textit{window}; and the second would be the \textit{filter}, which is a matrix of weights of the same size of the window. The result of this convolution is a \textit{feature map}, a new image that shows how the feature recognised by the filter is distributed in the original picture. 
+
+If the image is in color, it is composed by the three different channels of the RBG standard, so the multiplication has to be applied to all of them. This element-wise multiplication in matrices has the name of Hadamard Product and it produces a matrix of the same size of the inputs. Once the multiplication is done, we have three matrices that we sum to obtain the value of the first pixel of the feature map. Now, the window moves one pixel to the right (or to the first pixel of the next row, if the end is reached) and applies again convolution to obtain the next pixel of the feature map. 
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{convolution.jpg}
+	\caption{Convolution proccess for the creation of a Feature Map}
+\end{figure}
+
+uses relu. explain why to use relu. refer to russian paper. paper which initiated the cnn fever.
+
+convolution, after pooling and repeat a number of times.. include image from lecun fig2. pooling helps to detect the combination of the learned features (reference). 
+
+after these stages, a full connected network. not many layers are needed (it would be a pain to train, as said before). 
+
+finally, even a beyesian network would be fine to output the option with higher percenteage. backpropagation used to train weights and filters.
+
+origin of the idea comes from simple_and_complex cells in visual neuroscience. refer to lecun the god. 
+
+
+
+
+
+
+
+
+%\section{Face Recognition using CNNs}
 
 \section{Public Data Sets} 
 Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data, face images in this case. The problem is that we need a high amount of them, in addition to that each face image has to be different (or the model would only work well with the data we worked with, and not any face, which is our purpose). As we cannot generate this dataset by ourselves, we must look for a public dataset with enough and different face images:
@@ -221,8 +292,14 @@ Face recognition is nothing but another kind of machine learning and as such, it
 	\item Labelled Faces in the Wild (LFW). This database only counts with more than 13,000 images that only have one person in them, which is perfect for the scope of this project. It can be explored online and has been recently updated, solving some erratum. Finally, it also has the option to download the images aligned with funneling or commercial software, reducing the work to do on the dataset. Because of all these reasons, it is the dataset that is going to be used for the project (\cite{lfw_db}).
 \end{itemize}
 
+
+%%% TO DO %%%
+\section{Raspberry Pi}											
+	\subsection{Using the Pi-camera}							
+
+
 \section{Python}
-In the Introduction of this project we already have enumerated some of the features of this language, but there is much more. First, it is a high-level language designed to be easily readable. One interesting example of this is the lack of brackets ("{}"), which is the usual way to delimit control flow blocks in other languages. Instead, Python uses indentation, so to indicate a line is inside a function or an \textit{if} block, we just have to indent it one level more. We can see it clearly in the next comparative.
+In the Introduction of this project we already have enumerated some of the features of this language, but there is more to talk about. First, one of the features that distinguish this high-level language is that it is designed to be easily readable. There are many examples, but one really interesting is the lack of brackets ("{}"), which are the usual way to delimit control flow blocks in other languages. Instead of brackets, Python uses indentation. To indicate that a line is inside a function or an block (an \textit{if} block in the example), we just have to indent it one level deeper. We can see it clearly in the next comparative.
 
 \noindent\begin{minipage}[t]{.45\textwidth}
 \begin{lstlisting}[caption=C code,frame=tlrb, language=C]{Name}
@@ -246,6 +323,6 @@ def foo(x):
 \end{lstlisting}
 \end{minipage}
 
-Second, Python is interactive. When we install Python in our computer we can launch it in the terminal and a prompt will show up, allowing us to interact with the interpreter directly to write our programs. Directly related with this feature is that Python is interpreted. This means that it does not need to be compiled before executing (what happens to languages like C, C++ or Lisp), as it is processed by at runtime by the interpreter (\cite{python_overview}). 
+Second, Python is interactive. This means that we do not need to write a Python program in a file to execute it later (althought is also an option). Alternatively, we can interact with the prompt directly by executing the Python shell in the terminal. Also related with this feature is that Python is interpreted, so it does not need to be compiled before executing (what happens to languages like C, C++ or Lisp), as it is processed at runtime by the interpreter (\cite{python_overview}). 
 
-And finally, Python is easy to learn. It has fewer keywords than other languages, its strucure is much simpler and the syntax is easily readable with a certain level of English. It is because all of this why it has become very popular in recent years, being used from to start learning programming to advanced investigation projects.
+Finally, Python is easy to learn. It has fewer keywords than other languages, its strucure is much simpler and the syntax is easily readable with a certain level of English. It is because all of this why it has become very popular in recent years, being used from to start learning programming to advanced investigation projects.
