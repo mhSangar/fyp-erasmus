@@ -28,8 +28,6 @@ This section will include all the work that has been done for the project, but t
 
 	The GitHub project was designed to send a pre-recorded video, but we need a real-time video, so we changed the code to include the task of capturing the images. To do this task simultaneously with the image sending, we chose to use threads with a producer-consumer paradigm, synchronizing them using semaphores. The thread capturing the images acts as producer, and the one that computes the server is the consumer.    
 
-	* ask JJ if I should explain how it works or a brief explanation is enough *
-
 		\subsubsection{Pros and Cons}
 		Pros:
 		\begin{itemize}
