@@ -1,6 +1,9 @@
 ## SublimeText Workspace
 *.sublime-workspace
 
+## PreTrained Model
+*model_dir/*
+
 ## Inner PDF file
 */*.pdf
 */*/*.pdf
