@@ -5,20 +5,13 @@ import numpy as np
 import json
 import cv2
 import base64
+import time
 
 @app.route("/")
 def index():
-	return "Intelligent Assistant FYP, by Mario Sanchez Garcia"
+	return "FYP: Intelligent Assistant, by Mario Sanchez Garcia (17150868)"
 
-@app.route("/face_recog/img/<int:student_id>", methods=["DELETE"])
-def delete_imgs_from_user(student_id):
-	
-
-
-
-	return jsonify({"img":0})
-
-@app.route("/face_recog/img", methods=["POST"])
+@app.route("/recognise_me", methods=["POST"])
 def receive_img():
 	#student_id = json.loads(request.data)["student_id"]
 	img_b64 = json.loads(request.data)["image"]
@@ -48,6 +41,10 @@ def receive_img():
 	image.img = filename
 	db.session.commit()
 
-	return jsonify({"message": "image received, size={}x{}".format(img.shape[1], img.shape[0])})
+	time.sleep(7)
+
+	return jsonify({"message": "image received"})
+
+#@app.route("/recognise_me/<int:student_id>", methods=["DELETE"])
+#def delete_imgs_from_user(student_id):
 	
-#@app.route('/tasks/<int:task_id>', methods=['GET'])
