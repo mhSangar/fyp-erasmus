@@ -29,8 +29,6 @@ def get_train_test_datasets(input_dir, split_ratio):
 	dataset = lfw_input_parsing.parse_dataset(input_dir)
 	train_set, test_set = lfw_input_parsing.split_dataset(dataset, split_ratio=split_ratio)
 
-	return train_set, test_set
-
 def load_imgs_labels(dataset, img_size, batch_size, num_epochs, num_threads, random_flip=False, random_brightness=False, random_contrast=False):
 	img_paths = []
 	label_list = []
@@ -131,7 +129,7 @@ def eval_classifier(embeddings_arr, labels_arr, classifier_filename, is_one_img)
 
 def main(input_dir, model_path, classifier_output_path, batch_size, 
 	num_threads, num_epochs, split_ratio, training=True, is_one_img=False):
-	
+
 	start_time = time.time()
 
 	with tf.Session(config=tf.ConfigProto(log_device_placement=False)) as sess:
@@ -150,7 +148,6 @@ def main(input_dir, model_path, classifier_output_path, batch_size,
 			else:
 				imgs, labels, class_names = load_imgs_labels(test_set, img_size=160, batch_size=batch_size, 
 															num_epochs=1, num_threads=num_threads)
-
 		load_graph_model(model_path)
 		
 		init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
