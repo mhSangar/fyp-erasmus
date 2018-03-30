@@ -25,23 +25,24 @@
 \section{Introduction to Machine Learning}
 Machine learning is a term difficult to define, it can be seen from many points of view: it could be Data Mining (applied to databases), Inference (Statistics) or Pattern Recognition (Engineering). It was defined in 1959  by Arthur Samuel as "the field of study that gives computer the ability to learn without being explicitly programmed". This means that knowledge can be imbued to a machine without the need to hard-code it, something that could amaze some of the people outside the Computer Science environment. They are not aware that the goal of machine learning is to predict the future, or how the future data will be, by automatically dicovering patterns in the input data (\cite{kevin_p_murphy_book}). 
 
-As we can see in the cite from Arthur Samuel (1959), the "idea" of machine learning is not something new. However it has not been until really recently that we have been able to use it for something apart from theory. Nowadays anyone can rent a 100.000\$ GPU cluster for a few dollars an hour, the stuff that PhD students dreamed about just 10 years ago (\cite{pyhton_n_intro_to_ML}).  
+As we can see in the quote from Arthur Samuel (1959), the "idea" of machine learning is relatively new. Ingeneral, it has not been until really recently that we have been able to use it for something apart from theory (examples of Eliza). Nowadays anyone can rent a 100.000\$ GPU cluster for a few dollars an hour, the stuff that PhD students dreamed about just 10 years ago (\cite{pyhton_n_intro_to_ML}).  
 
 Within machine learning we can find two different approaches: supervised or unsupervised learning. To make it simple, if you are providing solution to your kids for each and every situation in their life, then they are \textit{supervised}. But, if your kids take their decisions out of their own understanding, then they are \textit{unsupervised} . Well, something similar happens with machine learning. If you train your model for every input with a corresponding target, then it is supersived learning (you are giving extra information apart from the data itself) and eventually, it will be able to provide a target for any new input after sufficient training. Contrary, in unsupervised learning, if you train your model with only a set of inputs it only will be able to find relationships between the different inputs (\cite{sup_unsup_learning}). 
 
 \section{Artificial Neural Networks}
 Artificial Neural Networks (ANN) have generated a lot of excitement in Machine Learning research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing. They are a biologically-inspired methodology to apply machine learning, trying to mimic how the human brain process the information (\cite{intro_ann}). 
 
+\begin{figure}[h!b]
+	\centering
+	\includegraphics[width=10cm]{bio-neuron.jpg}
+	\caption{Organic Neuron}
+	\label{fig:org_neuron}
+\end{figure}
+
 The model of a neural network is a very simple concept. First, like a real neural network, ANNs are based in singular units called neurons, nodes or simplyly units. As we can see in the \textit{Figure ~\ref{fig:org_neuron}}, these neurons are composed by dendrites, a nucleus, an axon and axon terminals. To create a network is as simple as connecting two of this neurons with an axon terminal (output) of the first neuron to a dendrite (input) of the second.
 
 ORGANIC NEURON FIGURE
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=\textwidth]{bio-neuron.jpg}
-	\caption{Organic Neuron}
-	\label{fig:org_neuron}
-\end{figure}
 
 Now going back to our artificial neural networks, we can see how the model of one of its units is pretty similar (\textit{Figure ~\ref{fig:art_neuron}}). In first place, the unit receives inputs ($x_i$) from an external source or from other units. Each of these inputs have an associated weight ($w_i$), assigned depending of its relative importance to the other inputs. After the unit applies a function $f$ to the weighted sum of its inputs, and finally it gives an output.
 
@@ -67,29 +68,29 @@ To construct a network we could connect two of this units as we did before with 
 Because of the position of these nodes and the connections between them we can differentiate three types of nodes: input, hidden and output nodes.
 
 \begin{itemize}
-	\item Input Nodes. Provide information from the outside world without computing anything, they just past the information to the hidden nodes. Together are referred to as the \textit{Input Layer}. 
-	\item Hidden Nodes. They have no connection with the outside world (hence the name "hidden"), but they compute the information provided from the previous layer and give the output to the next one. Together are referred to as the \textit{Hidden Layer}. Although these networks must have only one input layer and one output layer, they can have more than one hidden layer (or none). 
-	\item Output Nodes. Together are referred to as the \textit{Output Layer} and they are responsible to transfer the computed information to the outside world again.
+	\item Input Nodes: provide information from the outside world without computing anything, they just past the information to the hidden nodes. Collectively the nodes in this layer are referred to as the \textit{Input Layer}. 
+	\item Hidden Nodes: they have no connection with the outside world (hence the name "hidden"), but they compute the information provided from the previous layer and give the output to the next one. Collectively the nodes in this layer are referred to as the \textit{Hidden Layer}. Although articial neural networks must have only one input layer and one output layer, they can have more than one hidden layer (or none). 
+	\item Output Nodes: collectively the nodes in this layer are referred to as the \textit{Output Layer} and they are responsible to transfer the computed information to the outside world again.
 \end{itemize}
 
 
 \section{The perceptron}
-Within the Artificial Neural Networks (ANN), we can find great variety of units that define the type of ANN involved, but in order to explain how they work, we are going to use a perceptron. This unit has several inputs that are used to perform an operation involving all of them, to finally calculate a single value as a result in a single output.
+Within the Artificial Neural Networks (ANN), we can find great variety of units that define the type of ANN involved, but in order to explain how they work, we are going to use a perceptron (shown in Figure 2.2). This unit has several inputs that are used to perform an operation involving all of them, to finally calculate a single value as a result in a single output.
 
-Each input is composed of a value and a weight, which will indicate the contribution that will contribute to the output of the perceptron. The operation involving all inputs is a linear combination:
+Each input is composed of a value and a weight, which will contribute to the output of the perceptron. The operation involving all inputs is a linear combination:
 
 \begin{equation}
     \label{linear_combination}
-        y=\sum_{i=0}^{n} w_n x_n = w_0 + w_1 x_1 + w_2 x_2 + w_3 x_3 + ...%
+        f(x)=\sum_{i=0}^{n} w_n x_n = w_0 + w_1 x_1 + w_2 x_2 + w_3 x_3 + ...%
 \end{equation}
 
 where $x_n$ are the inputs of the perceptron and $w_n$ are the weights ($x_0=1$ is not an input, it's an useful constant to allow us to write the linear operation with a summatory). Finally, the (unique) output of the perceptron depends on the result of the linear operation, being 1 if the result is positive; or -1 in another case. All these data allow us to define the perceptron as follows:
 
 \begin{equation}
     \label{perceptron_rule}
-	perceptron(y) =
+	perceptron(f(x)) =
 		\begin{cases}
-	     	1 & \text{if $y>0$} \\
+	     	1 & \text{if $f(x)>0$} \\
 	        -1 & \text{otherwise} \\
 		\end{cases}
 \end{equation}
@@ -121,7 +122,7 @@ where $x_n$ are the inputs of the perceptron and $w_n$ are the weights ($x_0=1$ 
 		E(\vec{w}) = \frac{1}{2} \sum_{d \varepsilon D} (t_d-o_d)^2 
 	\end{equation}
 
-	If error is defined by this formula, its representation (assuming two inputs) would be a parabolic surface with only one local minimum. The gradient descent will start using a random initial vector and the algorithm will modify its direction step by step. In each step, the algorithm will choose the variation that go the deepest along the error surface. By this way, the process will continue until the local (and global minimum in this case) is reached.
+	If error is defined by this formula, its representation (assuming two inputs) would be a parabolic surface with only one local minimum (as shown in fgure blabla). The gradient descent will start using a random initial vector and the algorithm will modify its direction step by step. In each step, the algorithm will choose the variation that go the deepest along the error surface. By this way, the process will continue until the local (and global minimum in this case) is reached.
 
 	\begin{figure}[ht]
 		\centering
@@ -229,8 +230,8 @@ A single perceptron can only express linear decision surfaces, so it is very lim
 		\end{enumerate} 
 
 
-\section{ANN vs CNN}
-The Artificial Neural Networks (ANNs) we have seen until now have their applications, but the current state of the art for detecting what an image is (or what does it contains) are Convolutional Neural Networks (CNNs). First of all we need to explain that this two kinds of neural networks are not at the same level. The ANNs we have seen until now usually have had few or not hidden layers at all, but CNNs need to have multiple of these hidden layers in order to achieve what is known as Deep Learning. 
+\section{Convolutional Neural Networks}
+The Artificial Neural Networks (ANNs) we have seen until now have their applications, but the current state of the art for detecting what an image is (or what does it contains) are Convolutional Neural Networks (CNNs). First of all we need to explain that this two kinds of neural networks are not at the same level. The ANNs we have seen until now usually have a few hidden layers, but CNNs need to have multiple of these hidden layers in order to achieve what is known as Deep Learning. 
 
 It may seem normal that adding more hidden layers to a network will improve its learning potential, but the problem with deep networks is that it becomes harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}, explaining that the features of the input instance (or those computed by previous layers) are "washed out" in the proccess of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (even impossible) to achieve learning in a deep neural network using backpropagation. Here is where Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
 

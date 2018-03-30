@@ -12,8 +12,16 @@ def index():
 	return "FYP: Intelligent Assistant, by Mario Sanchez Garcia (17150868)"
 
 @app.route("/recognise_me", methods=["POST"])
-def receive_img():
-	#student_id = json.loads(request.data)["student_id"]
+def recognise_student():
+	img = store_image(request=request)
+	
+
+	time.sleep(3)
+
+	return jsonify({"message": "image received"})
+
+def store_image(request):
+	# get image from request
 	img_b64 = json.loads(request.data)["image"]
 
 	# decode base64
@@ -23,12 +31,7 @@ def receive_img():
 	# decode image
 	img = cv2.imdecode(img_np_array, cv2.IMREAD_COLOR)
 
-	# we create the instances for the database
-	#student = Student(id=student_id, name="name")
-	#db.session.add(student)
-	#db.session.commit()
-
-	# we add the image to the db to obtain the id, so every filename different
+	# we add the image to the db to obtain the id, so every filename is different
 	image = Image(img="")
 	db.session.add(image)
 	db.session.commit()
@@ -41,9 +44,7 @@ def receive_img():
 	image.img = filename
 	db.session.commit()
 
-	time.sleep(7)
-
-	return jsonify({"message": "image received"})
+	return image
 
 #@app.route("/recognise_me/<int:student_id>", methods=["DELETE"])
 #def delete_imgs_from_user(student_id):

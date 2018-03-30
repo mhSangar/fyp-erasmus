@@ -130,11 +130,15 @@ def get_week_timetable(student_id):
 	# tr of all week
 	timetable_html = soup.find_all("tr")[1]
 	# each position, one day. List inside, each position, one class.
-	week_timetable_html = [day.find_all("b") for day in tt_html.find_all("td")]
+	week_timetable_html = [day.find_all("b") for day in timetable_html.find_all("td")]
 	week_timetable = []
+	week_d = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+	counter = 0
 
 	for day_timetable_html in week_timetable_html:
 		day_timetable = []
+		print("{} ----------------------".format(week_d[counter]))
+		counter += 1
 		for subject in day_timetable_html:
 			raw_vals = [x.split() for x in subject.text.split("\n")]
 			group = raw_vals[6]
@@ -145,14 +149,18 @@ def get_week_timetable(student_id):
 			else:
 				t = Timetable_Class(code=raw_vals[4][0], init_hour=raw_vals[0][0], end_hour=raw_vals[2][0], type=raw_vals[5][1], 
 				location=raw_vals[8][0], weeks=raw_vals[11][0], group=group[0])
-			#print(t)
+			print("\t{}".format(t))
 			day_timetable.append(t)
 			
 		week_timetable.append(day_timetable)
-		#print("----------------------")
+		print("")
+		
 
 	return week_timetable
 
+
+if __name__ == "__main__":
+	get_week_timetable(_student_id)
 
 
 

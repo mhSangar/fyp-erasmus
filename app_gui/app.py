@@ -1,7 +1,5 @@
 from PIL import Image
 from PIL import ImageTk
-from scrape_timetable_website import Timetable_Class
-import scrape_timetable_website
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.font
@@ -11,6 +9,11 @@ import requests
 import json
 import cv2
 import threading
+
+from scrape_timetable_website import Timetable_Class
+import scrape_timetable_website
+from draw_map import locations
+import draw_map
 
 port = 5000
 route = "recognise_me"
@@ -23,7 +26,7 @@ class FullScreenApp(object):
 		self.screen_width = master.winfo_screenwidth()
 		self.screen_height = master.winfo_screenheight()
 		self.frames = {}
-		self.gif_frames = [tk.PhotoImage(file="loading_ring.gif", format="gif -index {}".format(i)) for i in range(14)]
+		self.gif_frames = [tk.PhotoImage(file="loading_icon.gif", format="gif -index {}".format(i)) for i in range(14)]
 		self.response = None
 		self.resp_received_flag = tk.BooleanVar()
 
@@ -163,7 +166,7 @@ class FullScreenApp(object):
 		gif_label.grid(row=0, column=0, sticky="N")
 
 		loading_conn_label = ttk.Label(centered_canvas, background=self.bg_color, font=label_font,
-			text="Connecting with server...", padding="0 0 0 10")
+			text="I'm recognising your face...", padding="0 0 0 10")
 		loading_conn_label.grid(row=1, column=0, sticky="N")
 		
 		loading_wait_label = ttk.Label(centered_canvas, background=self.bg_color, font=label_font,
@@ -219,8 +222,10 @@ class FullScreenApp(object):
 			text="Your next class is {}: {}".format(self.next_class.code, self.next_class.name), wraplength=1150, justify="center", padding="20 60 20 20")
 		welcome_label.grid(row=0, column=0, sticky="N")
 
-		img = cv2.imread("placeholder.jpg")
-		img = cv2.resize(img, None, fx=0.5, fy=0.5)
+		draw_map.save_map_image("map.jpg", origin=locations["Computer Science Building"], destination=locations["Schuman Building"])
+
+		img = cv2.imread("map.jpg")
+		img = cv2.resize(img, (940, 540))
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 		img = ImageTk.PhotoImage(Image.fromarray(img))
 
@@ -285,13 +290,13 @@ class FullScreenApp(object):
 
 	def update_label(self, label, index):
 		if index == 0:
-			label.configure(text="Connecting with server")
+			label.configure(text="I'm recognising your face")
 		elif index == 1:
-			label.configure(text="Connecting with server.")
+			label.configure(text="I'm recognising your face.")
 		elif index == 2:
-			label.configure(text="Connecting with server..")
+			label.configure(text="I'm recognising your face..")
 		else:
-			label.configure(text="Connecting with server...")
+			label.configure(text="I'm recognising your face...")
 			index = -1
 		
 		index += 1

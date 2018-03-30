@@ -10,11 +10,46 @@ limits = [100, 500]
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 input_dir = os.path.join(basedir, "pi_img/")
-output_dir = os.path.join(basedir, "selected_out/")
+_output_dir = os.path.join(basedir, "selected_out/")
 
 classifier = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
-def detect_face(filepath, class_name):
+def detect_face(img_filepath, output_dir):
+	img = cv2.imread(img_filepath)
+	grayscale_img = cv2.imread(img_filepath, 0)
+
+	faces = classifier.detectMultiScale(grayscale_img, scaleFactor=1.3, minNeighbors=5)
+	
+	if len(faces) == 0:
+		return False
+
+	face_img_filepaths = []
+	counter = 1
+
+	for (x, y, w, h) in faces:
+		crop_img = img[y:y+h, x:x+w].copy()
+
+		# skips imgs too small to be a face in front of the camera
+		if len(crop_img) < 100 or len(crop_img[0]) < 100:
+			counter -= 1
+			continue
+
+		# resize to a standard size the CNN can process
+		crop_img = cv2.resize(crop_img, (160, 160))
+
+		img_filename = img_filepath.split("/")[-1]
+		detected_face_filepath = os.path.join(output_dir, img_filename.split(".jpg")[0] + "_fd_{0:0>2}.jpg".format(counter))
+		
+		cv2.imwrite(detected_face_filepath, crop_img)
+		face_img_filepaths.append(detected_face_filepath)
+		counter += 1
+
+	if len(face_img_filepaths) == 0:
+		return False
+
+	return face_img_filepaths
+
+def lfw_detect_face(filepath, class_name):
 	img = cv2.imread(filepath)
 	grayscale_img = cv2.imread(filepath, 0)
 
@@ -35,7 +70,7 @@ def detect_face(filepath, class_name):
 			counter -= 1
 			continue
 
-		output_dir_for_class = os.path.join(output_dir, class_name)
+		output_dir_for_class = os.path.join(_output_dir, class_name)
 		
 		if not os.path.exists(output_dir_for_class):
 			os.mkdir(output_dir_for_class)
@@ -73,7 +108,7 @@ def proccess(_input_dir, multiple, skipped):
 			x += 1
 			class_name = _input_dir.split("/")[-1]
 
-			faces = detect_face(os.path.join(_input_dir, file), class_name)
+			faces = lfw_detect_face(os.path.join(_input_dir, file), class_name)
 
 			if len(faces) > 1:
 				multiple.append(file.split(".jpg")[0])
@@ -90,7 +125,7 @@ def proccess(_input_dir, multiple, skipped):
 			if x < limits[0]:
 				continue
 			elif x >= limits[0] and x < limits[1]:
-				faces = detect_face(os.path.join(_input_dir, file))
+				faces = lfw_detect_face(os.path.join(_input_dir, file))
 
 				if len(faces) > 1:
 					multiple.append(file.split(".jpg")[0])
