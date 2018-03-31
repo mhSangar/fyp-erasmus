@@ -31,6 +31,10 @@ class FullScreenApp(object):
 		self.gif_frames = [tk.PhotoImage(file="loading_icon.gif", format="gif -index {}".format(i)) for i in range(14)]
 		self.response = None
 		self.resp_received_flag = tk.BooleanVar()
+		self.next_class = Timetable_Class(code="CS4618", init_hour="00:00", end_hour="00:00", type="", location="CSG027", weeks="Wks:1-13", group=None)
+		self.student_name = tk.StringVar()
+
+		self.student_name.set("No student")
 
 		#master.geometry("{}x{}+0+0".format(self.screen_width, self.screen_height))
 		#master.geometry("{}x{}+0+0".format(800,300))
@@ -183,8 +187,6 @@ class FullScreenApp(object):
 		self.update_gif(gif_label, 0)
 
 	def create_welcome_student_frame(self):
-		self.student_name = ""
-		self.next_class = Timetable_Class(code="CS4618", init_hour="00:00", end_hour="00:00", type="", location="CSG027", weeks="Wks:1-13", group=None)
 
 		title_font = tkinter.font.Font(family="Helvetica", size=55, weight="bold")
 		text_font = tkinter.font.Font(family="Helvetica", size=12)
@@ -194,7 +196,7 @@ class FullScreenApp(object):
 		centered_canvas.pack(expand=False)
 
 		welcome_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
-			text="Welcome {}!", wraplength=1200, justify="center", padding="20 150 20 20")
+			text=self.student_name.get(), wraplength=1200, justify="center", padding="20 150 20 20")
 		welcome_label.grid(row=0, column=0, sticky="N")
 
 		next_class_name_label = ttk.Label(centered_canvas, font=text_font, background=self.bg_color,
@@ -259,6 +261,10 @@ class FullScreenApp(object):
 			self.response = -1
 			print("ERROR - Connection error")
 			self.master.quit()
+
+		s = json.loads(self.response.text)["student_name"]
+		print(s)
+		self.student_name.set(s)
 
 	def connect_with_server (self):
 		self.show_frame("connecting_with_server")
