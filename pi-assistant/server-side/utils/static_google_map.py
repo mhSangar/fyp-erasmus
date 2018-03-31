@@ -1,5 +1,10 @@
 import requests
 import json
+from io import BytesIO
+import cv2
+import base64
+import numpy as np
+
 
 locations = {
 	"Schuman Building": 				(52.673168, -8.577775),
@@ -87,7 +92,7 @@ def get_static_google_map_url(center=None, zoom=None, img_format="jpeg", img_siz
 	return url
 
 
-def save_map_image(filename, origin, destination):
+def get_map_image(origin, destination):
 
 	markers = [
 	{
@@ -103,11 +108,25 @@ def save_map_image(filename, origin, destination):
 	]
 
 	r = requests.get(get_static_google_map_url(markers=markers), stream=True)
+
+	img_as_text = ""
 	
 	if r.status_code == 200:
-		with open(filename, 'wb') as f:
-			for chunk in r.iter_content(1024):
-				f.write(chunk)
+		img_stream = BytesIO()
+
+		img_stream.write(r.content)
+		img_stream.seek(0)
+		img_bytes = np.asarray(bytearray(img_stream.read()), dtype=np.uint8)
+		
+		img = cv2.imdecode(img_bytes, cv2.IMREAD_COLOR)
+		#cv2.imwrite("map.jpg", img)
+		_, img_encoded = cv2.imencode(".jpg", img)
+		img_as_text = base64.b64encode(img_encoded).decode("ascii")
+
+	return img_as_text
+		
+
+	
 
 
 #markers = [
@@ -124,5 +143,5 @@ def save_map_image(filename, origin, destination):
 #]
 
 #print(get_static_google_map_url(markers=markers))
-#save_map_image("img.jpg", origin=locations["Schuman Building"], destination=locations["PESS Building"])
+#save_map_image("img.jpg", origin=(43.2627, -2.9253), destination=locations["PESS Building"])
 #print(get_path_points(origin=locations["Computer Science Building"], destination=locations["Main Building"]))

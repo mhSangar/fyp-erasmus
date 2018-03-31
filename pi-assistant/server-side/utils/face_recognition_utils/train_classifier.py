@@ -11,7 +11,7 @@ from tensorflow.python.platform import gfile
 from sklearn.svm import SVC
 
 # own file
-import lfw_input_parsing
+from utils.face_recognition_utils import lfw_input_parsing
 
 ################# args #################
 _input_dir = "selected_out/Who_Dis/unknown-face-003_fd_01.jpg"
@@ -128,7 +128,7 @@ def eval_classifier(embeddings_arr, labels_arr, classifier_filename, is_one_img)
 
 
 def main(input_dir, model_path, classifier_output_path, batch_size, 
-	num_threads, num_epochs, split_ratio, training=True, is_one_img=False):
+	num_threads, num_epochs=1, split_ratio=0.8, training=True, is_one_img=False):
 
 	start_time = time.time()
 

@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs 
 import requests
 import re
+import json
 
 _student_id = "17226163"
 
@@ -67,6 +68,9 @@ class Timetable_Class():
 					self.type, 
 					self.location,
 					self.weeks[0][0], self.weeks[0][1], self.weeks[1][0], self.weeks[1][1])
+
+	def toJSON(self):
+		return json.dumps(self, default=lambda o: o.__dict__)
 		
 	def get_module_name(self):
 		data = {"T1": str(self.code)}
@@ -132,13 +136,13 @@ def get_week_timetable(student_id):
 	# each position, one day. List inside, each position, one class.
 	week_timetable_html = [day.find_all("b") for day in timetable_html.find_all("td")]
 	week_timetable = []
-	week_d = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-	counter = 0
+	#week_d = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+	#counter = 0
 
 	for day_timetable_html in week_timetable_html:
 		day_timetable = []
-		print("{} ----------------------".format(week_d[counter]))
-		counter += 1
+		#print("{} ----------------------".format(week_d[counter]))
+		#counter += 1
 		for subject in day_timetable_html:
 			raw_vals = [x.split() for x in subject.text.split("\n")]
 			group = raw_vals[6]
@@ -149,11 +153,11 @@ def get_week_timetable(student_id):
 			else:
 				t = Timetable_Class(code=raw_vals[4][0], init_hour=raw_vals[0][0], end_hour=raw_vals[2][0], type=raw_vals[5][1], 
 				location=raw_vals[8][0], weeks=raw_vals[11][0], group=group[0])
-			print("\t{}".format(t))
+			#print("\t{}".format(t))
 			day_timetable.append(t)
 			
 		week_timetable.append(day_timetable)
-		print("")
+		#print("")
 		
 
 	return week_timetable
