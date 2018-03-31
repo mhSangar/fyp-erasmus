@@ -21,11 +21,13 @@ def index():
 def recognise_student():
 	img_filename = store_image(request=request)
 	
-	fr.recognise_face(img_filename)
+	student_name = fr.recognise_face(img_filename)
 
-	time.sleep(1)
+	Student.query.filter_by(id=student_name).first()
 
-	return jsonify({"message": "image received"})
+	#time.sleep(1)
+
+	return jsonify({"student_name": student_name})
 
 @app.route("/next_class", methods=["POST"])
 def whats_my_next_class():

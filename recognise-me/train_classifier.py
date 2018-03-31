@@ -14,11 +14,12 @@ from sklearn.svm import SVC
 import lfw_input_parsing
 
 ################# args #################
-_input_dir = "selected_out/Who_Dis/unknown-face-003_fd_01.jpg"
+_input_dir = "temp/Who_Dis/unknown-face-003_fd_01.jpg"
+#_input_dir = "selected_out/"
 _model_path = "~/model_dir/20170512-110547/20170512-110547.pb"
 _batch_size = 128
-_num_threads = 1
-_num_epochs = 3
+_num_threads = 2
+_num_epochs = 25
 _split_ratio = 0.8
 _classifier_output_path = "svc_classifier.pkl"
 _training = False
@@ -28,6 +29,7 @@ _is_one_img = True
 def get_train_test_datasets(input_dir, split_ratio):
 	dataset = lfw_input_parsing.parse_dataset(input_dir)
 	train_set, test_set = lfw_input_parsing.split_dataset(dataset, split_ratio=split_ratio)
+	return train_set, test_set
 
 def load_imgs_labels(dataset, img_size, batch_size, num_epochs, num_threads, random_flip=False, random_brightness=False, random_contrast=False):
 	img_paths = []
@@ -139,6 +141,8 @@ def main(input_dir, model_path, classifier_output_path, batch_size,
 			imgs, labels = lfw_input_parsing.load_img(input_dir, label=-1, img_size=160, 
 														batch_size=batch_size, num_threads=num_threads) 
 		else:
+			print(input_dir)
+			print(split_ratio)
 			train_set, test_set = get_train_test_datasets(input_dir, split_ratio)
 
 			if training:

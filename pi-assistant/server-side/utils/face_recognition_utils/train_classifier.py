@@ -13,21 +13,10 @@ from sklearn.svm import SVC
 # own file
 from utils.face_recognition_utils import lfw_input_parsing
 
-################# args #################
-_input_dir = "selected_out/Who_Dis/unknown-face-003_fd_01.jpg"
-_model_path = "~/model_dir/20170512-110547/20170512-110547.pb"
-_batch_size = 128
-_num_threads = 1
-_num_epochs = 3
-_split_ratio = 0.8
-_classifier_output_path = "svc_classifier.pkl"
-_training = False
-_is_one_img = True
-########################################
-
 def get_train_test_datasets(input_dir, split_ratio):
 	dataset = lfw_input_parsing.parse_dataset(input_dir)
 	train_set, test_set = lfw_input_parsing.split_dataset(dataset, split_ratio=split_ratio)
+	return train_set, test_set
 
 def load_imgs_labels(dataset, img_size, batch_size, num_epochs, num_threads, random_flip=False, random_brightness=False, random_contrast=False):
 	img_paths = []
@@ -106,7 +95,10 @@ def train_and_save_classifier(embeddings_arr, labels_arr, class_names, classifie
 	logging.info("Classifier model saved to file: {}".format(classifier_filename_out))
 
 def eval_classifier(embeddings_arr, labels_arr, classifier_filename, is_one_img):
+	final_prediction = []
+
 	logging.info("Evaluating classifier on {} images".format(len(embeddings_arr)))
+
 	if not os.path.exists(classifier_filename):
 		raise ValueError("Classifier not found, have you trained it first?")
 
@@ -118,14 +110,52 @@ def eval_classifier(embeddings_arr, labels_arr, classifier_filename, is_one_img)
 		best_class_prob = predictions[np.arange(len(best_class_i)), best_class_i]
 
 		if is_one_img:
-			print("\n    > Prediction: {} with a {:.2f}%\n".format(class_names[best_class_i[0]], best_class_prob[0]*100))
+			print("\n    > Final prediction: {} with a {:.2f}%\n".format(class_names[best_class_i[0]], best_class_prob[0]*100))
+			final_prediction.append(class_names[best_class_i[0]])
 		else:
 			for i in range(len(best_class_i)):
 				print("{:4d} {}: {:.3f}".format(i, class_names[best_class_i[i]], best_class_prob[i]))
+				final_prediction.append(class_names[best_class_i[i]])
 
 			accuracy = np.mean(np.equal(best_class_i, labels_arr))
 			print("Accuracy: {:.3f}".format(accuracy))
 
+	return final_prediction
+
+def get_prediction(img_path, model_path, classifier_path, batch_size=128, 
+				   num_threads=2, num_epochs=1):
+	start = time.time()
+
+	with tf.Session(config=tf.ConfigProto(log_device_placement=False)) as sess:
+		class_names = ["Unknown Person"]
+
+		imgs, labels = lfw_input_parsing.load_img(img_path, label=-1, img_size=160, 
+													batch_size=batch_size, num_threads=num_threads) 
+		
+		load_graph_model(model_path)
+		
+		init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
+		sess.run(init_op)
+
+		imgs_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
+		embedding_layer = tf.get_default_graph().get_tensor_by_name("embeddings:0")
+		phase_train_placeholder = tf.get_default_graph().get_tensor_by_name("phase_train:0")
+
+		coord = tf.train.Coordinator()
+		threads = tf.train.start_queue_runners(coord=coord, sess=sess)
+
+		embeddings_arr, labels_arr = create_embeddings(embedding_layer, imgs, labels, imgs_placeholder, 
+														phase_train_placeholder, sess)
+
+		coord.request_stop()
+		coord.join(threads)
+		logging.info("Created {} embeddings".format(len(embeddings_arr)))
+
+		prediction = eval_classifier(embeddings_arr, labels_arr, classifier_path, is_one_img=True)[0]
+
+		logging.info("Completed in {:.4f} secs".format(time.time() - start))
+
+		return prediction
 
 def main(input_dir, model_path, classifier_output_path, batch_size, 
 	num_threads, num_epochs=1, split_ratio=0.8, training=True, is_one_img=False):
@@ -177,6 +207,16 @@ def main(input_dir, model_path, classifier_output_path, batch_size,
 if __name__ == "__main__":
 	
 	logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s >>> %(message)s", datefmt="%H:%M:%S")
+
+	_input_dir = "selected_out/Who_Dis/unknown-face-003_fd_01.jpg"
+	_model_path = "~/model_dir/20170512-110547/20170512-110547.pb"
+	_batch_size = 128
+	_num_threads = 1
+	_num_epochs = 3
+	_split_ratio = 0.8
+	_classifier_output_path = "svc_classifier.pkl"
+	_training = False
+	_is_one_img = True
 
 	main(_input_dir, 
 		_model_path, 
