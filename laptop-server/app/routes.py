@@ -15,7 +15,6 @@ def index():
 def recognise_student():
 	img = store_image(request=request)
 	
-
 	time.sleep(3)
 
 	return jsonify({"message": "image received"})
