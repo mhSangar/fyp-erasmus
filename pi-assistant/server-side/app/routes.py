@@ -21,13 +21,13 @@ def index():
 def recognise_student():
 	img_filename = store_image(request=request)
 	
-	student_name = fr.recognise_face(img_filename)
+	student_id = fr.recognise_face(img_filename)
 
-	Student.query.filter_by(id=student_name).first()
+	student = Student.query.filter_by(id=student_id).first()
 
 	#time.sleep(1)
 
-	return jsonify({"student_name": student_name})
+	return jsonify({"student_id": student.id, "student_name": student.name})
 
 @app.route("/next_class", methods=["POST"])
 def whats_my_next_class():
@@ -37,14 +37,13 @@ def whats_my_next_class():
 	week_timetable = scrape_timetable.get_week_timetable("17226163")
 
 	# index representing day of the week (0-> Monday, 1->Tuesday...)
-	today = dt.date.today().weekday()
+	today = (dt.date.today() - dt.timedelta(2)).weekday()
 	now = dt.datetime.now()
 
 	# on sunday there are no classes
 	if today < 6: 
 		for mod in week_timetable[today]:
-			#print(mod)
-			if mod.hours[0] > now.hour:
+			if mod.hours[0] > now.hour - 18:
 				return jsonify({"next_class": mod.toJSON()})
 
 
