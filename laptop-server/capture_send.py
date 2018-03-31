@@ -38,7 +38,7 @@ def capture_and_send(server_url, res_x, res_y, rotation):
     _, img_encoded = cv2.imencode(".jpg", rawCapture.array)
     img_as_text = base64.b64encode(img_encoded)
 
-    data = {"image": img_as_text}
+    data = {"image": str(img_as_text)}
     # send req by POST with the img
     try:
         response = requests.post(server_url, json=data)

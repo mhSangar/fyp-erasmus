@@ -9,6 +9,7 @@ import requests
 import json
 import cv2
 import threading
+import numpy as np
 
 from scrape_timetable_website import Timetable_Class
 import scrape_timetable_website
@@ -17,7 +18,8 @@ import draw_map
 
 port = 5000
 route = "recognise_me"
-server_url = "http://localhost:{}/{}".format(port, route)
+ip = "192.168.1.105"
+server_url = "http://{}:{}/{}".format(ip, port, route)
 
 class FullScreenApp(object):
 	def __init__(self, master, **kwargs):
@@ -244,12 +246,13 @@ class FullScreenApp(object):
 		self.master.quit()
 
 	def send_img(self):
-		img_encoded = cv2.imread("img.jpg")
-		#_, img_encoded = cv2.imencode(".jpg", rawCapture.array)
-		img_as_text = base64.b64encode(img_encoded)
+		img = cv2.imread("face.jpg")
+		_, img_encoded = cv2.imencode(".jpg", img)
+		img_as_text = base64.b64encode(img_encoded).decode("ascii")
 
+		#data = {"image": str(img_as_text)[2:-1]}
 		data = {"image": img_as_text}
-		# send req by POST with the img
+	
 		try:
 			self.response = requests.post(server_url, json=data)
 		except requests.exceptions.RequestException:
