@@ -1,5 +1,7 @@
+from imutils.video import VideoStream
 from PIL import Image
 from PIL import ImageTk
+import imutils
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.font
@@ -10,10 +12,12 @@ import json
 import cv2
 import threading
 import numpy as np
+import time
 
 port = 5000
 ip = "192.168.1.105"
 server_url = "http://{}:{}".format(ip, port)
+imgs_dir = "images/"
 
 class FullScreenApp(object):
 	def __init__(self, master, **kwargs):
@@ -22,10 +26,16 @@ class FullScreenApp(object):
 		self.screen_width = master.winfo_screenwidth()
 		self.screen_height = master.winfo_screenheight()
 		self.frames = {}
-		self.gif_frames = [tk.PhotoImage(file="loading_icon.gif", format="gif -index {}".format(i)) for i in range(14)]
+		self.gif_frames = [tk.PhotoImage(file=imgs_dir + "loading_icon.gif", format="gif -index {}".format(i)) for i in range(14)]
 		self.next_class = None
 		self.student_id = "00000000"
+		self.video_frame = None
+		self.vs = VideoStream(usePiCamera=False).start()
+		#time.sleep(2.0)
+		
 		self.resp_received = tk.StringVar()
+		self.stop_video_stream = tk.BooleanVar()
+
 		self.resp_received.set("none")
 
 		#master.geometry("{}x{}+0+0".format(self.screen_width, self.screen_height))
@@ -55,10 +65,10 @@ class FullScreenApp(object):
 
 		#### SHOW CAPTURE ####
 
-		self.frames["show_capture"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["show_snap"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["show_capture"].grid(row=0, column=0, sticky="nsew")
-		self.create_show_capture_frame()
+		self.frames["show_snap"].grid(row=0, column=0, sticky="nsew")
+		self.create_show_snap_frame()
 
 		#### CONNECTING WITH SERVER ####
 
@@ -114,26 +124,47 @@ class FullScreenApp(object):
 		author.grid(row=2, column=0, sticky="S")
 
 		preview_bt = ttk.Button(centered_canvas, text="Start Demo", width=100, 
-			cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("show_capture"))
+			cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("preview"))
 		preview_bt.grid(row=3, column=0, sticky="N")
 
 	def create_preview_frame(self):
-		pass
-
-	def create_show_capture_frame(self):
-		centered_canvas = tk.Canvas(self.frames["show_capture"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas = tk.Canvas(self.frames["preview"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
-		img = cv2.imread("placeholder.jpg")
+		img = cv2.imread(imgs_dir + "placeholder.jpg")
 		img = cv2.resize(img, None, fx=0.5, fy=0.5)
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 		img = ImageTk.PhotoImage(Image.fromarray(img))
 
-		img_label = ttk.Label(centered_canvas, image=img, background=self.bg_color,
+		self.video_stream_label = ttk.Label(centered_canvas, image=None, background=self.bg_color,
 			padding="0 50 0 30")
-		img_label.image = img
-		img_label.grid(row=0, column=0, sticky="N")
+		self.video_stream_label.image = img
+		self.video_stream_label.grid(row=0, column=0, sticky="N")
+
+		bt_canvas = tk.Canvas(centered_canvas, bg=self.bg_color, highlightthickness=0)
+		bt_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
+		bt_canvas.grid(row=1, column=0, sticky="N")
+
+		take_snapshot_bt = ttk.Button(bt_canvas, text="Take snapshot!", width=100, 
+			cursor="hand1", padding="0 15 0 15", command=lambda: self.take_snapshot())
+		take_snapshot_bt.grid(row=0, column=0, sticky="N")
+
+
+	def create_show_snap_frame(self):
+		centered_canvas = tk.Canvas(self.frames["show_snap"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
+		centered_canvas.pack(expand=False)
+
+		img = cv2.imread(imgs_dir + "placeholder.jpg")
+		img = cv2.resize(img, None, fx=0.5, fy=0.5)
+		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+		img = ImageTk.PhotoImage(Image.fromarray(img))
+
+		snap_label = ttk.Label(centered_canvas, image=img, background=self.bg_color,
+			padding="0 50 0 30")
+		snap_label.image = img
+		snap_label.grid(row=0, column=0, sticky="N")
 
 		bt_canvas = tk.Canvas(centered_canvas, bg=self.bg_color, highlightthickness=0)
 		bt_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
@@ -147,9 +178,13 @@ class FullScreenApp(object):
 		blank.grid(row=0, column=2, sticky="W")
 
 		cancel_bt = ttk.Button(bt_canvas, text="Take photo again", width=50, 
-			cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("show_map"))
-		#	cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("preview"))
+		#	cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("show_map"))
+			cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("preview"))
 		cancel_bt.grid(row=0, column=3, sticky="W")
+
+		self.show_snap_frame = {
+			"snap_label": snap_label
+		}
 
 	def create_loading_frame(self):
 		label_font = tkinter.font.Font(family="Helvetica", size=13)
@@ -227,24 +262,64 @@ class FullScreenApp(object):
 			text="Your next class is {}: {}", wraplength=1150, justify="center", padding="20 60 20 20")
 		your_class.grid(row=0, column=0, sticky="N")
 
-		img = cv2.imread("placeholder.jpg")
+		img = cv2.imread(imgs_dir + "placeholder.jpg")
 		img = cv2.resize(img, (940, 540))
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 		img = ImageTk.PhotoImage(Image.fromarray(img))
 
-		self.map_img_label = ttk.Label(centered_canvas, image=img, background=self.bg_color,
+		map_img_label = ttk.Label(centered_canvas, image=img, background=self.bg_color,
 			padding="0 50 0 0")
-		self.map_img_label.image = img
-		self.map_img_label.grid(row=1, column=0, sticky="N")
+		map_img_label.image = img
+		map_img_label.grid(row=1, column=0, sticky="N")
+
+		self.map_frame = {
+			"top_label": your_class,
+			"map_img_label": map_img_label
+		}
 
 
 	#### HELPER FUNCTIONS ####
 
 	def show_frame(self, frame_name):
+		if frame_name == "preview":
+			self.stop_video_stream.set(False)
+			self.video_stream_loop()
+			
 		self.frames[frame_name].tkraise()
 
 	def exit_app(self, event):
+		# stop video-stream thread
+		self.vs.stop()
+		# leave some time to leave i stop
+		time.sleep(0.05)
+		# exit
 		self.master.quit()
+
+
+	def take_snapshot(self):
+		self.stop_video_stream.set(True)
+		
+		img = cv2.cvtColor(self.video_frame.copy(), cv2.COLOR_BGR2RGB)
+		img = ImageTk.PhotoImage(Image.fromarray(img))
+
+		self.show_snap_frame["snap_label"]["image"] = img
+		self.show_snap_frame["snap_label"].image = img
+
+		self.show_frame("show_snap")
+
+	def video_stream_loop(self):
+		if not self.stop_video_stream.get():
+			self.video_frame = self.vs.read()
+			#self.video_frame = imutils.resize(self.video_frame, width=500)
+
+			next_frame = cv2.cvtColor(self.video_frame, cv2.COLOR_BGR2RGB)
+			next_frame = Image.fromarray(next_frame)
+			next_frame = ImageTk.PhotoImage(next_frame)
+
+			self.video_stream_label["image"] = next_frame
+			self.video_stream_label.image = next_frame
+
+			self.master.after(10, self.video_stream_loop)
 
 	def refresh_welcome_frame(self):
 		self.welcome_frame["welcome_label"]["text"] = \
@@ -252,15 +327,24 @@ class FullScreenApp(object):
 		self.welcome_frame["next_class_labels"]["name"]["text"] = \
 			"Your next class is {}: {}".format(self.next_class["code"], self.next_class["name"])
 		self.welcome_frame["next_class_labels"]["type"]["text"] = \
-			"Type {}".format(self.next_class["type"])
+			"Type: {}".format(self.next_class["type"])
 		self.welcome_frame["next_class_labels"]["location"]["text"] = \
 			"Location: {}".format(self.next_class["location"])	
 
 	def refresh_map_frame(self):
+		self.map_frame["top_label"]["text"] = \
+			"Your next class is {}: {}".format(self.next_class["code"], self.next_class["name"])
+
+		map_img = cv2.imread(imgs_dir + "map.jpg")
+		map_img = cv2.cvtColor(map_img, cv2.COLOR_BGR2RGB)
+		map_img = ImageTk.PhotoImage(Image.fromarray(map_img))
+			
+		self.map_frame["map_img_label"]["image"] = map_img
+		self.map_frame["map_img_label"].image = map_img
 		pass	
 		
 	def recognise_student(self):
-		img = cv2.imread("face.jpg")
+		img = cv2.imread(imgs_dir + "snap.jpg")
 		_, img_encoded = cv2.imencode(".jpg", img)
 		img_as_text = base64.b64encode(img_encoded).decode("ascii")
 
@@ -302,18 +386,17 @@ class FullScreenApp(object):
 		try:
 			r = requests.post(server_url + "/map", json=data)
 
-			map_img_as_text = json.loads(r.text)["map_img"]
-			map_img_bytes = base64.b64decode(map_img_as_text)
-			map_img_np_array = np.fromstring(map_img_bytes, np.uint8)
-			map_img_cv2_bgr = cv2.imdecode(map_img_np_array, cv2.IMREAD_COLOR)
-			
-			map_img_cv2_bgr = cv2.resize(map_img_cv2_bgr, (940, 540))
+			# map_img_as_text
+			map_img = json.loads(r.text)["map_img"]
+			# map_img_bytes
+			map_img = base64.b64decode(map_img)
+			# map_img_np_array
+			map_img = np.fromstring(map_img, np.uint8)
+			# map_img_cv2_bgr
+			map_img = cv2.imdecode(map_img, cv2.IMREAD_COLOR)
+			map_img = cv2.resize(map_img, (940, 540))
 
-			map_img_cv2_rgb = cv2.cvtColor(map_img_cv2_bgr, cv2.COLOR_BGR2RGB)
-			map_img = ImageTk.PhotoImage(Image.fromarray(map_img_cv2_rgb))
-
-			self.map_img_label["image"] = map_img
-			self.map_img_label.image = map_img
+			cv2.imwrite(imgs_dir + "map.jpg", map_img)
 			
 			self.resp_received.set("map")
 
@@ -323,6 +406,8 @@ class FullScreenApp(object):
 	
 	def connect_with_server (self):
 		self.show_frame("loading")
+
+		cv2.imwrite(imgs_dir + "snap.jpg", self.video_frame.copy())
 
 		# get student id
 		threading.Thread(target=self.recognise_student).start()
@@ -336,6 +421,8 @@ class FullScreenApp(object):
 
 		threading.Thread(target=self.get_map).start()
 		self.frames["loading"].wait_variable(self.resp_received)
+
+		self.refresh_map_frame()
 
 		self.show_frame("welcome_student")
 

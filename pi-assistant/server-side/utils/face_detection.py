@@ -21,7 +21,7 @@ def detect_face(img_filepath, output_dir):
 	faces = classifier.detectMultiScale(grayscale_img, scaleFactor=1.3, minNeighbors=5)
 	
 	if len(faces) == 0:
-		return False
+		return None
 
 	face_img_filepaths = []
 	counter = 1
@@ -45,7 +45,7 @@ def detect_face(img_filepath, output_dir):
 		counter += 1
 
 	if len(face_img_filepaths) == 0:
-		return False
+		return None
 
 	return face_img_filepaths
 

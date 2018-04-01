@@ -9,6 +9,7 @@ import time
 from utils import scrape_timetable
 from utils import static_google_map as g_map
 from utils import face_recognition as fr
+from utils import face_detection as fd
 import datetime as dt
 import os
 
@@ -19,13 +20,27 @@ def index():
 
 @app.route("/recognise_me", methods=["POST"])
 def recognise_student():
-	img_filename = store_image(request=request)
+	full_img_filename = store_image(request=request)
+	face_img_filename = None
 	
-	student_id = fr.recognise_face(img_filename)
+	# detect face from photo
+	detected_faces = fd.detect_face(full_img_filename, output_dir=app.config["PI_CAPTURES_FOLDER_PATH"])
 
+	if detected_faces == None:
+		student_id = "00000000"
+	elif len(detected_faces) > 0:
+		if len(detected_faces) > 1:
+			print("Multiple faces detected, choosing index 0") 
+		
+		face_img_filename = detected_faces[0]
+		
+		# recognise preprocessed photo
+		student_id = fr.recognise_face(face_img_filename)
+
+	print("\n" + student_id + "\n")
+
+	# get student name
 	student = Student.query.filter_by(id=student_id).first()
-
-	#time.sleep(1)
 
 	return jsonify({"student_id": student.id, "student_name": student.name})
 
