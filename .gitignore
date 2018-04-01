@@ -1,12 +1,11 @@
 ## SublimeText Workspace
 *.sublime-workspace
 
-## PreTrained Model
-*model_dir/*
-
 ## Inner PDF file
-*/*.pdf
-*/*/*.pdf
+*.pdf
+
+## Python cache files
+*.pyc
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
