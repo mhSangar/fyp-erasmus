@@ -30,7 +30,7 @@ def detect_face(img_filepath, output_dir):
 		crop_img = img[y:y+h, x:x+w].copy()
 
 		# skips imgs too small to be a face in front of the camera
-		if len(crop_img) < 100 or len(crop_img[0]) < 100:
+		if len(crop_img) < 150 or len(crop_img[0]) < 150:
 			counter -= 1
 			continue
 

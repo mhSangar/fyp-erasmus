@@ -203,7 +203,7 @@ class FullScreenApp(object):
 		loading_state_label.grid(row=1, column=0, sticky="N")
 		
 		loading_wait_label = ttk.Label(centered_canvas, background=self.bg_color, font=label_font,
-			text="Please, wait.", padding="0 0 0 40")
+			text="Who are you?", padding="0 0 0 40")
 		loading_wait_label.grid(row=2, column=0, sticky="N")
 
 		hello_user = ttk.Label(centered_canvas, background=self.bg_color, font=label_font,

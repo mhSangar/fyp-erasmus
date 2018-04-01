@@ -41,7 +41,7 @@ def load_imgs_labels(dataset, img_size, batch_size, num_epochs, num_threads, ran
 def load_graph_model(model_path):
 	model_path_ext = os.path.expanduser(model_path)
 	if os.path.isfile(model_path_ext):
-		logging.info("Model filename: {}".format(model_path_ext.split("/")[-1]))
+		#logging.info("Model filename: {}".format(model_path_ext.split("/")[-1]))
 		with gfile.FastGFile(model_path_ext, "rb") as f:
 			# create a tf graph
 			graph_def = tf.GraphDef()
@@ -50,7 +50,7 @@ def load_graph_model(model_path):
 			# use it for tf
 			tf.import_graph_def(graph_def, name="")
 	else:
-		logger.error("Model file is missing. Exiting...")
+		logging.error("Model file is missing. Exiting...")
 		sys.exit(-1)
 
 def create_embeddings(embedding_layer, imgs, labels, imgs_placeholder, phase_train_placeholder, sess):
@@ -110,7 +110,7 @@ def eval_classifier(embeddings_arr, labels_arr, classifier_filename, is_one_img)
 		best_class_prob = predictions[np.arange(len(best_class_i)), best_class_i]
 
 		if is_one_img:
-			print("\n    > Final prediction: {} with a {:.2f}%\n".format(class_names[best_class_i[0]], best_class_prob[0]*100))
+			#print("\n    > Prediction: {} with a {:.2f}%\n".format(class_names[best_class_i[0]], best_class_prob[0]*100))
 			final_prediction.append(class_names[best_class_i[0]])
 		else:
 			for i in range(len(best_class_i)):
@@ -149,11 +149,26 @@ def get_prediction(img_path, model_path, classifier_path, batch_size=128,
 
 		coord.request_stop()
 		coord.join(threads)
-		logging.info("Created {} embeddings".format(len(embeddings_arr)))
+		#logging.info("Created {} embeddings".format(len(embeddings_arr)))
 
 		prediction = eval_classifier(embeddings_arr, labels_arr, classifier_path, is_one_img=True)[0]
 
-		logging.info("Completed in {:.4f} secs".format(time.time() - start))
+		duration = time.time() - start
+		msg = ""
+	
+		if duration > 3600:
+			hours = int(duration // 3600)
+			mins = int(duration % 60)
+			secs = (duration % 3600) % 60
+			msg = "Completed in {:d} hour(s), {:d} minute(s), {:.4f} second(s)".format(hours, mins, secs)
+		elif duration > 60:
+			mins = int(duration // 60)
+			secs = duration % 60
+			msg = "Completed in {:d} minute(s), {:.4f} second(s)".format(mins, secs)
+		else:
+			msg = "Completed in {:.4f} second(s)".format(duration)
+
+		logging.info(msg)
 
 		return prediction
 
@@ -195,14 +210,30 @@ def main(input_dir, model_path, classifier_output_path, batch_size,
 
 		coord.request_stop()
 		coord.join(threads)
-		logging.info("Created {} embeddings".format(len(embeddings_arr)))
+		if not is_one_img:
+			logging.info("Created {} embeddings".format(len(embeddings_arr)))
 
 		if training and not is_one_img:
 			train_and_save_classifier(embeddings_arr, labels_arr, class_names, classifier_output_path)
 		else:
 			eval_classifier(embeddings_arr, labels_arr, classifier_output_path, is_one_img)
 
-		logging.info("Completed in {:.4f} secs".format(time.time() - start_time))
+		duration = time.time() - start
+		msg = ""
+	
+		if duration > 3600:
+			hours = int(duration // 3600)
+			mins = int(duration % 60)
+			secs = (duration % 3600) % 60
+			msg = "Completed in {:d} hour(s), {:d} minute(s), {:.4f} second(s)".format(hours, mins, secs)
+		elif duration > 60:
+			mins = int(duration // 60)
+			secs = duration % 60
+			msg = "Completed in {:d} minute(s), {:.4f} second(s)".format(mins, secs)
+		else:
+			msg = "Completed in {:.4f} second(s)".format(duration)
+
+		logging.info(msg)
 
 if __name__ == "__main__":
 	
