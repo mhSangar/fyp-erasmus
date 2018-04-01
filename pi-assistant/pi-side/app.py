@@ -30,7 +30,7 @@ class FullScreenApp(object):
 		self.next_class = None
 		self.student_id = "00000000"
 		self.video_frame = None
-		self.vs = VideoStream(usePiCamera=False).start()
+		self.vs = VideoStream(usePiCamera=True, resolution=(1280,720)).start()
 		#time.sleep(2.0)
 		
 		self.resp_received = tk.StringVar()
@@ -299,7 +299,9 @@ class FullScreenApp(object):
 	def take_snapshot(self):
 		self.stop_video_stream.set(True)
 		
-		img = cv2.cvtColor(self.video_frame.copy(), cv2.COLOR_BGR2RGB)
+		img = imutils.rotate(self.video_frame, 180)
+		img = cv2.flip(img, 1)
+		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 		img = ImageTk.PhotoImage(Image.fromarray(img))
 
 		self.show_snap_frame["snap_label"]["image"] = img
@@ -311,8 +313,10 @@ class FullScreenApp(object):
 		if not self.stop_video_stream.get():
 			self.video_frame = self.vs.read()
 			#self.video_frame = imutils.resize(self.video_frame, width=500)
-
-			next_frame = cv2.cvtColor(self.video_frame, cv2.COLOR_BGR2RGB)
+			
+			next_frame = imutils.rotate(self.video_frame, 180)
+			next_frame = cv2.flip(next_frame, 1)
+			next_frame = cv2.cvtColor(next_frame, cv2.COLOR_BGR2RGB)
 			next_frame = Image.fromarray(next_frame)
 			next_frame = ImageTk.PhotoImage(next_frame)
 
@@ -407,7 +411,9 @@ class FullScreenApp(object):
 	def connect_with_server (self):
 		self.show_frame("loading")
 
-		cv2.imwrite(imgs_dir + "snap.jpg", self.video_frame.copy())
+		snap = imutils.rotate(self.video_frame, 180)
+		snap = cv2.flip(snap, 1)
+		cv2.imwrite(imgs_dir + "snap.jpg", snap)
 
 		# get student id
 		threading.Thread(target=self.recognise_student).start()
