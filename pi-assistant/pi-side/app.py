@@ -77,11 +77,6 @@ class FullScreenApp(object):
 		self.frames["loading"].grid(row=0, column=0, sticky="nsew")
 		self.create_loading_frame()		
 
-		#1. Comment the 37th and 38th line of your code
-		#2. add self.videoLoop() just after the former 38th line
-		#3. change the “while not” in line 51 to “if not”
-		#4. add this line “self.panel.after(10, self.videoLoop)” to the last of the function videoLoop().
-
 		#### WELCOME STUDENT ####
 
 		self.frames["welcome_student"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
@@ -94,7 +89,21 @@ class FullScreenApp(object):
 		self.frames["show_map"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
 		self.frames["show_map"].grid(row=0, column=0, sticky="nsew")
-		self.create_show_map_frame()		
+		self.create_show_map_frame()
+
+		#### NO MORE CLASSES ####
+
+		self.frames["no_more_classes"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+			height=self.screen_height)
+		self.frames["no_more_classes"].grid(row=0, column=0, sticky="nsew")
+		self.create_no_more_classes_frame()
+
+		#### ERROR ####
+
+		self.frames["error"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+			height=self.screen_height)
+		self.frames["error"].grid(row=0, column=0, sticky="nsew")
+		self.create_error_frame()
 
 		self.show_frame("home")
 
@@ -149,7 +158,6 @@ class FullScreenApp(object):
 		take_snapshot_bt = ttk.Button(bt_canvas, text="Take snapshot!", width=100, 
 			cursor="hand1", padding="0 15 0 15", command=lambda: self.take_snapshot())
 		take_snapshot_bt.grid(row=0, column=0, sticky="N")
-
 
 	def create_show_snap_frame(self):
 		centered_canvas = tk.Canvas(self.frames["show_snap"], bg=self.bg_color, highlightthickness=0)
@@ -277,6 +285,32 @@ class FullScreenApp(object):
 			"map_img_label": map_img_label
 		}
 
+	def create_no_more_classes_frame(self):
+		title_font = tkinter.font.Font(family="Helvetica", size=55, weight="bold")
+		text_font = tkinter.font.Font(family="Helvetica", size=20)
+
+		centered_canvas = tk.Canvas(self.frames["no_more_classes"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
+		centered_canvas.pack(expand=False)
+
+		welcome_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
+			text="Welcome {}!", wraplength=1200, justify="center", padding="20 150 20 20")
+		welcome_label.grid(row=0, column=0, sticky="N")
+
+		next_class_name_label = ttk.Label(centered_canvas, font=text_font, background=self.bg_color,
+			text="You don't have any more classes today!", padding="20 100 20 20")
+		next_class_name_label.grid(row=1, column=0, sticky="N")
+
+	def create_error_frame(self):
+		title_font = tkinter.font.Font(family="Helvetica", size=55, weight="bold")
+
+		centered_canvas = tk.Canvas(self.frames["error"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
+		centered_canvas.pack(expand=False)
+
+		welcome_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
+			text="ERROR!", wraplength=1200, justify="center", padding="20 150 20 20")
+		welcome_label.grid(row=0, column=0, sticky="N")
 
 	#### HELPER FUNCTIONS ####
 
