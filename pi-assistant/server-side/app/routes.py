@@ -25,23 +25,36 @@ def recognise_student():
 
 	full_img_filename = store_image(request=request)
 	face_img_filename = None
+
+	is_detected = True
+	is_recognised = True
 	
 	# detect face from photo
 	detected_faces = fd.detect_face(full_img_filename, output_dir=app.config["PI_CAPTURES_FOLDER_PATH"])
 
 	if detected_faces == None:
-		student_id = "00000000"
 		logging.warning("No faces detected!")
-	elif len(detected_faces) > 0:
+		
+		is_detected = False
+		student_id = "00000000"
+
+	else:
 		if len(detected_faces) > 1:
-			logging.warning("Multiple faces detected! First detected face was chosen.") 
+			logging.warning("Multiple faces detected! First detected face was chosen for recognition.") 
 		
 		face_img_filename = detected_faces[0]
 		
 		# recognise preprocessed photo
-		student_id = fr.recognise_face(face_img_filename)
+		student_id, percent = fr.recognise_face(face_img_filename)
 
-		logging.info("Student recognised: " + student_id + ".")
+		if percent < 0.4:
+			logging.info("Student not recognised ({:.2f}% < 40%).".format(percent*100))
+
+			is_recognised = False
+			student_id = "00000000"
+		else:
+			logging.info("Student recognised: {} with a {:.2f}% of confidence".format(student_id, percent*100))
+
 
 	#print("\n" + student_id + "\n")
 
@@ -50,10 +63,18 @@ def recognise_student():
 
 	# we delete the images that we are not going to use anymore
 	delete_image(full_img_filename)
-	for img in detected_faces:
-		delete_image(img)
+	if detected_faces != None: 
+		for img in detected_faces:
+			delete_image(img)
 
-	return jsonify({"student_id": student.id, "student_name": student.name})
+	resp = {
+		"student_id": student.id, 
+		"student_name": student.name,
+		"is_detected": is_detected,
+		"is_recognised": is_recognised
+	}
+
+	return jsonify(resp)
 
 @app.route("/next_class", methods=["POST"])
 def whats_my_next_class():

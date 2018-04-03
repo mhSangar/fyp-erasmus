@@ -111,11 +111,13 @@ def eval_classifier(embeddings_arr, labels_arr, classifier_filename, is_one_img)
 
 		if is_one_img:
 			#print("\n    > Prediction: {} with a {:.2f}%\n".format(class_names[best_class_i[0]], best_class_prob[0]*100))
-			final_prediction.append(class_names[best_class_i[0]])
+			p = [class_names[best_class_i[0]], best_class_prob[0]]
+			final_prediction.append(p)
 		else:
 			for i in range(len(best_class_i)):
 				print("{:4d} {}: {:.3f}".format(i, class_names[best_class_i[i]], best_class_prob[i]))
-				final_prediction.append(class_names[best_class_i[i]])
+				p = [class_names[best_class_i[i]], best_class_prob[i]]
+				final_prediction.append(p)
 
 			accuracy = np.mean(np.equal(best_class_i, labels_arr))
 			print("Accuracy: {:.3f}".format(accuracy))
@@ -170,7 +172,7 @@ def get_prediction(img_path, model_path, classifier_path, batch_size=128,
 
 		logging.info(msg)
 
-		return prediction
+		return prediction[0], prediction[1]
 
 def main(input_dir, model_path, classifier_output_path, batch_size, 
 	num_threads, num_epochs=1, split_ratio=0.8, training=True, is_one_img=False):
