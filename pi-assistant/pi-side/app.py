@@ -15,9 +15,10 @@ import numpy as np
 import time
 
 port = 5000
-ip = "192.168.1.105"
+ip = "192.168.1.104"
 server_url = "http://{}:{}".format(ip, port)
 imgs_dir = "images/"
+degrees = 0
 
 class FullScreenApp(object):
 	def __init__(self, master, **kwargs):
@@ -30,9 +31,13 @@ class FullScreenApp(object):
 		self.next_class = None
 		self.student_id = "00000000"
 		self.video_frame = None
-		self.vs = VideoStream(usePiCamera=True, resolution=(1280,720)).start()
+		self.vs = VideoStream(usePiCamera=False, resolution=(1280,720)).start()
 		#time.sleep(2.0)
-		
+
+		self.is_detected = None
+		self.is_recognised = None
+		self.has_classes = None
+
 		self.resp_received = tk.StringVar()
 		self.stop_video_stream = tk.BooleanVar()
 
@@ -51,58 +56,66 @@ class FullScreenApp(object):
 
 		#### HOME ####
 
-		self.frames["home"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["home"] = {}
+		self.frames["home"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["home"].grid(row=0, column=0, sticky="nsew")
+		self.frames["home"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_home_frame()
 
 		#### PREVIEW ####
 
-		self.frames["preview"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["preview"] = {}
+		self.frames["preview"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["preview"].grid(row=0, column=0, sticky="nsew")
+		self.frames["preview"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_preview_frame()
 
 		#### SHOW CAPTURE ####
 
-		self.frames["show_snap"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["show_snap"] = {}
+		self.frames["show_snap"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["show_snap"].grid(row=0, column=0, sticky="nsew")
+		self.frames["show_snap"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_show_snap_frame()
 
 		#### CONNECTING WITH SERVER ####
 
-		self.frames["loading"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["loading"] = {}
+		self.frames["loading"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["loading"].grid(row=0, column=0, sticky="nsew")
+		self.frames["loading"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_loading_frame()		
 
 		#### WELCOME STUDENT ####
 
-		self.frames["welcome_student"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["welcome_student"] = {}
+		self.frames["welcome_student"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["welcome_student"].grid(row=0, column=0, sticky="nsew")
+		self.frames["welcome_student"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_welcome_student_frame()		
 
 		#### SHOW MAP ####
 
-		self.frames["show_map"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["show_map"] = {}
+		self.frames["show_map"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["show_map"].grid(row=0, column=0, sticky="nsew")
+		self.frames["show_map"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_show_map_frame()
 
 		#### NO MORE CLASSES ####
 
-		self.frames["no_more_classes"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["no_more_classes"] = {}
+		self.frames["no_more_classes"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["no_more_classes"].grid(row=0, column=0, sticky="nsew")
+		self.frames["no_more_classes"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_no_more_classes_frame()
 
 		#### ERROR ####
 
-		self.frames["error"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
+		self.frames["error"] = {}
+		self.frames["error"]["frame"] = tk.Frame(container, bg=self.bg_color, width=self.screen_width, 
 			height=self.screen_height)
-		self.frames["error"].grid(row=0, column=0, sticky="nsew")
+		self.frames["error"]["frame"].grid(row=0, column=0, sticky="nsew")
 		self.create_error_frame()
 
 		self.show_frame("home")
@@ -115,7 +128,7 @@ class FullScreenApp(object):
 		by_font = tkinter.font.Font(family="Helvetica", size=20, weight="bold")
 		author_font = tkinter.font.Font(family="Helvetica", size=30, weight="bold")
 
-		centered_canvas = tk.Canvas(self.frames["home"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas = tk.Canvas(self.frames["home"]["frame"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
@@ -137,7 +150,7 @@ class FullScreenApp(object):
 		preview_bt.grid(row=3, column=0, sticky="N")
 
 	def create_preview_frame(self):
-		centered_canvas = tk.Canvas(self.frames["preview"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas = tk.Canvas(self.frames["preview"]["frame"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
@@ -160,7 +173,7 @@ class FullScreenApp(object):
 		take_snapshot_bt.grid(row=0, column=0, sticky="N")
 
 	def create_show_snap_frame(self):
-		centered_canvas = tk.Canvas(self.frames["show_snap"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas = tk.Canvas(self.frames["show_snap"]["frame"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
@@ -190,14 +203,14 @@ class FullScreenApp(object):
 			cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("preview"))
 		cancel_bt.grid(row=0, column=3, sticky="W")
 
-		self.show_snap_frame = {
+		self.frames["show_snap"]["contents"] = {
 			"snap_label": snap_label
 		}
 
 	def create_loading_frame(self):
 		label_font = tkinter.font.Font(family="Helvetica", size=13)
 
-		centered_canvas = tk.Canvas(self.frames["loading"], bg=self.bg_color, 
+		centered_canvas = tk.Canvas(self.frames["loading"]["frame"], bg=self.bg_color, 
 			highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
@@ -226,7 +239,7 @@ class FullScreenApp(object):
 		title_font = tkinter.font.Font(family="Helvetica", size=55, weight="bold")
 		text_font = tkinter.font.Font(family="Helvetica", size=12)
 
-		centered_canvas = tk.Canvas(self.frames["welcome_student"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas = tk.Canvas(self.frames["welcome_student"]["frame"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
@@ -250,7 +263,7 @@ class FullScreenApp(object):
 			cursor="hand1", padding="0 15 0 15", command=lambda: self.show_frame("show_map"))
 		show_map_bt.grid(row=4, column=0, sticky="N")
 
-		self.welcome_frame = {
+		self.frames["welcome_student"]["contents"] = {
 			"welcome_label": welcome_label,	
 			"next_class_labels": {
 				"name": next_class_name_label,
@@ -262,7 +275,7 @@ class FullScreenApp(object):
 	def create_show_map_frame(self):
 		title_font = tkinter.font.Font(family="Helvetica", size=25, weight="bold")
 		
-		centered_canvas = tk.Canvas(self.frames["show_map"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas = tk.Canvas(self.frames["show_map"]["frame"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
@@ -280,7 +293,7 @@ class FullScreenApp(object):
 		map_img_label.image = img
 		map_img_label.grid(row=1, column=0, sticky="N")
 
-		self.map_frame = {
+		self.frames["show_map"]["contents"] = {
 			"top_label": your_class,
 			"map_img_label": map_img_label
 		}
@@ -289,7 +302,7 @@ class FullScreenApp(object):
 		title_font = tkinter.font.Font(family="Helvetica", size=55, weight="bold")
 		text_font = tkinter.font.Font(family="Helvetica", size=20)
 
-		centered_canvas = tk.Canvas(self.frames["no_more_classes"], bg=self.bg_color, highlightthickness=0)
+		centered_canvas = tk.Canvas(self.frames["no_more_classes"]["frame"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
@@ -301,16 +314,34 @@ class FullScreenApp(object):
 			text="You don't have any more classes today!", padding="20 100 20 20")
 		next_class_name_label.grid(row=1, column=0, sticky="N")
 
-	def create_error_frame(self):
-		title_font = tkinter.font.Font(family="Helvetica", size=55, weight="bold")
+		self.frames["no_more_classes"]["contents"] = {
+			"welcome_label": welcome_label
+		}
 
-		centered_canvas = tk.Canvas(self.frames["error"], bg=self.bg_color, highlightthickness=0)
+	def create_error_frame(self):
+		title_font = tkinter.font.Font(family="Helvetica", size=30, weight="bold")
+
+		centered_canvas = tk.Canvas(self.frames["error"]["frame"], bg=self.bg_color, highlightthickness=0)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.screen_width)
 		centered_canvas.pack(expand=False)
 
-		welcome_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
-			text="ERROR!", wraplength=1200, justify="center", padding="20 150 20 20")
-		welcome_label.grid(row=0, column=0, sticky="N")
+		img = cv2.imread(imgs_dir + "red_cross.png", cv2.IMREAD_UNCHANGED)
+		img = cv2.resize(img, (300, 300))
+		img = cv2.cvtColor(img, cv2.COLOR_BGRA2RGBA)
+		img = ImageTk.PhotoImage(Image.fromarray(img))
+
+		red_cross_img = ttk.Label(centered_canvas, background=self.bg_color, image=img, 
+			padding="0 120 0 40")
+		red_cross_img.image = img
+		red_cross_img.grid(row=0, column=0, sticky="N")
+
+		error_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
+			text="<error message>", wraplength=1200, justify="center", padding="20 50 20 20")
+		error_label.grid(row=1, column=0, sticky="N")
+
+		self.frames["error"]["contents"] = {
+			"error_label": error_label
+		}
 
 	#### HELPER FUNCTIONS ####
 
@@ -319,27 +350,26 @@ class FullScreenApp(object):
 			self.stop_video_stream.set(False)
 			self.video_stream_loop()
 			
-		self.frames[frame_name].tkraise()
+		self.frames[frame_name]["frame"].tkraise()
 
-	def exit_app(self, event):
-		# stop video-stream thread
+	def exit_app(self, event=None):
+		# stop videostream from camera
 		self.vs.stop()
-		# leave some time to leave i stop
-		time.sleep(0.05)
+		# leave it some time to stop
+		time.sleep(0.1)
 		# exit
 		self.master.quit()
-
 
 	def take_snapshot(self):
 		self.stop_video_stream.set(True)
 		
-		img = imutils.rotate(self.video_frame, 180)
+		img = imutils.rotate(self.video_frame, degrees)
 		img = cv2.flip(img, 1)
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 		img = ImageTk.PhotoImage(Image.fromarray(img))
 
-		self.show_snap_frame["snap_label"]["image"] = img
-		self.show_snap_frame["snap_label"].image = img
+		self.frames["show_snap"]["contents"]["snap_label"]["image"] = img
+		self.frames["show_snap"]["contents"]["snap_label"].image = img
 
 		self.show_frame("show_snap")
 
@@ -348,7 +378,7 @@ class FullScreenApp(object):
 			self.video_frame = self.vs.read()
 			#self.video_frame = imutils.resize(self.video_frame, width=500)
 			
-			next_frame = imutils.rotate(self.video_frame, 180)
+			next_frame = imutils.rotate(self.video_frame, degrees)
 			next_frame = cv2.flip(next_frame, 1)
 			next_frame = cv2.cvtColor(next_frame, cv2.COLOR_BGR2RGB)
 			next_frame = Image.fromarray(next_frame)
@@ -360,26 +390,50 @@ class FullScreenApp(object):
 			self.master.after(10, self.video_stream_loop)
 
 	def refresh_welcome_frame(self):
-		self.welcome_frame["welcome_label"]["text"] = \
+		contents = self.frames["welcome_student"]["contents"]
+
+		contents["welcome_label"]["text"] = \
 			"Welcome {}!".format(self.student_name)
-		self.welcome_frame["next_class_labels"]["name"]["text"] = \
+		contents["next_class_labels"]["name"]["text"] = \
 			"Your next class is {}: {}".format(self.next_class["code"], self.next_class["name"])
-		self.welcome_frame["next_class_labels"]["type"]["text"] = \
+		contents["next_class_labels"]["type"]["text"] = \
 			"Type: {}".format(self.next_class["type"])
-		self.welcome_frame["next_class_labels"]["location"]["text"] = \
+		contents["next_class_labels"]["location"]["text"] = \
 			"Location: {}".format(self.next_class["location"])	
 
 	def refresh_map_frame(self):
-		self.map_frame["top_label"]["text"] = \
+		contents = self.frames["show_map"]["contents"]
+
+		contents["top_label"]["text"] = \
 			"Your next class is {}: {}".format(self.next_class["code"], self.next_class["name"])
 
 		map_img = cv2.imread(imgs_dir + "map.jpg")
 		map_img = cv2.cvtColor(map_img, cv2.COLOR_BGR2RGB)
 		map_img = ImageTk.PhotoImage(Image.fromarray(map_img))
 			
-		self.map_frame["map_img_label"]["image"] = map_img
-		self.map_frame["map_img_label"].image = map_img
+		contents["map_img_label"]["image"] = map_img
+		contents["map_img_label"].image = map_img
 		pass	
+
+	def refresh_no_more_classes_frame(self):
+		contents = self.frames["no_more_classes"]["contents"]
+
+		contents["welcome_label"]["text"] = \
+			"Welcome {}!".format(self.student_name)
+		
+	def refresh_error_frame(self, error_code):
+		contents = self.frames["error"]["contents"]
+
+		if error_code == 0:
+			contents["error_label"]["text"] = \
+				"Sorry, no face could be detected in the photo."
+		
+		elif error_code == 1:
+			contents["error_label"]["text"] = \
+				"Sorry, you were not recognised as a student of the University of Limerick"
+		
+		else:
+			contents["error_label"]["text"] = "Unexpected error."
 		
 	def recognise_student(self):
 		img = cv2.imread(imgs_dir + "snap.jpg")
@@ -393,11 +447,14 @@ class FullScreenApp(object):
 
 			self.student_id = json.loads(r.text)["student_id"]
 			self.student_name = json.loads(r.text)["student_name"]
+			self.is_detected = json.loads(r.text)["is_detected"]
+			self.is_recognised = json.loads(r.text)["is_recognised"]
 			
 			self.resp_received.set("recognition")
 
 		except requests.exceptions.RequestException:
-			print("ERROR - Connection error")
+			print("[ERROR] - Connection error. Check if the server is running and the introduced IP is correct.")
+			self.resp_received.set("conn_error")
 			self.master.quit()
 
 	def get_student_class(self):
@@ -408,12 +465,20 @@ class FullScreenApp(object):
 		try:
 			r = requests.post(server_url + "/next_class", json=data)
 
-			self.next_class = json.loads(json.loads(r.text)["next_class"])
+			next_class_str = json.loads(r.text)["next_class"]
+
+			if next_class_str == None:
+				self.has_classes = False
+			else:
+				self.has_classes = True
+				self.next_class = json.loads(next_class_str)
+
 			
 			self.resp_received.set("next_class")
 
 		except requests.exceptions.RequestException:
-			print("ERROR - Connection error")
+			print("[ERROR] - Connection error. Check if the server is running and the introduced IP is correct.")
+			self.resp_received.set("conn_error")
 			self.master.quit()
 
 	def get_map(self):
@@ -439,32 +504,63 @@ class FullScreenApp(object):
 			self.resp_received.set("map")
 
 		except requests.exceptions.RequestException:
-			print("ERROR - Connection error")
+			print("[ERROR] - Connection error. Check if the server is running and the introduced IP is correct.")
+			self.resp_received.set("conn_error")
 			self.master.quit()
 	
 	def connect_with_server (self):
 		self.show_frame("loading")
 
-		snap = imutils.rotate(self.video_frame, 180)
+		snap = imutils.rotate(self.video_frame, degrees)
 		snap = cv2.flip(snap, 1)
 		cv2.imwrite(imgs_dir + "snap.jpg", snap)
 
-		# get student id
-		threading.Thread(target=self.recognise_student).start()
-		self.frames["loading"].wait_variable(self.resp_received)
+		# recognise student and get ID
+		self.current_side_thread = threading.Thread(target=self.recognise_student)
+		self.current_side_thread.start()
+		self.frames["loading"]["frame"].wait_variable(self.resp_received)
 
-		# get student next class
-		threading.Thread(target=self.get_student_class).start()
-		self.frames["loading"].wait_variable(self.resp_received)
+		if self.resp_received.get() == "conn_error":
+			self.exit_app()
 
-		self.refresh_welcome_frame()
+		# face detected and student recognised
+		if self.is_detected and self.is_recognised:
+			# get student next class
+			self.current_side_thread = threading.Thread(target=self.get_student_class)
+			self.current_side_thread.start()
+			self.frames["loading"]["frame"].wait_variable(self.resp_received)
 
-		threading.Thread(target=self.get_map).start()
-		self.frames["loading"].wait_variable(self.resp_received)
+			if self.resp_received.get() == "conn_error":
+				self.exit_app()
 
-		self.refresh_map_frame()
+			if self.has_classes:
+				self.refresh_welcome_frame()
 
-		self.show_frame("welcome_student")
+				# get the map showing the path to next class
+				self.current_side_thread = threading.Thread(target=self.get_map)
+				self.current_side_thread.start()
+				self.frames["loading"]["frame"].wait_variable(self.resp_received)
+
+				if self.resp_received.get() == "conn_error":
+					self.exit_app()
+
+				self.refresh_map_frame()
+
+				self.show_frame("welcome_student")
+	
+			else:	
+				self.refresh_no_more_classes_frame()
+				self.show_frame("no_more_classes")
+			
+		# face detected but student not recognised
+		elif self.is_detected and not self.is_recognised:
+			self.refresh_error_frame(error_code=1)
+			self.show_frame("error")
+
+		# face not detected
+		else:
+			self.refresh_error_frame(error_code=0)
+			self.show_frame("error")
 
 	def update_gif(self, label, index=0):
 		if index == len(self.gif_frames):
