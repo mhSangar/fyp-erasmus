@@ -15,10 +15,6 @@ import numpy as np
 import time
 import argparse
 
-port = 5000
-server_ip = ""
-server_url = "http://{}:{}".format(server_ip, port)
-imgs_dir = "images/"
 degrees = 0
 icon_size = 80
 inter_icon_padding = 40
@@ -26,8 +22,10 @@ icon_padding = 20
 using_picamera = False
 
 class FullScreenApp(object):
-	def __init__(self, master, **kwargs):
+	def __init__(self, master, server_ip, imgs_dir, **kwargs):
 		self.master = master
+		self.server_url = "http://{}:{}".format(server_ip, 5000)
+		self.imgs_dir = imgs_dir
 		self.bg_color = "#eff0f1"
 		self.nav_color = "#d5d5d5"
 		self.line_color = "#000"
@@ -36,7 +34,7 @@ class FullScreenApp(object):
 		self.screen_height = master.winfo_screenheight()
 		self.container_width = master.winfo_screenwidth() - self.nav_bar_width - self.container_padding
 		self.frames = {}
-		self.gif_frames = [tk.PhotoImage(file=imgs_dir + "loading_icon.gif", format="gif -index {}".format(i)) for i in range(14)]
+		self.gif_frames = [tk.PhotoImage(file=self.imgs_dir + "loading_icon.gif", format="gif -index {}".format(i)) for i in range(14)]
 		self.next_class = None
 		self.student_id = "00000000"
 		self.video_frame = None
@@ -537,7 +535,7 @@ class FullScreenApp(object):
 		format = filename.split(".")[-1]
 
 		if format == "jpg" or format == "jpeg":
-			img = cv2.imread(os.path.join(imgs_dir, filename))
+			img = cv2.imread(os.path.join(self.imgs_dir, filename))
 
 			if len(resize) == 2:
 				img = cv2.resize(img, (resize[0], resize[1]))
@@ -545,7 +543,7 @@ class FullScreenApp(object):
 			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 			img = ImageTk.PhotoImage(Image.fromarray(img))
 		elif format == "png":
-			img = cv2.imread(os.path.join(imgs_dir, filename), cv2.IMREAD_UNCHANGED)
+			img = cv2.imread(os.path.join(self.imgs_dir, filename), cv2.IMREAD_UNCHANGED)
 
 			if len(resize) == 2:
 				img = cv2.resize(img, (resize[0], resize[1]))
@@ -648,14 +646,14 @@ class FullScreenApp(object):
 			contents["error_label"]["text"] = "Unexpected error."
 		
 	def recognise_student(self):
-		img = cv2.imread(imgs_dir + "snap.jpg")
+		img = cv2.imread(self.imgs_dir + "snap.jpg")
 		_, img_encoded = cv2.imencode(".jpg", img)
 		img_as_text = base64.b64encode(img_encoded).decode("ascii")
 
 		data = {"image": img_as_text}
 	
 		try:
-			r = requests.post(server_url + "/recognise_me", json=data)
+			r = requests.post(self.server_url + "/recognise_me", json=data)
 
 			self.student_id = json.loads(r.text)["student_id"]
 			self.student_name = json.loads(r.text)["student_name"]
@@ -675,7 +673,7 @@ class FullScreenApp(object):
 		}
 
 		try:
-			r = requests.post(server_url + "/next_class", json=data)
+			r = requests.post(self.server_url + "/next_class", json=data)
 
 			next_class_str = json.loads(r.text)["next_class"]
 
@@ -699,7 +697,7 @@ class FullScreenApp(object):
 		}
 
 		try:
-			r = requests.post(server_url + "/map", json=data)
+			r = requests.post(self.server_url + "/map", json=data)
 
 			# map_img_as_text
 			map_img = json.loads(r.text)["map_img"]
@@ -711,7 +709,7 @@ class FullScreenApp(object):
 			map_img = cv2.imdecode(map_img, cv2.IMREAD_COLOR)
 			map_img = cv2.resize(map_img, (940, 540))
 
-			cv2.imwrite(imgs_dir + "map.jpg", map_img)
+			cv2.imwrite(self.imgs_dir + "map.jpg", map_img)
 			
 			self.resp_received.set("map")
 
@@ -727,7 +725,7 @@ class FullScreenApp(object):
 
 		snap = imutils.rotate(self.video_frame, degrees)
 		snap = cv2.flip(snap, 1)
-		cv2.imwrite(imgs_dir + "snap.jpg", snap)
+		cv2.imwrite(self.imgs_dir + "snap.jpg", snap)
 
 		# recognise student and get ID
 		self.current_side_thread = threading.Thread(target=self.recognise_student)
@@ -1001,7 +999,7 @@ if __name__ == '__main__':
 	imgs_dir = args.img_dir
 
 	root = tk.Tk()
-	app = FullScreenApp(root)
+	app = FullScreenApp(root, args.server_ip, args.img_dir)
 
 	
 	tk.mainloop()
