@@ -32,7 +32,7 @@ class FullScreenApp(object):
 		self.next_class = None
 		self.student_id = "00000000"
 		self.video_frame = None
-		self.vs = VideoStream(usePiCamera=False, resolution=(1280,720)).start()
+		self.vs = VideoStream(usePiCamera=True, resolution=(1280,720)).start()
 		#time.sleep(2.0)
 
 		self.is_detected = None
@@ -435,7 +435,7 @@ class FullScreenApp(object):
 		centered_canvas.pack(expand=False)
 
 		welcome_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
-			text="Welcome {}!", padding="0 150 0 20", wraplength=self.container_width, justify="center")
+			text="Welcome {}!", padding="0 400 0 20", wraplength=self.container_width, justify="center")
 		welcome_label.grid(row=0, column=0, sticky="N")
 
 		next_class_name_label = ttk.Label(centered_canvas, font=text_font, background=self.bg_color,
