@@ -14,16 +14,16 @@ from sklearn.svm import SVC
 import lfw_input_parsing
 
 ################# args #################
-_input_dir = "temp/Who_Dis/unknown-face-003_fd_01.jpg"
+_input_dir = "wednesday/detected_out/"
 #_input_dir = "selected_out/"
 _model_path = "~/model_dir/20170512-110547/20170512-110547.pb"
 _batch_size = 128
-_num_threads = 2
+_num_threads = 4
 _num_epochs = 25
 _split_ratio = 0.8
 _classifier_output_path = "svc_classifier.pkl"
-_training = False
-_is_one_img = True
+_training = True
+_is_one_img = False
 ########################################
 
 def get_train_test_datasets(input_dir, split_ratio):
@@ -176,7 +176,23 @@ def main(input_dir, model_path, classifier_output_path, batch_size,
 		else:
 			eval_classifier(embeddings_arr, labels_arr, classifier_output_path, is_one_img)
 
-		logging.info("Completed in {:.4f} secs".format(time.time() - start_time))
+		duration = time.time() - start
+		msg = ""
+	
+		if duration > 3600:
+			hours = int(duration // 3600)
+			mins = int(duration % 60)
+			secs = (duration % 3600) % 60
+			msg = "Completed in {:d} hour(s), {:d} minute(s), {:.4f} second(s)".format(hours, mins, secs)
+		elif duration > 60:
+			mins = int(duration // 60)
+			secs = duration % 60
+			msg = "Completed in {:d} minute(s), {:.4f} second(s)".format(mins, secs)
+		else:
+			msg = "Completed in {:.4f} second(s)".format(duration)
+
+		logging.info(msg)
+
 
 if __name__ == "__main__":
 	

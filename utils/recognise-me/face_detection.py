@@ -9,8 +9,8 @@ limits = [100, 500]
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-input_dir = os.path.join(basedir, "pi_img/")
-_output_dir = os.path.join(basedir, "selected_out/")
+input_dir = os.path.join(basedir, "wednesday/selected/")
+_output_dir = os.path.join(basedir, "wednesday/detected_out/")
 
 classifier = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
