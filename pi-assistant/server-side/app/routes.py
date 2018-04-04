@@ -47,8 +47,8 @@ def recognise_student():
 		# recognise preprocessed photo
 		student_id, percent = fr.recognise_face(face_img_filename)
 
-		if percent < 0.4:
-			logging.info("Student not recognised ({:.2f}% < 40%).".format(percent*100))
+		if percent < 0.5:
+			logging.info("Student not recognised ({:.2f}% < 50%).".format(percent*100))
 
 			is_recognised = False
 			student_id = "00000000"
@@ -85,13 +85,13 @@ def whats_my_next_class():
 	week_timetable = scrape_timetable.get_week_timetable("17226163")
 
 	# index representing day of the week (0-> Monday, 1->Tuesday...)
-	today = (dt.date.today() - dt.timedelta(2)).weekday()
+	today = dt.date.today().weekday()
 	now = dt.datetime.now()
 
 	# on sunday there are no classes
 	if today < 6: 
 		for mod in week_timetable[today]:
-			if mod.hours[0] > now.hour - 18:
+			if mod.hours[0] > now.hour:
 				logging.info("Next class: " + mod.code + ".")
 				return jsonify({"next_class": mod.toJSON()})
 

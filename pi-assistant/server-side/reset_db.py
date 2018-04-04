@@ -28,14 +28,15 @@ print("\n  >>>>>>>>> DATABASE RESETED\n")
 print("New students:")
 
 students = [
-	{"id": "17150868", "name": "Mario Sánchez García"},
-	{"id": "17226163", "name": "Mark McNabola"},
-#	{"id": " ", "name": " "},
-#	{"id": " ", "name": " "},
-#	{"id": " ", "name": " "},
-#	{"id": " ", "name": " "},
-#	{"id": " ", "name": " "},
-#	{"id": " ", "name": " "},
+	{"id": "17226163", "name": "Mario Sánchez García"},
+	{"id": "17196906", "name": "Tang Jiaxuan"},
+	{"id": "17198046", "name": "Harrison Ford"},
+	{"id": "17198232", "name": "Nicole Kidman"},
+	{"id": "17204178", "name": "Angelina Jolie"},
+	{"id": "17206286", "name": "Igor Ivanov"},
+	{"id": "17210577", "name": "Ann Veneman"},
+	{"id": "17231728", "name": "Serena Williams"},
+	{"id": "17235251", "name": "Keanu Reeves"},
 	{"id": "00000000", "name": "<unknown>"}
 ]
 

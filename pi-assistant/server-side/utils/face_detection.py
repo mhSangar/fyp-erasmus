@@ -31,7 +31,6 @@ def detect_face(img_filepath, output_dir):
 
 		# skips imgs too small to be a face in front of the camera
 		if len(crop_img) < 150 or len(crop_img[0]) < 150:
-			counter -= 1
 			continue
 
 		# resize to a standard size the CNN can process
