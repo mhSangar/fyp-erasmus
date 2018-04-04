@@ -13,15 +13,17 @@ import cv2
 import threading
 import numpy as np
 import time
+import argparse
 
 port = 5000
-ip = "192.168.1.104"
-server_url = "http://{}:{}".format(ip, port)
+server_ip = ""
+server_url = "http://{}:{}".format(server_ip, port)
 imgs_dir = "images/"
 degrees = 0
 icon_size = 80
 inter_icon_padding = 40
 icon_padding = 20
+using_picamera = False
 
 class FullScreenApp(object):
 	def __init__(self, master, **kwargs):
@@ -38,7 +40,7 @@ class FullScreenApp(object):
 		self.next_class = None
 		self.student_id = "00000000"
 		self.video_frame = None
-		self.vs = VideoStream(usePiCamera=False, resolution=(1280,720)).start()
+		self.vs = VideoStream(usePiCamera=using_picamera, resolution=(1280,720)).start()
 		#time.sleep(2.0)
 
 		self.is_detected = None
@@ -271,13 +273,26 @@ class FullScreenApp(object):
 		by.grid(row=1, column=0, sticky="S")
 
 		author = ttk.Label(centered_canvas, font=author_font, background=self.bg_color,
-			text="Mario Sánchez García", padding="0 20 0 110", 
+			text="Mario Sánchez García", padding="0 20 0 80", 
 			wraplength=self.container_width, justify="center")
 		author.grid(row=2, column=0, sticky="S")
 
-		preview_bt = ttk.Button(centered_canvas, text="Start Demo", width=100, 
-			cursor="hand2", padding="0 15 0 15", command=lambda: [self.show_frame("preview"), self.master.focus()])
-		preview_bt.grid(row=3, column=0, sticky="N")
+		container_bt_style = ttk.Style()
+		container_bt_style.configure("Container.TButton", background=self.bg_color, borderwidth=0)
+
+		img = self.load_label_img("play_button.png", resize=(icon_size, icon_size))
+
+		play_bt = ttk.Button(centered_canvas, image=img, style="Container.TButton",
+			cursor="hand2", padding="0 0 0 0", command=lambda: [self.show_frame("preview"), self.master.focus()])
+		play_bt.image = img
+		play_bt.grid(row=3, column=0, sticky="N")
+
+		play_bt.bind("<Enter>", lambda event: self.fill_play_icon(event=event))
+		play_bt.bind("<Leave>", lambda event: self.reset_play_icon(event=event))
+
+		self.frames["home"]["contents"] = {
+			"play_bt": play_bt
+		}
 
 	def create_preview_frame(self):
 		centered_canvas = tk.Canvas(self.frames["preview"]["frame"], bg=self.bg_color, highlightthickness=False)
@@ -484,7 +499,9 @@ class FullScreenApp(object):
 		self.frames[frame_name]["is_focus"].set(True)	
 		
 		if frame_name == "error":
-			 self.reset_nav_bar()
+			self.reset_nav_bar()
+		elif frame_name == "loading":
+			self.resp_received.set("none")
 
 		self.update_nav_bt()
 
@@ -497,6 +514,22 @@ class FullScreenApp(object):
 		time.sleep(0.1)
 		# exit
 		self.master.quit()
+
+	def fill_play_icon(self, event):
+		play_bt = self.frames["home"]["contents"]["play_bt"]
+
+		img = self.load_label_img("play_button_fill_blue.png", resize=(icon_size, icon_size))
+		play_bt["image"] = img
+		play_bt.image = img
+
+
+	def reset_play_icon(self, event):
+		play_bt = self.frames["home"]["contents"]["play_bt"]
+
+		img = self.load_label_img("play_button.png", resize=(icon_size, icon_size))
+		play_bt["image"] = img
+		play_bt.image = img		
+
 
 	def load_label_img(self, filename, resize=()):
 		img = None
@@ -956,8 +989,19 @@ class FullScreenApp(object):
 		self.master.after(500, self.update_label, label_status, label_wait, index)
 		
 #### MAIN ####
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser(add_help=True)
 
-root = tk.Tk()
-app = FullScreenApp(root)
+	parser.add_argument('--server-ip', type=str, action='store', default='192.168.1.104', dest='server_ip')
+	parser.add_argument('--img-dir', type=str, action='store', default='images/', dest='img_dir')
+	
+	args = parser.parse_args()
 
-tk.mainloop()
+	server_ip = args.server_ip
+	imgs_dir = args.img_dir
+
+	root = tk.Tk()
+	app = FullScreenApp(root)
+
+	
+	tk.mainloop()

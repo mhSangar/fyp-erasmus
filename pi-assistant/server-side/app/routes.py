@@ -47,8 +47,8 @@ def recognise_student():
 		# recognise preprocessed photo
 		student_id, percent = fr.recognise_face(face_img_filename)
 
-		if percent < 0.5:
-			logging.info("Student not recognised ({:.2f}% < 50%).".format(percent*100))
+		if percent < 0.75:
+			logging.info("Student not recognised ({:.2f}% < 75%).".format(percent*100))
 
 			is_recognised = False
 			student_id = "00000000"
@@ -82,7 +82,7 @@ def whats_my_next_class():
 	logging.info("Getting next class for " + student_id + "...")
 
 	# we get the week timetable of the student
-	week_timetable = scrape_timetable.get_week_timetable("17226163")
+	week_timetable = scrape_timetable.get_week_timetable(student_id)
 
 	# index representing day of the week (0-> Monday, 1->Tuesday...)
 	today = dt.date.today().weekday()
