@@ -86,12 +86,13 @@ def whats_my_next_class():
 
 	# index representing day of the week (0-> Monday, 1->Tuesday...)
 	today = dt.date.today().weekday()
+	#today = (dt.date.today() + dt.deltatime(1)).weekday()
 	now = dt.datetime.now()
 
 	# on sunday there are no classes
 	if today < 6: 
 		for mod in week_timetable[today]:
-			if mod.hours[0] > now.hour:
+			if mod.hours[0] > now.hour - 10:
 				logging.info("Next class: " + mod.code + ".")
 				return jsonify({"next_class": mod.toJSON()})
 

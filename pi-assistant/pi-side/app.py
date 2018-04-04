@@ -15,12 +15,6 @@ import numpy as np
 import time
 import argparse
 
-degrees = 0
-icon_size = 80
-inter_icon_padding = 40
-icon_padding = 20
-using_picamera = False
-
 class FullScreenApp(object):
 	def __init__(self, master, server_ip, imgs_dir, **kwargs):
 		self.master = master
@@ -29,7 +23,7 @@ class FullScreenApp(object):
 		self.bg_color = "#eff0f1"
 		self.nav_color = "#d5d5d5"
 		self.line_color = "#000"
-		self.nav_bar_width = 180
+		self.nav_bar_width = 240
 		self.container_padding = 0
 		self.screen_height = master.winfo_screenheight()
 		self.container_width = master.winfo_screenwidth() - self.nav_bar_width - self.container_padding
@@ -38,7 +32,7 @@ class FullScreenApp(object):
 		self.next_class = None
 		self.student_id = "00000000"
 		self.video_frame = None
-		self.vs = VideoStream(usePiCamera=using_picamera, resolution=(1280,720)).start()
+		self.vs = VideoStream(usePiCamera=False, resolution=(1280,720)).start()
 		#time.sleep(2.0)
 
 		self.is_detected = None
@@ -195,48 +189,48 @@ class FullScreenApp(object):
 
 		# home
 		home_bt_canvas = tk.Canvas(centered_canvas, bg=self.nav_color, highlightthickness=False, bd=0)
-		home_bt_canvas.pack(expand=False, pady=inter_icon_padding//2)
+		home_bt_canvas.pack(expand=False, pady=40)
 
-		img = self.load_label_img("home_blue.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("home_blue.png", resize=(100, 100))
 		
 		home_bt = ttk.Button(home_bt_canvas, image=img, cursor="hand2",
-			padding="{}".format(icon_padding//2),
+			padding="{}".format(15),
 			command=lambda: [self.show_frame("home"), self.master.focus()], style="Nav_Bar.TButton")
 		home_bt.image = img
 		home_bt.grid(row=0, column=0, sticky="N")
 
 		# camera
 		camera_bt_canvas = tk.Canvas(centered_canvas, bg=self.nav_color, highlightthickness=False, bd=0)
-		camera_bt_canvas.pack(expand=False, pady=inter_icon_padding//2)
+		camera_bt_canvas.pack(expand=False, pady=40)
 
-		img = self.load_label_img("camera.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("camera.png", resize=(100, 100))
 		
 		camera_bt = ttk.Button(camera_bt_canvas, image=img, cursor="hand2",
-			padding="{}".format(icon_padding//2),
+			padding="{}".format(15),
 			command=lambda: [self.show_frame("preview"), self.master.focus()], style="Nav_Bar.TButton")
 		camera_bt.image = img
 		camera_bt.grid(row=1, column=0, sticky="N")
 
 		# timetable
 		timetable_bt_canvas = tk.Canvas(centered_canvas, bg=self.nav_color, highlightthickness=False, bd=0)
-		timetable_bt_canvas.pack(expand=False, pady=inter_icon_padding//2)
+		timetable_bt_canvas.pack(expand=False, pady=40)
 
-		img = self.load_label_img("timetable_not_ready.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("timetable_not_ready.png", resize=(100, 100))
 		
 		timetable_bt = ttk.Button(timetable_bt_canvas, image=img, cursor="X_cursor",
-			padding="{}".format(icon_padding//2), 
+			padding="{}".format(15), 
 			command=lambda: self.master.focus(), style="Nav_Bar.TButton")
 		timetable_bt.image = img
 		timetable_bt.grid(row=2, column=0, sticky="N")
 
 		# map
 		map_bt_canvas = tk.Canvas(centered_canvas, bg=self.nav_color, highlightthickness=False, bd=0)
-		map_bt_canvas.pack(expand=False, pady=inter_icon_padding//2)
+		map_bt_canvas.pack(expand=False, pady=40)
 
-		img = self.load_label_img("map_not_ready.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("map_not_ready.png", resize=(100, 100))
 		
 		map_bt = ttk.Button(map_bt_canvas, image=img, cursor="X_cursor",
-			padding="{}".format(icon_padding//2), 
+			padding="{}".format(15), 
 			command=lambda: self.master.focus(), style="Nav_Bar.TButton")
 		map_bt.image = img
 		map_bt.grid(row=3, column=0, sticky="N")
@@ -263,22 +257,22 @@ class FullScreenApp(object):
 
 		title = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
 			text="FYP: Intelligent Assistant with Face Recognition", 
-			padding="0 160 0 0", wraplength=self.container_width, justify="center")
+			padding="0 280 0 0", wraplength=self.container_width, justify="center")
 		title.grid(row=0, column=0, sticky="N")
 
 		by = ttk.Label(centered_canvas, font=by_font, background=self.bg_color,
-			text="by", padding="0 120 0 20", wraplength=self.container_width, justify="center")
+			text="by", padding="0 60 0 20", wraplength=self.container_width, justify="center")
 		by.grid(row=1, column=0, sticky="S")
 
 		author = ttk.Label(centered_canvas, font=author_font, background=self.bg_color,
-			text="Mario Sánchez García", padding="0 20 0 80", 
+			text="Mario Sánchez García", padding="0 20 0 210", 
 			wraplength=self.container_width, justify="center")
 		author.grid(row=2, column=0, sticky="S")
 
 		container_bt_style = ttk.Style()
 		container_bt_style.configure("Container.TButton", background=self.bg_color, borderwidth=0)
 
-		img = self.load_label_img("play_button.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("play_button.png", resize=(100, 100))
 
 		play_bt = ttk.Button(centered_canvas, image=img, style="Container.TButton",
 			cursor="hand2", padding="0 0 0 0", command=lambda: [self.show_frame("preview"), self.master.focus()])
@@ -300,7 +294,7 @@ class FullScreenApp(object):
 		img = self.load_label_img("placeholder.jpg", resize=(960, 540))
 
 		self.video_stream_label = ttk.Label(centered_canvas, image=None, background=self.bg_color,
-			padding="0 50 0 30")
+			padding="0 100 0 50")
 		self.video_stream_label.image = img
 		self.video_stream_label.grid(row=0, column=0, sticky="N")
 
@@ -320,7 +314,7 @@ class FullScreenApp(object):
 		img = self.load_label_img("placeholder.jpg", resize=(960, 540))
 
 		snap_label = ttk.Label(centered_canvas, image=img, background=self.bg_color,
-			padding="0 50 0 30")
+			padding="0 100 0 50")
 		snap_label.image = img
 		snap_label.grid(row=0, column=0, sticky="N")
 
@@ -353,7 +347,7 @@ class FullScreenApp(object):
 		centered_canvas.pack(expand=False)
 
 		gif_label = ttk.Label(centered_canvas, background=self.bg_color, image=self.gif_frames[0], 
-			padding="0 120 0 40")
+			padding="0 320 0 40")
 		gif_label.grid(row=0, column=0, sticky="N")
 
 		loading_state_label = ttk.Label(centered_canvas, background=self.bg_color, font=label_font,
@@ -374,14 +368,14 @@ class FullScreenApp(object):
 	def create_welcome_student_frame(self):
 
 		title_font = tkinter.font.Font(family="Helvetica", size=55, weight="bold")
-		text_font = tkinter.font.Font(family="Helvetica", size=12)
+		text_font = tkinter.font.Font(family="Helvetica", size=20)
 
 		centered_canvas = tk.Canvas(self.frames["welcome_student"]["frame"], bg=self.bg_color, highlightthickness=False)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.container_width)
 		centered_canvas.pack(expand=False)
 
 		welcome_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
-			text="Welcome {}!", padding="0 150 0 20", wraplength=self.container_width, justify="center")
+			text="Welcome {}!", padding="0 260 0 20", wraplength=self.container_width, justify="center")
 		welcome_label.grid(row=0, column=0, sticky="N")
 
 		next_class_name_label = ttk.Label(centered_canvas, font=text_font, background=self.bg_color,
@@ -410,14 +404,14 @@ class FullScreenApp(object):
 		}
 
 	def create_show_map_frame(self):
-		title_font = tkinter.font.Font(family="Helvetica", size=25, weight="bold")
+		title_font = tkinter.font.Font(family="Helvetica", size=30, weight="bold")
 		
 		centered_canvas = tk.Canvas(self.frames["show_map"]["frame"], bg=self.bg_color, highlightthickness=False)
 		centered_canvas.place(relx=0.5, rely=0.5, anchor=tk.CENTER, width=self.container_width)
 		centered_canvas.pack(expand=False)
 
 		your_class = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
-			text="Your next class is {}: {}", padding="0 60 0 20", wraplength=self.container_width, justify="center")
+			text="Your next class is {}: {}", padding="0 120 0 30", wraplength=self.container_width, justify="center")
 		your_class.grid(row=0, column=0, sticky="N")
 
 		img = self.load_label_img("placeholder.jpg", resize=(960, 540))
@@ -463,12 +457,12 @@ class FullScreenApp(object):
 		img = self.load_label_img("red_cross.png", resize=(300, 300))
 
 		red_cross_img = ttk.Label(centered_canvas, background=self.bg_color, image=img, 
-			padding="0 120 0 40")
+			padding="0 290 0 40")
 		red_cross_img.image = img
 		red_cross_img.grid(row=0, column=0, sticky="N")
 
 		error_label = ttk.Label(centered_canvas, font=title_font, background=self.bg_color,
-			text="<error message>", padding="0 50 0 20", wraplength=self.container_width, justify="center")
+			text="<error message>", padding="50 50 50 20", wraplength=self.container_width, justify="center")
 		error_label.grid(row=1, column=0, sticky="N")
 
 		self.frames["error"]["contents"] = {
@@ -516,7 +510,7 @@ class FullScreenApp(object):
 	def fill_play_icon(self, event):
 		play_bt = self.frames["home"]["contents"]["play_bt"]
 
-		img = self.load_label_img("play_button_fill_blue.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("play_button_fill_blue.png", resize=(100, 100))
 		play_bt["image"] = img
 		play_bt.image = img
 
@@ -524,7 +518,7 @@ class FullScreenApp(object):
 	def reset_play_icon(self, event):
 		play_bt = self.frames["home"]["contents"]["play_bt"]
 
-		img = self.load_label_img("play_button.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("play_button.png", resize=(100, 100))
 		play_bt["image"] = img
 		play_bt.image = img		
 
@@ -559,7 +553,7 @@ class FullScreenApp(object):
 	def take_snapshot(self):
 		#self.stop_video_stream.set(True)
 		
-		img = imutils.rotate(self.video_frame, degrees)
+		img = imutils.rotate(self.video_frame, 180)
 		img = cv2.flip(img, 1)
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 		img = ImageTk.PhotoImage(Image.fromarray(img))
@@ -574,8 +568,9 @@ class FullScreenApp(object):
 			self.video_frame = self.vs.read()
 			#self.video_frame = imutils.resize(self.video_frame, width=500)
 			
-			next_frame = imutils.rotate(self.video_frame, degrees)
+			next_frame = imutils.rotate(self.video_frame, 180)
 			next_frame = cv2.flip(next_frame, 1)
+			next_frame = cv2.resize(next_frame, (1280,720))
 			next_frame = cv2.cvtColor(next_frame, cv2.COLOR_BGR2RGB)
 			next_frame = Image.fromarray(next_frame)
 			next_frame = ImageTk.PhotoImage(next_frame)
@@ -590,9 +585,9 @@ class FullScreenApp(object):
 
 		if frame_name == "home":
 			if focus:
-				contents["home_bt"]["image"] = load_label_img("home_blue.png", resize=(icon_size, icon_size))
+				contents["home_bt"]["image"] = load_label_img("home_blue.png", resize=(100, 100))
 			else:
-				contents["home_bt"]["image"] = load_label_img("home.png", resize=(icon_size, icon_size))
+				contents["home_bt"]["image"] = load_label_img("home.png", resize=(100, 100))
 		elif frame_name == "preview" or frame_name == "take_snapshot":
 			pass
 		elif frame_name == "":
@@ -620,7 +615,7 @@ class FullScreenApp(object):
 		contents["top_label"]["text"] = \
 			"Your next class is {}: {}".format(self.next_class["code"], self.next_class["name"])
 
-		map_img = self.load_label_img("map.jpg")
+		map_img = self.load_label_img("map.jpg", resize=(1280, 720))
 
 		contents["map_img_label"]["image"] = map_img
 		contents["map_img_label"].image = map_img
@@ -723,7 +718,7 @@ class FullScreenApp(object):
 
 		self.update_nav_bar_loading("recognise_student")
 
-		snap = imutils.rotate(self.video_frame, degrees)
+		snap = imutils.rotate(self.video_frame, 180)
 		snap = cv2.flip(snap, 1)
 		cv2.imwrite(self.imgs_dir + "snap.jpg", snap)
 
@@ -785,13 +780,13 @@ class FullScreenApp(object):
 
 		self.frames["welcome_student"]["once_focused"].set(False)
 
-		img = self.load_label_img("timetable_not_ready.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("timetable_not_ready.png", resize=(100, 100))
 		timetable_bt["command"] = lambda: self.master.focus()
 		timetable_bt["cursor"] = "X_cursor"
 		timetable_bt["image"] = img
 		timetable_bt.image = img
 
-		img = self.load_label_img("map_not_ready.png", resize=(icon_size, icon_size))
+		img = self.load_label_img("map_not_ready.png", resize=(100, 100))
 		map_bt["command"] = lambda: self.master.focus()
 		map_bt["cursor"] = "X_cursor"
 		map_bt["image"] = img
@@ -807,14 +802,14 @@ class FullScreenApp(object):
 			self.update_get_next_class_waiting()
 		elif state == "get_map":
 			self.frames["welcome_student"]["once_focused"].set(True)
-			img = self.load_label_img("timetable_ready.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("timetable_ready.png", resize=(100, 100))
 			timetable_bt["image"] = img
 			timetable_bt.image = img
 
 			self.update_get_map_waiting()
 
 		elif state == "no_more_classes":
-			img = self.load_label_img("timetable_ready.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("timetable_ready.png", resize=(100, 100))
 			timetable_bt["image"] = img
 			timetable_bt.image = img
 
@@ -824,12 +819,12 @@ class FullScreenApp(object):
 
 			if index == 0:
 				index = 1
-				img = self.load_label_img("user_waiting_yellow.png", resize=(icon_size, icon_size))
+				img = self.load_label_img("user_waiting_yellow.png", resize=(100, 100))
 				timetable_bt["image"] = img
 				timetable_bt.image = img
 			else:
 				index = 0
-				img = self.load_label_img("user_waiting.png", resize=(icon_size, icon_size))
+				img = self.load_label_img("user_waiting.png", resize=(100, 100))
 				timetable_bt["image"] = img
 				timetable_bt.image = img			
 
@@ -842,12 +837,12 @@ class FullScreenApp(object):
 
 			if index == 0:
 				index = 1
-				img = self.load_label_img("timetable_waiting_yellow.png", resize=(icon_size, icon_size))
+				img = self.load_label_img("timetable_waiting_yellow.png", resize=(100, 100))
 				timetable_bt["image"] = img
 				timetable_bt.image = img
 			else:
 				index = 0
-				img = self.load_label_img("timetable_waiting.png", resize=(icon_size, icon_size))
+				img = self.load_label_img("timetable_waiting.png", resize=(100, 100))
 				timetable_bt["image"] = img
 				timetable_bt.image = img			
 
@@ -860,12 +855,12 @@ class FullScreenApp(object):
 
 			if index == 0:
 				index = 1
-				img = self.load_label_img("map_waiting_yellow.png", resize=(icon_size, icon_size))
+				img = self.load_label_img("map_waiting_yellow.png", resize=(100, 100))
 				map_bt["image"] = img
 				map_bt.image = img
 			else:
 				index = 0
-				img = self.load_label_img("map_waiting.png", resize=(icon_size, icon_size))
+				img = self.load_label_img("map_waiting.png", resize=(100, 100))
 				map_bt["image"] = img
 				map_bt.image = img
 
@@ -880,32 +875,32 @@ class FullScreenApp(object):
 
 
 		if self.frames["home"]["is_focus"].get():
-			img = self.load_label_img("home_blue.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("home_blue.png", resize=(100, 100))
 			home_bt["image"] = img
 			home_bt.image = img
 		else:
-			img = self.load_label_img("home.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("home.png", resize=(100, 100))
 			home_bt["image"] = img
 			home_bt.image = img
 		
 
 		if self.frames["preview"]["is_focus"].get() or self.frames["show_snap"]["is_focus"].get():
-			img = self.load_label_img("camera_blue.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("camera_blue.png", resize=(100, 100))
 			camera_bt["image"] = img
 			camera_bt.image = img
 		else:
-			img = self.load_label_img("camera.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("camera.png", resize=(100, 100))
 			camera_bt["image"] = img
 			camera_bt.image = img
 
 
 		if self.frames["loading"]["is_focus"].get():
-			img = self.load_label_img("user_waiting.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("user_waiting.png", resize=(100, 100))
 			timetable_bt["image"] = img
 			timetable_bt.image = img
 
 		if self.frames["error"]["is_focus"].get():
-			img = self.load_label_img("user_not_ready.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("user_not_ready.png", resize=(100, 100))
 			timetable_bt["image"] = img
 			timetable_bt.image = img
 
@@ -913,31 +908,31 @@ class FullScreenApp(object):
 		if self.frames["welcome_student"]["is_focus"].get():
 			self.frames["welcome_student"]["once_focused"].set(True)
 
-			img = self.load_label_img("timetable_ready_blue.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("timetable_ready_blue.png", resize=(100, 100))
 			timetable_bt["command"] = lambda: [self.show_frame("welcome_student"), self.master.focus()]
 			timetable_bt["cursor"] = "hand2"
 			timetable_bt["image"] = img
 			timetable_bt.image = img
 
-			img = self.load_label_img("map_ready.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("map_ready.png", resize=(100, 100))
 			map_bt["command"] = lambda: [self.show_frame("show_map"), self.master.focus()]
 			map_bt["cursor"] = "hand2"
 			map_bt["image"] = img
 			map_bt.image = img
 
 		elif self.frames["welcome_student"]["once_focused"].get():
-			img = self.load_label_img("timetable_ready.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("timetable_ready.png", resize=(100, 100))
 			timetable_bt["image"] = img
 			timetable_bt.image = img
 
 
 		if self.frames["show_map"]["is_focus"].get():
-			img = self.load_label_img("map_ready_blue.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("map_ready_blue.png", resize=(100, 100))
 			map_bt["image"] = img
 			map_bt.image = img
 		
 		elif self.frames["welcome_student"]["once_focused"].get():
-			img = self.load_label_img("map_ready.png", resize=(icon_size, icon_size))
+			img = self.load_label_img("map_ready.png", resize=(100, 100))
 			map_bt["image"] = img
 			map_bt.image = img
 
@@ -945,7 +940,7 @@ class FullScreenApp(object):
 
 
 		#else:
-		#	img = self.load_label_img("camera.png", resize=(icon_size, icon_size))
+		#	img = self.load_label_img("camera.png", resize=(100, 100))
 		#	timetable_bt["image"] = img
 		#	timetable_bt.image = img
 
