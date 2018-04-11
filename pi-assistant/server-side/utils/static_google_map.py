@@ -124,24 +124,3 @@ def get_map_image(origin, destination):
 		img_as_text = base64.b64encode(img_encoded).decode("ascii")
 
 	return img_as_text
-		
-
-	
-
-
-#markers = [
-#{
-#	"color": "green",
-#	"label": "O", 
-#	"location": locations["Computer Science Building"]
-#},
-#{
-#	"color": "red",
-#	"label": "D", 
-#	"location": locations["Main Building"]
-#}
-#]
-
-#print(get_static_google_map_url(markers=markers))
-#save_map_image("img.jpg", origin=(43.2627, -2.9253), destination=locations["PESS Building"])
-#print(get_path_points(origin=locations["Computer Science Building"], destination=locations["Main Building"]))

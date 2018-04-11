@@ -47,16 +47,13 @@ def recognise_student():
 		# recognise preprocessed photo
 		student_id, percent = fr.recognise_face(face_img_filename)
 
-		if percent < 0.75:
-			logging.info("Student not recognised ({:.2f}% < 75%).".format(percent*100))
+		if percent < 0.8:
+			logging.info("Student not recognised ({:.2f}% < 8%).".format(percent*100))
 
 			is_recognised = False
 			student_id = "00000000"
 		else:
 			logging.info("Student recognised: {} with a {:.2f}% of confidence".format(student_id, percent*100))
-
-
-	#print("\n" + student_id + "\n")
 
 	# get student name
 	student = Student.query.filter_by(id=student_id).first()
@@ -86,7 +83,6 @@ def whats_my_next_class():
 
 	# index representing day of the week (0-> Monday, 1->Tuesday...)
 	today = dt.date.today().weekday()
-	#today = (dt.date.today() + dt.deltatime(1)).weekday()
 	now = dt.datetime.now()
 
 	# on sunday there are no classes
@@ -126,19 +122,10 @@ def store_image(request):
 	# decode image
 	img = cv2.imdecode(img_np_array, cv2.IMREAD_COLOR)
 
-	# we add the image to the db to obtain the id, so every filename is different
-	#image = Image(img="")
-	#db.session.add(image)
-	#db.session.commit()
-
 	# save image to a file
 	filename = "unknown-face.jpg"
 	filepath = app.config["PI_CAPTURES_FOLDER_PATH"] + filename
 	cv2.imwrite(filepath, img)
-
-	# update filename of the image
-	#image.img = app.config["PI_CAPTURES_FOLDER_PATH"] + filename
-	#db.session.commit()
 
 	return filepath
 
@@ -151,6 +138,3 @@ def delete_image(filepath):
 
 	return is_deleted
 
-#@app.route("/recognise_me/<int:student_id>", methods=["DELETE"])
-#def delete_imgs_from_user(student_id):
-	

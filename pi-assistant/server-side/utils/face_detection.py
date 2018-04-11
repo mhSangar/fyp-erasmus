@@ -61,7 +61,6 @@ def lfw_detect_face(filepath, class_name):
 	counter = 1
 
 	for (x, y, w, h) in faces:
-		#cv2.rectangle(img, (x,y), (x+w, y+h), (0, 0, 255), 2)
 		crop_img = img[y:y+h, x:x+w].copy()
 
 		# skips imgs too small to be a face in front of the camera

@@ -33,7 +33,6 @@ class FullScreenApp(object):
 		self.student_id = "00000000"
 		self.video_frame = None
 		self.vs = VideoStream(usePiCamera=True, resolution=(1280,720)).start()
-		#time.sleep(2.0)
 
 		self.is_detected = None
 		self.is_recognised = None
@@ -44,8 +43,6 @@ class FullScreenApp(object):
 
 		self.resp_received.set("none")
 
-		#master.geometry("{}x{}+0+0".format(self.screen_width, self.screen_height))
-		#master.geometry("{}x{}+0+0".format(800,300))
 		master.wm_attributes("-fullscreen", True)
 		master.title("Intelligent Assistant with Face Recognition")
 		master.bind("<Escape>", self.exit_app)
@@ -242,10 +239,6 @@ class FullScreenApp(object):
 			"map_bt": map_bt
 		}
 
-		#centered_canvas.create_line(self.nav_bar_width-10, 0, self.nav_bar_width-10, self.screen_height, fill="black")
-
-		pass
-
 	def create_home_frame(self):
 		title_font = tkinter.font.Font(family="Helvetica", size=35, weight="bold")
 		by_font = tkinter.font.Font(family="Helvetica", size=20, weight="bold")
@@ -330,7 +323,6 @@ class FullScreenApp(object):
 		blank.grid(row=0, column=2, sticky="W")
 
 		cancel_bt = ttk.Button(bt_canvas, text="Take photo again", width=50, 
-		#	cursor="hand2", padding="0 15 0 15", command=lambda: self.show_frame("show_map"))
 			cursor="hand2", padding="0 15 0 15", command=lambda: [self.show_frame("preview"), self.master.focus()])
 		cancel_bt.grid(row=0, column=3, sticky="W")
 
@@ -357,10 +349,6 @@ class FullScreenApp(object):
 		loading_wait_label = ttk.Label(centered_canvas, background=self.bg_color, font=label_font,
 			text="Who are you?", padding="0 0 0 40", wraplength=self.container_width, justify="center")
 		loading_wait_label.grid(row=2, column=0, sticky="N")
-
-		#hello_user = ttk.Label(centered_canvas, background=self.bg_color, font=label_font,
-		#	text="", wraplength=self.container_width, justify="center")
-		#hello_user.grid(row=3, column=0, sticky="N")
 
 		self.update_label(loading_state_label, loading_wait_label)
 		self.update_gif(gif_label)
@@ -551,8 +539,6 @@ class FullScreenApp(object):
 		return img
 
 	def take_snapshot(self):
-		#self.stop_video_stream.set(True)
-		
 		img = imutils.rotate(self.video_frame, 180)
 		img = cv2.flip(img, 1)
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -937,13 +923,6 @@ class FullScreenApp(object):
 			map_bt.image = img
 
 
-
-
-		#else:
-		#	img = self.load_label_img("camera.png", resize=(100, 100))
-		#	timetable_bt["image"] = img
-		#	timetable_bt.image = img
-
 	def update_gif(self, label, index=0):
 		if index == len(self.gif_frames):
 			index = 0
@@ -962,7 +941,6 @@ class FullScreenApp(object):
 			label_wait["text"] = "Almost finished!"
 		elif self.resp_received.get() == "next_class":
 			text = "Drawing map"
-			#label_wait["text"] = "Please, wait."
 		elif self.resp_received.get() == "map":
 			text = "Recognising your face"
 			label_wait["text"] = "Who are you?"
