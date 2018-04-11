@@ -19,8 +19,7 @@
 %\section{Raspberry Pi}											*new*
 %	\subsection{Using the Pi-camera}							*new*
 %\section{Python}
-%	\subsection{Threads}										*new*
-%	\subsection{Synchronization}								*new*		
+
 
 \section{Introduction to Machine Learning}
 Machine learning is a term difficult to define, it can be seen from many points of view: it could be Data Mining (applied to databases), Inference (Statistics) or Pattern Recognition (Engineering). It was defined in 1959  by Arthur Samuel as "the field of study that gives computer the ability to learn without being explicitly programmed". This means that knowledge can be imbued to a machine without the need to hard-code it, something that could amaze some of the people outside the Computer Science environment. They are not aware that the goal of machine learning is to predict the future, or how the future data will be, by automatically dicovering patterns in the input data (\cite{kevin_p_murphy_book}). 
@@ -42,7 +41,6 @@ Artificial Neural Networks (ANN) have generated a lot of excitement in Machine L
 The model of a neural network is a very simple concept. First, like a real neural network, ANNs are based in singular units called neurons, nodes or simplyly units. As we can see in the \textit{Figure ~\ref{fig:org_neuron}}, these neurons are composed by dendrites, a nucleus, an axon and axon terminals. To create a network is as simple as connecting two of this neurons with an axon terminal (output) of the first neuron to a dendrite (input) of the second.
 
 ORGANIC NEURON FIGURE
-
 
 Now going back to our artificial neural networks, we can see how the model of one of its units is pretty similar (\textit{Figure ~\ref{fig:art_neuron}}). In first place, the unit receives inputs ($x_i$) from an external source or from other units. Each of these inputs have an associated weight ($w_i$), assigned depending of its relative importance to the other inputs. After the unit applies a function $f$ to the weighted sum of its inputs, and finally it gives an output.
 
@@ -128,6 +126,7 @@ where $x_n$ are the inputs of the perceptron and $w_n$ are the weights ($x_0=1$ 
 		\centering
 		\includegraphics[width=\textwidth-30mm]{parabolic_surface.jpg}
 		\caption{Parabolic Surface with one local minimum}
+		\label{fig:parabolic_surf}
 	\end{figure}
 
 	\subsection{Derivation of Gradient Descent}
@@ -230,7 +229,7 @@ A single perceptron can only express linear decision surfaces, so it is very lim
 		\end{enumerate} 
 
 
-\section{Convolutional Neural Networks}
+\section{Convolutional Neural Networks and Face Recognition}
 The Artificial Neural Networks (ANNs) we have seen until now have their applications, but the current state of the art for detecting what an image is (or what does it contains) are Convolutional Neural Networks (CNNs). First of all we need to explain that this two kinds of neural networks are not at the same level. The ANNs we have seen until now usually have a few hidden layers, but CNNs need to have multiple of these hidden layers in order to achieve what is known as Deep Learning. 
 
 It may seem normal that adding more hidden layers to a network will improve its learning potential, but the problem with deep networks is that it becomes harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}, explaining that the features of the input instance (or those computed by previous layers) are "washed out" in the proccess of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (even impossible) to achieve learning in a deep neural network using backpropagation. Here is where Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
@@ -263,6 +262,7 @@ If the image is in color, it is composed by the three different channels of the 
 	\centering
 	\includegraphics[width=\textwidth]{convolution.jpg}
 	\caption{Convolution proccess for the creation of a Feature Map}
+	\label{fig:convol_creation_feature_map}
 \end{figure}
 
 In the previous paragraph we said that a function $f$ is applied to the sum, as is usual in the structure of a neuron. Before \cite{krizhevsky2012deep}, the standard way to model this function was $f(x)=tanh(x)$. However, in this paper it is explained that these kind of saturating nonlinearities are much slower than a non-saturating nonlinearity as $f(x)=max(0, x)$. The neurons with this nonlinearity are called Rectified Linear Units or ReLUs, and help to train a deep convolutional network several times faster than their equivalents with $f(x)=tanh(x)$.
@@ -271,7 +271,87 @@ At this point, we know how convolution and pooling works. Two or three stages of
 
 Backpropagation through a CNN is as simple as through a regular deep network, allowing all the weights of the network (which also includes the filters of the convolution) to be trained.
 
-\section{Face Recognition using CNNs}
+\section{Face Detection}
+The databases used in the training of the networks that perform the face recognition usually have face images already normalized  to  a  given  pose  standard. However,  the  conventional  input  image  of  computer  vision  systems  may  contain many items and/or faces, either for recognition or tracking. In these cases, face detection becomes mandatory. It acts as preprocessing of the images to determine first
+if there is a face in the image, and second, where it is located (\cite{marques2010face}).
+
+	\subsection{Limitations}
+	Despite of the importance of the task, there are some limitations that strongly difficult it. First, any analysis that we perform on an image may be altered by the image’s resolution or noise. Such restricting factors can be mitigated by, for example, using a better quality equipment. However, other limitations to these techniques are even harder to overcome (\cite{yang2002detecting}):
+
+	\begin{itemize}
+		\item Pose. Face images may vary due to the relative position of the camera with respect to the face, resulting in a front, profile or even an inverted photo of the face.  
+		\item Structural components. The presence or not of facial features such as moustaches and beards or accesories such as glasses may lead to not detect a face in the photo. Apart from the presence of the elements themselves, their wide diversity of shape, size and color also represent a limitation.  
+		\item Facial expression. Certain facial expressions may distort a face so much that it cannot be detected.    
+		\item Occlusion. The faces in the image may be partially covered by other objects or even other faces.
+		\item Image orientation. Not only the portrait and landscape orientations, but also all the posible rotations that the image could have from what is expected in first place.
+		\item Imaging conditions. In this section are included all factors that come from the construction of the photo, such as the illumination, for example.  
+	\end{itemize}
+
+	\subsection{Techniques}
+	In order to perform the face detection in a photo, there are many different techniques among which to choose. In 1998, Henry A. Rowley and his team presented an approach based in the use of neural networks. In the Figure \ref{fig:rowley_network} we can see the algorithm followed to perfom the face detection on an image. Examining preprocessed small windows of a grayscaled image, a retinally connected network decides whether the window contains a face or not. The system arbitrates between multiple of these networks to improve the performance (\cite{rowley1998neural}). 
+
+	\begin{figure}[h!b]
+		\centering
+		\includegraphics[width=13cm]{rowley_network.png}
+		\caption{Basic algorithm used for face detection in \cite{rowley1998neural}}
+		\label{fig:rowley_network}
+	\end{figure}
+
+	Another technique is presented in 2000 by Henry Schneiderman and Takeo Kanade for object detection, now using a statistical method (\cite{schneiderman2000statistical}). The inputs used here are still images, so to create visual attributes that are localized in space, frequency, and orientation, they needed to easily select information that is localized along these dimensions. The answer to this question was to perform a wavelet transform of the image. 
+
+	Using a product of histograms, they represent the statistics of both object and "non-object" appearance. Each histogram represents the joint statistics of a subset of wavelet coefficients and their position on the object. Their approach was based in using many of these histograms in order to represent a wide variety of visual attributes. In the Figure \ref{fig:statistical_method_face_det} we can see how this method, in addition to detect the faces in the image, it also detects the direction to where the person is looking to.
+
+	\begin{figure}[h!b]
+		\centering
+		\includegraphics[width=8cm]{fd_statistical_method.png}
+		\caption{Results of applying the face detection method from \cite{schneiderman2000statistical}}
+		\label{fig:statistical_method_face_det}
+	\end{figure}
+
+	Finally, in 2001, Paul Viola and Michael Jones presented a framework for fast object recognition (\cite{viola2001rapid}). Althought it could be trained to detect a wide variety of objects, the main objective always was the face detection. It stands out for performing a high detection rate with a very low false positive rate and capable to work in a real time situation, such as face detection in video.
+
+	This method has a total of 4 stages:
+	
+	\begin{enumerate}
+		\item Obtaining Haar features. In the Figure \ref{fig:haar_features} we can see the Haar filters that are used to extract face features (Haar features in short) in the OpenCV library. Haar features work with the similarities that all human faces share and that are shown in a photo as a difference in the intensities of the pixels. For example, in the Figure \ref{fig:application_haar_features} an horizontal line Haar feature is applied for detecting the position of the eyes, as the pixels that represent them are way darker than the pixels that represent the cheeks. The same happen with the vertical line Haar feature in the same figure, dectecting the dark pixels of the eyebrows and the brighter ones for the space in the middle. The use of Haar filters was motivated by the work of \cite{haar_features_before_vj}, but in this case they do not work directly with image intensities. 
+
+		\begin{figure}[h!b]
+			\centering
+			\includegraphics[width=8cm]{types_haar_features.png}
+			\caption{Different types of Haar features (\cite{opencv_haar_cascade_tut})}
+			\label{fig:haar_features}
+		\end{figure}
+
+		\begin{figure}[h!b]
+			\centering
+			\includegraphics[width=8cm]{application_haar_features.png}
+			\caption{Application of Haar features to an image (\cite{viola2001rapid})}
+			\label{fig:application_haar_features}
+		\end{figure}
+
+		\item Analysis of the Haar features. The Haar features are computed very rapidly using an intermediate representation for the image called \textit{integral image} (also known as Summed Area Table (\cite{crow_summed_table})), obtaining the sum of all the values in the rectangular area of the feature. 
+
+		\item Training with AdaBoost. A variant of the AdaBoost learning algorithm is used to select a small set of features, as the cost of using all features would be too high, and to train the classifier. A \textit{strong} classifier is built as a lineal combination of weak classifiers, which are focused in a single rectangle feature each. The objective of the training is to adjust the weights used in order to minimise false negatives. A \textit{weak} classifier $h_j(x)$ thus consist of a feature $f_j$, a threshold $\theta_j$ and a parity $p_j$ indicating the direction of the inequality sign:
+
+		\begin{equation}
+			\label{eq:viola_jones_weak_classifier}
+			h_j(x)=
+				\begin{cases}
+			     	1 & \text{if $p_jf_j(x) < p_j\theta_j$} \\
+			        0 & \text{otherwise} \\
+				\end{cases}
+		\end{equation}
+
+		\item Cascade architecture. The main idea of this stage is to build a degenerated decission tree (called \textit{"cascade"} in the article) using strong classifiers like the one we can see in the Figure \ref{fig:cascade_decission_tree}. Image sub-windows are feeded to this cascade, so if a face is detected by the first classifier, it triggers the evaluation of the second classifier. A positive result in the sencond triggers a third classifier, and so on. If a face is not detected in one of the classifiers, the sub-window is rejected. 
+		
+		\begin{figure}[h!b]
+			\centering
+			\includegraphics[width=10cm]{cascade_decission_tree.png}
+			\caption{Schematic depiction of a the detection cascade (\cite{viola2001rapid})}
+			\label{fig:cascade_decission_tree}
+		\end{figure}
+			
+	\end{enumerate}
 
 \section{Public Data Sets} 
 Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data, face images in this case. The problem is that we need a high amount of them, in addition to that each face image has to be different (or the model would only work well with the data we worked with, and not any face, which is our purpose). As we cannot generate this dataset by ourselves, we must look for a public dataset with enough and different face images:
@@ -282,14 +362,79 @@ Face recognition is nothing but another kind of machine learning and as such, it
 	\item Labelled Faces in the Wild (LFW). This database only counts with more than 13,000 images that only have one person in them, which is perfect for the scope of this project. It can be explored online and has been recently updated, solving some erratum. Finally, it also has the option to download the images aligned with funneling or commercial software, reducing the work to do on the dataset. Because of all these reasons, it is the dataset that is going to be used for the project (\cite{lfw_db}).
 \end{itemize}
 
+\section{Raspberry Pi}	
+The Raspberry Pi was designed by scientists from the University of Cambridge and realeased their first commercial model in 2012. At the first instance it was thought to be a programming learning tool accessible for everyone thanks to the low cost of the device (\cite{raspberry_pi_for_learning}), now around the 40e (\cite{price_raspberry_pi}). However, a huge community has grown around this project that goes from the original purpose of programming learning to industrial and comercial products.
 
-%%% TO DO %%%
-\section{Raspberry Pi}											
-	\subsection{Using the Pi-camera}							
+	\subsection{Specifications}
+	All the specifications of this device can be found in the table \ref{table:rasp_pi_specs}. For this project a camera will be needed to take photos of the users. There are a lot of camera models available for the Raspberry Pi with no big differences of performance in the scope of this FYP. However, the Camera Module V2 (8 Megapixels) was finally chosen above the rest because it is the official camera for the Raspberry and has been used in many other projects. It counts with a Sony Exmor IMX219 Sensor and it is capable to record up to 1080p at 30fps.
 
+
+	\begin{table}[h!b]
+		\centering
+	    \begin{tabular}{| l | l |}
+	    \hline
+	    Model name & Raspberry Pi 3 Model B \\\hline
+	    \multirow{2}{*}{Processor} & Chipset Broadcom BCM2387 \\ \cline{2-2}
+                             	   & CPU Quad-Core 1,2GHz ARM Cortex-A53 \\\hline
+		GPU & Dual Core Broadcom VideoCore IV \\\hline
+		RAM memory & 1GB LPDDR2 \\\hline	    	    			
+		\multirow{7}{*}{Connectivity} & Ethernet socket 10/100Mbps BaseT \\ \cline{2-2}
+                             	   & \makecell[tl]{BCM43438 chip, providing 802.11 b/g/n wireless \\ LAN and Bluetooth 4.1 (Classic and BLE)} \\ \cline{2-2}
+                             	   & 4x USB ports 2.0 \\ \cline{2-2}
+                             	   & 40-pin extended GPIO \\ \cline{2-2}
+                             	   & \makecell[tl]{CSI-2 camera port for connecting a Raspberry \\ Pi camera (15 pins)} \\ \cline{2-2}
+                             	   & \makecell[tl]{DSI display port for connecting a Raspberry \\ Pi touchscreen display (15 pins)} \\ \cline{2-2}
+                             	   & \makecell[tl]{Micro-SD port for OS and storage (power \\ source up to 2.5A)} \\\hline
+        \multirow{2}{*}{Video output} & Full size HDMI (rev 1.3 \& 1.4) \\ \cline{2-2}
+                             	   & Composite RCA (PAL \& NTSC) \\\hline
+        Audio output & 3.5mm jack conector \\\hline
+	    \end{tabular}
+	    \caption{Specifications of the Raspberry Pi 3 Model B}
+	    \label{table:rasp_pi_specs}
+	\end{table}
+
+%	\begin{itemize}
+%		\item Model name: Raspberry Pi 3 Model B
+%		\item Processor:
+%			\begin{itemize}
+%				\item Chipset Broadcom BCM2387.
+%				\item CPU Quad-Core 1,2GHz ARM Cortex-A53.
+%			\end{itemize}
+%		\item GPU: Dual Core Broadcom VideoCore IV.
+%		\item RAM memory: 1GB LPDDR2.
+%		\item Conectivity:
+%			\begin{itemize}
+%				\item Ethernet socket 10/100Mbps BaseT.
+%				\item BCM43438 chip, providing 802.11 b/g/n wireless LAN and Bluetooth 4.1 (Classic and BLE).
+%				\item 4x USB ports 2.0.
+%				\item 40-pin extended GPIO.
+%				\item CSI-2 camera port for connecting a Raspberry Pi camera (15 pins).
+%				\item DSI display port for connecting a Raspberry Pi touchscreen display (15 pins).
+%				\item Micro-SD port for OS and storage (power source up to 2.5A).
+%			\end{itemize}
+%		\item Video output:
+%			\begin{itemize}
+%				\item Full size HDMI (rev 1.3 \& 1.4).
+%				\item Composite RCA (PAL \& NTSC).
+%			\end{itemize}
+%		\item Audio output: 3.5mm jack conector.
+%	\end{itemize}
+
+	\subsection{Possible Operative System}
+	In order to use the Raspberry Pi in this project, we first need to install an Operative System (OS). There are many possible options and, not a surprise, most of them are Linux-based:
+
+	\begin{itemize}
+		\item Raspbian. The official OS for Raspberry Pi based on the popular Debian distribution of Linux. Apart from the usual tools every OS provide to make the Raspberry run, Raspbian include more than 35.000 packages specifically optimised for this small machine (\cite{raspbian_main_website}). It has become the most popular OS for a general purpose project in the Raspberry. 
+		\item Ubuntu Mate. Canonical, the maker of Ubuntu, released this version for the Raspberry Pi swapping out the Unity desktop interface for a lighter version called "Mate". It is bigger than Raspbian and will require a microSD card of 6GB or greater, which is recommended to be a Class 6 or Class 10 in order to avoid a bottleneck (\cite{ubuntu_mate_review}).
+		\item ArchLinux ARM. It is the port of the desktop version of ArchLinux to the ARM architecture. The basic installation of this OS only comes with the Linux kernel, a shell and the package manager, so users must install all the packages they need manually (\cite{archlinux_arm_main_website}).
+		\item Kali Linux. Another port from a desktop version OS to the ARM architecture, Kali Linux in this case. Like the desktop version, it is the distribution of choice for penetration testings and forensics analysis, as it comes with well-known tools for these purposes (\cite{kalilinux_website}).
+		\item PiBang Linux. Insired by Crunchbang Linux, and based on Rasbian, it aims at being a fully functioning desktop. It features a modified version of Raspi-Config along with a fully optimized Openbox install (\cite{pibang_website}).
+	\end{itemize} 
 
 \section{Python}
-In the Introduction of this project we already have enumerated some of the features of this language, but there is more to talk about. First, one of the features that distinguish this high-level language is that it is designed to be easily readable. There are many examples, but one really interesting is the lack of brackets ("{}"), which are the usual way to delimit control flow blocks in other languages. Instead of brackets, Python uses indentation. To indicate that a line is inside a function or an block (an \textit{if} block in the example), we just have to indent it one level deeper. We can see it clearly in the next comparative.
+Some of the features of Python have been already commented in the Introduction of this report, but there is more to talk about. Some people say that in order to explain something well, you need to start from the root of the question. If we apply it to Python, we have to talk about the Zen of Python (\cite{origin_zen_of_python}, \cite{zen_of_python}), a collection of software principles that influenced the design of this language. A total of 20 principles (of which only 19 were written down) that show how Tim Peters, one of the open source development leaders of Python, wanted it to be beatiful, explicit, simple among other thigs.
+
+The readability of Python was also in these principles and we can find many aspects of the language that confirm this feature. One that really impressed me at the first place was the lack of brackets ("\{\}"), which are the usual way to delimit control flow blocks in other languages. Instead of brackets, Python uses indentation. To indicate that a line is inside a function or an block (an \textit{if} block in the example), we just have to indent it one level deeper. We can see it clearly in the next comparative.
 
 \noindent\begin{minipage}[t]{.45\textwidth}
 \begin{lstlisting}[caption=C code,frame=tlrb, language=C]{Name}
@@ -313,6 +458,31 @@ def foo(x):
 \end{lstlisting}
 \end{minipage}
 
-Second, Python is interactive. This means that we do not need to write a Python program in a file to execute it later (althought is also an option). Alternatively, we can interact with the prompt directly by executing the Python shell in the terminal. Also related with this feature is that Python is interpreted, so it does not need to be compiled before executing (what happens to languages like C, C++ or Lisp), as it is processed at runtime by the interpreter (\cite{python_overview}). 
+Another feature of Python is that it is interactive, which means that we do not need to write a Python program in a file to execute it later althought is also an option. Alternatively, we can interact with the prompt directly by executing the Python shell in the terminal. Also related with it, Python is interpreted, so it does not have to be compiled before executing (what happens to languages like C, C++ or Lisp). It is processed at runtime by the interpreter (\cite{python_overview}). 
 
-Finally, Python is easy to learn. It has fewer keywords than other languages, its strucure is much simpler and the syntax is easily readable with a certain level of English. It is because all of this why it has become very popular in recent years, being used from to start learning programming to advanced investigation projects.
+Finally, the most important feature of Python: it is very easy to learn. It has fewer keywords than other languages, its strucure is much simpler and the syntax is can be easily understood with a certain level of English. 
+
+These reasons have brought Python to be very popular. When looking at different sites, the ranking of the most popular languages can vary depending on the parameters that have been used for the calculations. The TIOBE Programming Community index in the Figure \ref{fig:tiobe_rank} shows a rank based in the hits for the search query, using engines like Google, Yahoo, or Wikipedia (\cite{tiobe_index_def}). The PYPL PopularitY is another rank that we can find in the Figure \ref{fig:pypl_rank}, which was created by analyzing how often language tutorials are searched on Google. The last one but not less important is the rank from the Github Octoverse, in the Figure \ref{fig:github_octoverse_rank}, which shows the number of pull request during 2017.
+
+All rankings show the healthy condition in which Python is at the moment, being in the top 5 languages in all of them. second in two of them and fourth in the other one. It has even unseat Java as the second-most popular language in GitHub, with 40 percent more pull requests opened this year than last (\cite{octoverse_2017}). 
+
+\begin{figure}[h!b]
+	\centering
+	\includegraphics[width=13cm]{TIOBE_python_ranking.png}
+	\caption{TIOBE Index for April 2018 (\cite{tiobe_index})}
+	\label{fig:tiobe_rank}
+\end{figure}
+
+\begin{figure}[h!b]
+	\centering
+	\includegraphics[width=10cm]{PYPL_python_ranking.png}
+	\caption{PYPL PopularitY for March 2018 (\cite{pypl_pop_rank})}
+	\label{fig:pypl_rank}
+\end{figure}
+
+\begin{figure}[h!b]
+	\centering
+	\includegraphics[width=13cm]{Github_python_ranking.png}
+	\caption{Pull requests in Github for 2017 (\cite{octoverse_2017})}
+	\label{fig:github_octoverse_rank}
+\end{figure}

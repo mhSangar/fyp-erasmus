@@ -37,43 +37,17 @@ But this is not the only task of the assistant. As an Erasmus student I have see
 
 	Here we have its specifications:
 
-	\begin{itemize}
-		\item Processor:
-			\begin{itemize}
-				\item Chipset Broadcom BCM2387.
-				\item CPU Quad-Core 1,2GHz ARM Cortex-A53.
-			\end{itemize}
-		\item GPU: Dual Core Broadcom VideoCore IV.
-		\item RAM memory: 1GB LPDDR2.
-		\item Conectivity:
-			\begin{itemize}
-				\item Ethernet socket 10/100Mbps BaseT.
-				\item BCM43438 chip, providing 802.11 b/g/n wireless LAN and Bluetooth 4.1 (Classic and BLE).
-				\item 4x USB ports 2.0.
-				\item 40-pin extended GPIO.
-				\item CSI-2 camera port for connecting a Raspberry Pi camera (15 pins).
-				\item DSI display port for connecting a Raspberry Pi touchscreen display (15 pins).
-				\item Micro-SD port for OS and storage (power source up to 2.5A).
-			\end{itemize}
-		\item Video output:
-			\begin{itemize}
-				\item Full size HDMI (rev 1.3 \& 1.4).
-				\item Composite RCA (PAL \& NTSC).
-			\end{itemize}
-		\item Audio output: 3.5mm jack conector.
-	\end{itemize}
-
-	A camera will be connected to this Raspberry, to take photos of the face of the users. There are a lot of camera models for the Raspberry Pi, but the Camera Module V2 (8 Megapixels) has been chosen because it is official and has been used in many other projects. It counts with a Sony Exmor IMX219 Sensor and it is capable to record up to 1080p at 30fps.
-
 	\subsection{Why Python?}
-	In addition to the fact that TensorFlow is written in it, Python has become a really widely used language for machine learning. Many reasons have been given to this (\cite{why_python}):
+	The reasons that made Python the language chosen for this project were many. First, it is the language that Tensorflow uses to express the model of the network, so it was necessary to use it at least for the face recognition module of the project. Second, Python has become a widely used language because (\cite{why_python}):
 
 	\begin{itemize}
-		\item Proven language. It is used by many important companies, such as Dropbox, Google or Amazon. 
-		\item Fast prototypes. Python's dynamic nature and simple syntax make it perfect for prototyping, preventing us from worrying about the actual implementation and helping to focus on data and algorithms (which the main task of machine learning).
-		\item For everyone. Many data scientist and engineers have a background in maths and statistics, but they may not have any experience in programming. Python's readability (is said to have a math-like syntax) and simplicity make it easier to pick up.
+		\item Proven language. Python is used by many important companies, such as Dropbox, Google or Amazon. 
+		\item Fast prototypes. Python's dynamic nature and simple syntax make it perfect for prototyping, preventing us from worrying about the actual implementation and helping to focus on data and algorithms, which the main task of machine learning.
+		\item For everyone. Many data scientist and engineers have a background in maths and statistics, but they may not have any experience in programming. Python's simplicity and readability, as it is said to have a math-like syntax, make it easier to pick up.
 		\item Mature Data Science Ecosystem. There is a great collection of math and data science for Python, incremented by new libraries that are built on top of the older ones (but controlled by the solid Python's packaging). 
 	\end{itemize}
+
+	Finally, the last reason is personal. During the last years in my home University, I heard many times how important Python was and how popular it was becoming. However, the modules from my study program never used this language for their assignments, so I never had the opportunity to learn it in an academic environment. Because of that, I decided to use Python in all aspects of this project in order to learn how to work with it.  
 
 \section{Objectives}
 	\subsection{Primary Objectives}
