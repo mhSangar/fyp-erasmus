@@ -29,7 +29,7 @@ As we can see in the quote from Arthur Samuel (1959), the "idea" of machine lear
 Within machine learning we can find two different approaches: supervised or unsupervised learning. To make it simple, if you are providing solution to your kids for each and every situation in their life, then they are \textit{supervised}. But, if your kids take their decisions out of their own understanding, then they are \textit{unsupervised} . Well, something similar happens with machine learning. If you train your model for every input with a corresponding target, then it is supersived learning (you are giving extra information apart from the data itself) and eventually, it will be able to provide a target for any new input after sufficient training. Contrary, in unsupervised learning, if you train your model with only a set of inputs it only will be able to find relationships between the different inputs (\cite{sup_unsup_learning}). 
 
 \section{Artificial Neural Networks}
-Artificial Neural Networks (ANN) have generated a lot of excitement in Machine Learning research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing. They are a biologically-inspired methodology to apply machine learning, trying to mimic how the human brain process the information (\cite{intro_ann}). 
+Artificial Neural Networks (\glspl{ann}) have generated a lot of excitement in Machine Learning research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing. They are a biologically-inspired methodology to apply machine learning, trying to mimic how the human brain process the information (\cite{intro_ann}). 
 
 \begin{figure}[h!b]
 	\centering
@@ -38,7 +38,7 @@ Artificial Neural Networks (ANN) have generated a lot of excitement in Machine L
 	\label{fig:org_neuron}
 \end{figure}
 
-The model of a neural network is a very simple concept. First, like a real neural network, ANNs are based in singular units called neurons, nodes or simplyly units. As we can see in the \textit{Figure ~\ref{fig:org_neuron}}, these neurons are composed by dendrites, a nucleus, an axon and axon terminals. To create a network is as simple as connecting two of this neurons with an axon terminal (output) of the first neuron to a dendrite (input) of the second.
+The model of a neural network is a very simple concept. First, like a real neural network, \glspl{ann} are based in singular units called neurons, nodes or simplyly units. As we can see in the \textit{Figure ~\ref{fig:org_neuron}}, these neurons are composed by dendrites, a nucleus, an axon and axon terminals. To create a network is as simple as connecting two of this neurons with an axon terminal (output) of the first neuron to a dendrite (input) of the second.
 
 ORGANIC NEURON FIGURE
 
@@ -73,7 +73,7 @@ Because of the position of these nodes and the connections between them we can d
 
 
 \section{The perceptron}
-Within the Artificial Neural Networks (ANN), we can find great variety of units that define the type of ANN involved, but in order to explain how they work, we are going to use a perceptron (shown in Figure 2.2). This unit has several inputs that are used to perform an operation involving all of them, to finally calculate a single value as a result in a single output.
+Within the Artificial Neural Networks (\gls{ann}), we can find great variety of units that define the type of \gls{ann} involved, but in order to explain how they work, we are going to use a perceptron (shown in Figure 2.2). This unit has several inputs that are used to perform an operation involving all of them, to finally calculate a single value as a result in a single output.
 
 Each input is composed of a value and a weight, which will contribute to the output of the perceptron. The operation involving all inputs is a linear combination:
 
@@ -230,7 +230,7 @@ A single perceptron can only express linear decision surfaces, so it is very lim
 
 
 \section{Convolutional Neural Networks and Face Recognition}
-The Artificial Neural Networks (ANNs) we have seen until now have their applications, but the current state of the art for detecting what an image is (or what does it contains) are Convolutional Neural Networks (CNNs). First of all we need to explain that this two kinds of neural networks are not at the same level. The ANNs we have seen until now usually have a few hidden layers, but CNNs need to have multiple of these hidden layers in order to achieve what is known as Deep Learning. 
+The Artificial Neural Networks (\glspl{ann}) we have seen until now have their applications, but the current state of the art for detecting what an image is (or what does it contains) are Convolutional Neural Networks (\glspl{cnn}). First of all we need to explain that this two kinds of neural networks are not at the same level. The \glspl{ann} we have seen until now usually have a few hidden layers, but \glspl{cnn} need to have multiple of these hidden layers in order to achieve what is known as Deep Learning. 
 
 It may seem normal that adding more hidden layers to a network will improve its learning potential, but the problem with deep networks is that it becomes harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}, explaining that the features of the input instance (or those computed by previous layers) are "washed out" in the proccess of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (even impossible) to achieve learning in a deep neural network using backpropagation. Here is where Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
 
@@ -238,7 +238,7 @@ Convolutional Neural Networks are one of the options Deep Learning provides. As 
 
 %%% maybe include something from lecun paper, first page %%%
 
-In terms of architecture, CNNs are structured as a series of stages. First few stages are composed by convolutional and pooling layers (\cite{lecun2015deep}). 
+In terms of architecture, \glspl{cnn} are structured as a series of stages. First few stages are composed by convolutional and pooling layers (\cite{lecun2015deep}). 
 
 Pooling is simple, it is just a down-sampling. We start with an image of a certain size, 30x30 pixels (which are just values from 0 to 255) for example. From this full image, taking it as a matrix, we select a window of a certain size. Usually we choose a size that makes possible to divide the full image in little windows that do not collide with each other. In this case, from a image of 30x30 we are going to take a 3x3 window, leaving us a total of 100 windows. 
 
@@ -254,7 +254,7 @@ Convolutional layers, in the other hand, follow a proccess more complex. They ap
 	f*g(n) = \sum_{m= -\infty}^{\infty} f(m) g(n-m) 
 \end{equation}
 
-If we apply this to the algorithm of a CNN, the first input function would be a part of the image itself, that is called \textit{receptive field} or \textit{window}; and the second would be the \textit{filter}, which is a matrix of weights of the same size of the window. The result of this convolution is a \textit{feature map}, a new image that shows how the feature recognised by the filter is distributed in the original picture. 
+If we apply this to the algorithm of a \gls{cnn}, the first input function would be a part of the image itself, that is called \textit{receptive field} or \textit{window}; and the second would be the \textit{filter}, which is a matrix of weights of the same size of the window. The result of this convolution is a \textit{feature map}, a new image that shows how the feature recognised by the filter is distributed in the original picture. 
 
 If the image is in color, it is composed by the three different channels of the RBG standard, so the multiplication has to be applied to all of them. This element-wise multiplication in matrices has the name of Hadamard Product and it produces a matrix of the same size of the inputs. Once the multiplication is done, we have three matrices that we sum in one value. Now a function $f$ is applied to this output to finally obtain the value of the first pixel of the feature map. After that, the window moves one pixel to the right (or to the first pixel of the next row, if the end is reached) and applies again convolution to obtain the next pixel of the feature map. 
 
@@ -267,9 +267,9 @@ If the image is in color, it is composed by the three different channels of the 
 
 In the previous paragraph we said that a function $f$ is applied to the sum, as is usual in the structure of a neuron. Before \cite{krizhevsky2012deep}, the standard way to model this function was $f(x)=tanh(x)$. However, in this paper it is explained that these kind of saturating nonlinearities are much slower than a non-saturating nonlinearity as $f(x)=max(0, x)$. The neurons with this nonlinearity are called Rectified Linear Units or ReLUs, and help to train a deep convolutional network several times faster than their equivalents with $f(x)=tanh(x)$.
 
-At this point, we know how convolution and pooling works. Two or three stages of convolution, followed by the non-linearity function, and then pooling; are stacked. After that, in the structure of a CNN we find fully-connected layers, like a usual neural network, and finally an output layer that shows the prediction as the class with highest percenteage.
+At this point, we know how convolution and pooling works. Two or three stages of convolution, followed by the non-linearity function, and then pooling; are stacked. After that, in the structure of a \gls{cnn} we find fully-connected layers, like a usual neural network, and finally an output layer that shows the prediction as the class with highest percenteage.
 
-Backpropagation through a CNN is as simple as through a regular deep network, allowing all the weights of the network (which also includes the filters of the convolution) to be trained.
+Backpropagation through a \gls{cnn} is as simple as through a regular deep network, allowing all the weights of the network (which also includes the filters of the convolution) to be trained.
 
 \section{Face Detection}
 The databases used in the training of the networks that perform the face recognition usually have face images already normalized  to  a  given  pose  standard. However,  the  conventional  input  image  of  computer  vision  systems  may  contain many items and/or faces, either for recognition or tracking. In these cases, face detection becomes mandatory. It acts as preprocessing of the images to determine first
@@ -366,7 +366,7 @@ Face recognition is nothing but another kind of machine learning and as such, it
 The Raspberry Pi was designed by scientists from the University of Cambridge and realeased their first commercial model in 2012. At the first instance it was thought to be a programming learning tool accessible for everyone thanks to the low cost of the device (\cite{raspberry_pi_for_learning}), now around the 40e (\cite{price_raspberry_pi}). However, a huge community has grown around this project that goes from the original purpose of programming learning to industrial and comercial products.
 
 	\subsection{Specifications}
-	All the specifications of this device can be found in the table \ref{table:rasp_pi_specs}. For this project a camera will be needed to take photos of the users. There are a lot of camera models available for the Raspberry Pi with no big differences of performance in the scope of this FYP. However, the Camera Module V2 (8 Megapixels) was finally chosen above the rest because it is the official camera for the Raspberry and has been used in many other projects. It counts with a Sony Exmor IMX219 Sensor and it is capable to record up to 1080p at 30fps.
+	All the specifications of this device can be found in the table \ref{table:rasp_pi_specs}. For this project a camera will be needed to take photos of the users. There are a lot of camera models available for the Raspberry Pi with no big differences of performance in the scope of this \gls{fyp}. However, the Camera Module V2 (8 Megapixels) was finally chosen above the rest because it is the official camera for the Raspberry and has been used in many other projects. It counts with a Sony Exmor IMX219 Sensor and it is capable to record up to 1080p at 30fps.
 
 
 	\begin{table}[h!b]

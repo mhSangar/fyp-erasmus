@@ -18,12 +18,17 @@
 \usepackage{natbib}
 \usepackage{listings}	% code
 \usepackage{parcolumns}	% columns
+%\usepackage[toc, acronym, style=altlist, nonumberlist]{glossaries}
+\usepackage[toc, acronym, nonumberlist]{glossaries}
 
 %
-% PATH CONFIGURATION %
+% CONFIGURATION 
 %
 \graphicspath{ {imgs/} }
 \def \chapterspath {./chapters}
+\makeglossaries
+\loadglsentries{glossary}
+\glsaddall
 
 %
 % TITLE
@@ -63,7 +68,6 @@
 %\setlength{\parindent}{0pt}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex} % spacing between paragraphs
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -89,6 +93,14 @@
 %
 \listoftables
 
+
+%
+% Glossary of terms
+%
+\printglossary[title=Glossary of Terms, toctitle=Glossary of Terms]
+
+
+
 \include{\chapterspath/introduction}
 \include{\chapterspath/research}
 \include{\chapterspath/design}
@@ -98,5 +110,6 @@
 %\bibliographystyle{unsrt}
 \bibliographystyle{agsm}
 \bibliography{ref}  
+
 
 \end{document}   
