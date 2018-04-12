@@ -7,6 +7,17 @@
 ## Python cache files
 *.pyc
 
+## Glossary files
+*.ist 
+*.xdy
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glsdefs
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
