@@ -20,6 +20,11 @@
 \usepackage{parcolumns}	% columns
 %\usepackage[toc, acronym, style=altlist, nonumberlist]{glossaries}
 \usepackage[toc, acronym, nonumberlist]{glossaries}
+\usepackage{dirtytalk}
+\usepackage{amssymb}
+\usepackage{colortbl,xcolor}
+%\usepackage{enumitem,amssymb}	% checked lists
+%\usepackage{pifont}	% checked lists
 
 %
 % CONFIGURATION 
@@ -29,6 +34,20 @@
 \makeglossaries
 \loadglsentries{glossary}
 \glsaddall
+\def \uncheckedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$} \hspace{0.4cm}}
+\def \checkedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} \hspace{0.4cm}}
+\renewcommand{\arraystretch}{1.3}
+%\renewcommand{\bibname}{References}
+
+% checked lists
+% --------------
+%\newlist{levels}{itemize}{2}
+%\setlist[levels]{label=$\square$}
+%\newcommand{\cmark}{\ding{51}}%
+%\newcommand{\xmark}{\ding{55}}%
+%\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}} \hspace{-2.5pt}}
+%\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
 
 %
 % TITLE

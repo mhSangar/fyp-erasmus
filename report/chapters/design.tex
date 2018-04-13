@@ -11,11 +11,1524 @@
 %\section{Software Quality}
 
 \section{Introduction}
-In this section, the design process that has been followed for the implementation of the application is going to be explained. First we find the requirements of the application, among which functional and non-functional requirements have been distinguished. Using these requirements, we explain how is the activity flow of the application. In this section are also included the prototypes and mockups that were used in the design of the \gls{gui}. 
+In this section, the design process that has been followed for the implementation of the application is going to be explained. First we find the requirements of the application, among which functional and non-functional requirements have been distinguished. Using these requirements, we explain how is the activity flow of the application. In this section are also included the prototypes and mockups that were used for designing the \gls{gui}. After, we can find an explanation of the architecture pattern followed along with the technologies that has been used in the project. In the next sections the interesting blocks of code of the front and back end are explained. 
+
+%<+testing>
+
+During the implementation of the system we found some issues that we had to face. In order to explain what these issues were and how they were overcome, the "Implementation Issues" section has been also included. Finally, at the end of this point we can find a summary of the implementation, with the lines of code (\glspl{loc}) of every file, and a little section about the quality of the software implemented. 
 
 \section{Requirements}
+From \cite{req_engineering_def}:
+
+\say{The process to gather the software requirements from client, analyze and document them is known as \textit{requirement engineering}.}
+
+In a real world project, the requirement engineering is a four step process: Feasibility Study, Requirement Gathering, Software Requirement Specification, Software Requirement Validation. However, in this project all roles are combined in one person, so the process is going to be more brief. We are going to assume that the first two steps are already done and directly going to create the Software Requirement Specification, where the following tables include the requirements that the system must follow.
+
+	\subsection{Functional Requirements}
+	The requirements have been divided in two different types. In this section we have included the functional requirements, which fall into "what the system should do".
+
+	\begin{center}
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 01} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The system is divided in a client-server architecture.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 01}
+		    \label{fr:01}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 02} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The Raspberry Pi will act as client of the server.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 02}
+		    \label{fr:02}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 03} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will be executed in the Raspberry Pi.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 03}
+		    \label{fr:03}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 04} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will have a \gls{gui}, so the users will\\ be able to interact with it.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 04}
+		    \label{fr:04}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 05} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \checkedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{It will be able to close he applicationcan in any moment\\ pressing the Escape button.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 05}
+		    \label{fr:05}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 06} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show its status every time.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 06}
+		    \label{fr:06}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 07} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will be divided in windows users can\\ navigate through.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 07}
+		    \label{fr:07}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 08} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{It will be possible to access the rest of windows.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 08}
+		    \label{fr:08}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 09} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\uncheckedbox Client \hspace{1cm} \checkedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The access to the rest of the windows will be blocked\\ during the communication with the server.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 09}
+		    \label{fr:09}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 10} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The face of the user will be recognised to identify\\
+			    						    the user using a photo taken in the moment.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 10}
+		    \label{fr:10}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 11} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{A preview of the camera in real time will be shown\\ 
+			    						   before the photo is taken.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 11}
+		    \label{fr:11}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 12} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The user will be able to select the moment in which\\ 
+			    						   the camera will take the photo.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 12}
+		    \label{fr:12}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 13} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The user will be able to discard the taken photo and\\ 
+			    						   take another one.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 13}
+		    \label{fr:13}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 14} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The face recognition process will be able to recognise\\ 
+			    						   only the students with which it has been trained.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 14}
+		    \label{fr:14}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 15} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will have a route in order to perform the \\
+			    						   face recognition in which an image will be required\\ 
+			    						   as a parameter.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 15}
+		    \label{fr:15}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 16} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show a loading screen during the\\ 
+			    						   communication with the server.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 16}
+		    \label{fr:16}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 17} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The student's photo will be stored in the server during\\
+			    						   the time the request is being processed. }    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 17}
+		    \label{fr:17}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 18} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The student's photo will be deleted after the face\\
+			    						   recognition process.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 18}
+		    \label{fr:18}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 19} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The student's photo will be pre-processed applying face\\
+			    						   detection and cropping the face of the student.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 19}
+		    \label{fr:19}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 20} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show a window with a message reporting\\
+			    						   the failed face detection process, if necessary.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 20}
+		    \label{fr:20}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 21} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The face recognition process will be done using the \\
+			    						   pre-processed photo.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 21}
+		    \label{fr:21}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 22} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show a window with a message reporting\\ 
+			    						   the failed face recognition process, if necessary.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 22}
+		    \label{fr:22}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 23} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will have a database that is loaded with\\
+			    						   the name of the students and their associated ID number. }    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 23}
+		    \label{fr:23}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 24} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{After the face recognition process, the server will\\
+			    						   send back the name of the student and their associated\\
+			    						   ID number.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 24}
+		    \label{fr:24}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 25} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \checkedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \checkedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show a window with a message \\
+			    						   welcoming the student using their name.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 25}
+		    \label{fr:25}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 26} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will have a route in order to get the next\\
+			    						   class of the student in which a student's ID number\\
+			    						   will be required as a parameter.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 26}
+		    \label{fr:26}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 27} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will gls{scrape} the timetable.ul.ie \\
+			    						   website to obtain the timetable of the student.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 27}
+		    \label{fr:27}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 28} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will analise the data obtained from the \\
+			    						   website to obtain the next class of the student.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 28}
+		    \label{fr:28}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 29} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{After the next class of the student is obtained, the \\
+			    						   server will send back the data of the next class, which \\
+			    						   include: code of the module, name of the module, \\
+			    						   starting hour, ending hour, class type and location.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 29}
+		    \label{fr:29}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 30} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show a window with a message \\
+			    						   reporting that the user has no more classes in that \\
+			    						   day, if necessary.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 30}
+		    \label{fr:30}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 31} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show a window with the data of \\
+			    						   the next class of the student.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 31}
+		    \label{fr:31}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 32} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will have a route in order to get map to \\
+			    						   the next class of the student in which the origin and \\
+			    						   destination locations will be required as parameters.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 32}
+		    \label{fr:32}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 33} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The map to the next class of the student will show the\\
+			    						    origin point, the destination point and the path from\\
+			    						    one to another.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 33}
+		    \label{fr:33}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 34} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\uncheckedbox Client \hspace{1cm} \checkedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will obtain the map as an image.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 34}
+		    \label{fr:34}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 35} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\uncheckedbox Client \hspace{1cm} \checkedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The server will send back the map as an image.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 35}
+		    \label{fr:35}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 36} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will show a window with the map from \\
+			    						   the current location of the student to their next class.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 36}
+		    \label{fr:36}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 37} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The windows that show the data of the next class of \\
+			    						   the student and the map, will be not accessible when \\
+			    						   the application stars.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 37}
+		    \label{fr:37}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 38} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The windows that show the data of the next class of \\
+			    						   the student and the map, will be not accessible when \\
+			    						   the application does not detect or recognise the \\
+			    						   user's face.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 38}
+		    \label{fr:38}
+		\end{table}
+
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{FR\textunderscore 39} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The windows that show the data of the next class of \\
+			    						   the student and the map, will be accessible in the \\
+			    						   moment the student is recognised and that student has a\\
+			    						   class after in the day.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Functional Requirement FR\textunderscore 39}
+		    \label{fr:39}
+		\end{table}
+
+	\end{center}
+
+	\clearpage
+
+
+	\subsection{Non-functional Requirements}
+	The requirements have been divided in two different types. In this section we have included the non-functional requirements, which fall into "how the system performs a certain function".
+
+	\begin{center}
+
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 01} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{Client and server will interact with each other using \\
+			    						   the HTTP protocol.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 01}
+		    \label{nfr:01}
+		\end{table}
+
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 02} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The data in the HTTP requests and responses will be \\
+			    						   formatted using JSON.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 02}
+		    \label{nfr:02}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 03} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\uncheckedbox Client \hspace{1cm} \checkedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{Client and server will be located in the same network.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 03}
+		    \label{nfr:03}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 04} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \checkedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The application will be displayed in full-screen.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 04}
+		    \label{nfr:04}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 05} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \checkedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{In the application, buttons, icons and fonts will be\\
+			    						    big enough to be seen from a certain distance.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 05}
+		    \label{nfr:05}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 06} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{A menu will be displayed in the left side of the screen \\
+			    						   to show the status of the application.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 06}
+		    \label{nfr:06}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 07} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \checkedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{A menu will be displayed in the left side of the screen \\
+			    						   to allow to access all the windows.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 07}
+		    \label{nfr:07}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 08} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The camera connected to the Raspberry Pi will be used \\
+			    						   to take the photos for the application.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 08}
+		    \label{nfr:08}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 09} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The face recognition process will be executed in the \\
+			    						   server.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 09}
+		    \label{nfr:09}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 10} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The process that obtain the next class of the student \\
+			    						   will be executed in the server.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 10}
+		    \label{nfr:10}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 11} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The process that obtain the map to the next class of \\
+			    						   the student will be executed in the server.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 11}
+		    \label{nfr:11}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 12} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{The face recognition process will identify the students \\
+			    						   by their ID number.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 12}
+		    \label{nfr:12}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 13} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \checkedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\uncheckedbox Client \hspace{1cm} \checkedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{If the last class of the student in the day has already \\
+			    						   begun, it will be assumed that the student has no more \\
+			    						   classes that day.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 13}
+		    \label{nfr:13}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 14} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \checkedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \checkedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{In the map, the origin point will be green.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 14}
+		    \label{nfr:14}
+		\end{table}
+		
+		\begin{table}[h!b]
+			\centering
+		    \begin{tabular}{| c | c |}
+			    \hline
+			    ID & \makecell[c]{NFR\textunderscore 15} \\ 
+				\hline
+				Priority & 
+					\hspace{0.3cm} \uncheckedbox High \hspace{0.58cm} 
+					\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+					\hspace{0.3cm} \checkedbox Low \hspace{1.23cm} \\
+			    \hline
+			    Neccessity & 
+					\hspace{0.3cm} \uncheckedbox Essential 
+					\hspace{0.3cm} \uncheckedbox Desirable 
+					\hspace{0.3cm} \checkedbox Optional \hspace{0.4cm} \\
+			    \hline
+			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+			    \hline
+			    %						   -------------------------------------------------------|
+			    Description & \makecell[c]{In the map, the destination point will be red.}    \\ 
+			    \hline
+			\end{tabular}
+		    \caption{Non\textendash Functional Requirement NFR\textunderscore 15}
+		    \label{nfr:15}
+		\end{table}	
+
+	\end{center}
+
+	\clearpage
+	
+%\begin{table}[h!b]
+%	\centering
+%    \begin{tabular}{| c | l |}
+%	    \hline
+%	    ID & \makecell[c]{FR\textunderscore XX} \\ 
+%		\hline
+%	    \multirow{3}{*}{Priority}  
+%	    	& \hspace{0.3cm} \uncheckedbox High   \\ 
+%	    	& \hspace{0.3cm} \uncheckedbox Medium \\ 
+%	    	& \hspace{0.3cm} \uncheckedbox Low    \\ 
+%	    \hline
+%	    \multirow{3}{*}{Necessity}     
+%	    	& \hspace{0.3cm} \uncheckedbox High   \\ 
+%	    	& \hspace{0.3cm} \uncheckedbox Medium \\ 
+%	    	& \hspace{0.3cm} \uncheckedbox Low    \\
+%	    \hline
+%	    Source & \makecell[c]{\uncheckedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+%	    \hline
+%	    Description & \makecell[c]{Hola Hola }    \\ 
+%	    \hline
+%	\end{tabular}
+%    \caption{Functional Requirement FR\textunderscore XX}
+%    \label{fr:XX}
+%\end{table}
 
 \section{Scenario}
+
+
+
+
 \section{Architecture and Technologies}
 \section{Front end}
 \section{Back end}	
