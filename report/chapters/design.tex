@@ -27,6 +27,7 @@ In a real world project, the requirement engineering is a four step process: Fea
 	\subsection{Functional Requirements}
 	The requirements have been divided in two different types. In this section we have included the functional requirements, which fall into "what the system should do".
 
+	\renewcommand{\arraystretch}{1.3}
 	\begin{center}
 		\begin{table}[h!b]
 			\centering
@@ -1084,6 +1085,7 @@ In a real world project, the requirement engineering is a four step process: Fea
 		\end{table}
 
 	\end{center}
+	\renewcommand{\arraystretch}{10}
 
 	\clearpage
 
@@ -1091,6 +1093,7 @@ In a real world project, the requirement engineering is a four step process: Fea
 	\subsection{Non-functional Requirements}
 	The requirements have been divided in two different types. In this section we have included the non-functional requirements, which fall into "how the system performs a certain function".
 
+	\renewcommand{\arraystretch}{1.3}
 	\begin{center}
 
 		\begin{table}[h!b]
@@ -1496,6 +1499,7 @@ In a real world project, the requirement engineering is a four step process: Fea
 		\end{table}	
 
 	\end{center}
+	\renewcommand{\arraystretch}{1}
 
 	\clearpage
 	
@@ -1698,10 +1702,155 @@ The setup of the project can be found in the Figure \ref{fig:system_setup}. Some
 		\label{fig:no_classes_window}
 	\end{figure}	
 
-
-
-\section{Architecture and Technologies}
+\section{Architecture}
 \label{sec:arch_n_tech}
+In this project the architecture follows the pattern Model-View-Controller (\gls{mvc}). It was first described in the original MVC note at Xerox PARC in 1978, by the Norwegian computer scientist Trygve Reenskaug (\cite{mvc_origin}). The first name of the pattern was "Thing Model View Editor" (\cite{tmve_reenskaug_1979}), but he quickly changed it to the popular "Model View Controller" (\cite{mvc_reenskaug_1979}). This first version of MVC was first implemented as part of the Smalltalk-80 class library and originally used as an architectural pattern to create \glspl{gui}.
+
+However, the definition of the MVC pattern has changed over the time to adapt to the changing environment. And because of this fact, it is one of the most quoted (and most misquoted) patterns around (\cite{current_mvc_definition}). A general and basic definition of the pattern is shared by most of the approaches and has been summarized in the Figure \ref{fig:mvc_diagram}.   
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=10cm]{mvc_diagram.png}
+	\caption{MVC pattern diagram}
+	\label{fig:mvc_diagram}
+\end{figure}	
+
+It is a software architecture pattern that divides the system in three different components named Model, View and Controller: the application data, the user interface and the control logic, respectively (\cite{mvc_components_definition}).
+\begin{itemize}
+	\item Model. It is the information representation with which the system operates, managing every access to this information. The interaction with the other components consists in 	sending the information to the data to the View to be visualised by the user and accepting or denying the access and modifying requests that come from the Controller.
+	\item View. It shows the Model in an appropiate format that allows users to interact with the system, usually using a \gls{gui}.
+	\item Controller. It responds to the user actions and access the Model to query or modify the information contained in it. It also communicates with the View in order to apply the changes of the Model by the use of requests. 
+\end{itemize}
+
+In the high level context of this project, the View correspond to the Raspberry Pi application, the Controller is the server located at the laptop, and the Model is the database that the server queries to find the student's information. 
+
+	\subsection{Back-end architecture}
+	Unlike the Front End, which is contained in a single called "app.py", the Back End of the project is divided in multiple files/modules. In order to explain the interaction between these modules, a component diagram has been included in the Figure \ref{fig:back_comp_diagram}.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=8cm]{placeholder}
+		\caption{Back End component diagram}
+		\label{fig:back_comp_diagram}
+	\end{figure}	
+
+\section{Technologies}
+In the following sub-sections we will include all the technologies that have been used in the development of this project, also represented in the Marketecture diagram (Figure \ref{fig:marketecture_diagram}).
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=14.5cm]{marketecture_diagram}
+	\caption{Marketecture diagram}
+	\label{fig:marketecture_diagram}
+\end{figure}	
+
+	\subsection{Python}
+	Another section about this language was included in the Research, so here we will only talk about the decissions made about it, referring to \ref{sec:python} for all the background information. For the development of this project, the version 3.6.3 of Python was finally chosen over the 2.x or legacy. The main reason of this choice is that all recent standard library improvements are only available by default in Python 3.x (\cite{python_2or3}) and, eventually, there will be no future security or bug fixes for Python 2.x.
+
+	One of the most popular problems when working with Python is the version of the dependencies, because one application may need the version 1 of a dependency, but another application requires version 2. To solve this problem, the \cite{virtualenv} tool was used to create isolated environments that have their own installation directories.  
+
+	\subsection{Tensorflow}
+	TensorFlow is an open source software library for high performance numerical computation. Its flexible architecture allows an easy deployment across a variety of platforms, such as desktop computers, clusters and mobiles devices. It was originally developed by researchers and engineers from the Google Brain team within Google’s AI organization (\cite{tensorflow_main_website}). It has a strong support for machine learning and deep learning processes, which is for what it will be used in this project. 
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=5cm]{tensorflow.png}
+		\caption{Tensorflow official logo (\cite{tensorflow_main_website})}
+		\label{fig:tensorflow}
+	\end{figure}
+
+	The "CPU support only" type of Tensorflow was installed in the server machine for Python3. The creation of a \gls{cnn} model from scratch that would be actually capable to perform face recognition is outside the scope of a \gls{fyp}. Because of this reason, we chose a pre-trained model from the famous FaceNet project (\cite{facenet_article}) that uses the architecture Inception Resnet v1.
+
+	Another possible architecture would have been Inception-v3. Both of them have been proven to give excellent results in image and face recognition, but as seen in \cite{inception_resnet_article}, with a similar computational cost, the training proccess of the Inception Resnet v1 is faster (Figure \ref{fig:incep_arch_diff}).
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=10cm]{network_arch_diff.png}
+		\caption{Top-5 error evolution during training of pure Inception-v3 vs Inception Resnet v1 (\cite{inception_resnet_article}))}
+		\label{fig:incep_arch_diff}
+	\end{figure}
+
+	\subsection{OpenCV}
+	OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine learning software library. OpenCV was built to provide a common infrastructure for computer vision applications and to accelerate the use of machine perception in the commercial products. Being a BSD-licensed product, OpenCV is free for comercial and personal use and allow to modify the code (\cite{opencv_about}). It has C++, Python, Java and MATLAB interfaces and supports Windows, Linux, Android and Mac OS, so the Python interface for Linux was chosen for this project. 
+
+	\begin{figure}[h!]
+		\centering
+		\vspace{0.2cm}
+		\includegraphics[width=4cm]{opencv.png}
+		\caption{OpenCV official logo (\cite{opencv_about})}
+		\label{fig:opencv}
+	\end{figure}	
+
+	In the server, this library has been used to pre-process the image captured in the Raspberry Pi before feeding it to the trained network. A face detection process using the Viola-Jones method (Haar-Cascade) is applied on this image, cropping the face out to a new file. 
+
+	It has become also really popular outside the computer vision and machine learning environment thanks to its image processing functions, which is for what is mainly used in the Raspberry Pi. However, this library is only is installed by default in the Raspberry Pi for Python 2.x and we are using Python 3.x. In order to install it, the tutorial in \cite{opencv_for_python3} was followed, where the author guide step-by-step through the compile and installation process.
+
+	\subsection{Flask Server}
+	Flask is an open-source microframework written in Python based on the Werkzeug tookit adn the Jinja 2 template engine. As OpenCV, it is distributed under a BSD license, so it is free for comercial and personal use (\cite{flask_server_docs}). 
+
+	\begin{figure}[h!]
+		\centering
+		%\vspace{0.2cm}
+		\includegraphics[width=8cm]{flask.png}
+		\caption{Flask Server official logo (\cite{flask_server_docs})}
+		\label{fig:flask_server}
+	\end{figure}	
+
+	This framework allow the developers to contain their application in a unique Python file. However, when the application starts to grow it the code becomes more difficult to maintain. Because of this reason, the server application has been divided in different files in a structure similar to the Figure \ref{fig:flask_files_struct}. The "server.py" file is the main file which is executed to run the server, "config.py" contains some configuration values that are applied in the context of the server application and "routes.py" has the different possible calls that the server has configured. The "\textunderscore \textunderscore init\textunderscore \textunderscore .py" file is the one that links these files and actually launch the flask application.
+
+	\begin{figure}[h!]
+		\centering
+		%\vspace{0.2cm}
+		\includegraphics[width=4cm]{flask_files_structure.png}
+		\caption{File structure in a Flask project}
+		\label{fig:flask_files_struct}
+	\end{figure}		
+
+	\subsection{SQLAlchemy}
+	SQLAlchemy is a Python SQL toolkit and Object Relational Mapper (\gls{orm}) (\cite{sqlalchemy_main_website}). \glspl{orm} allow applications to manage a database using high-level entities such as classes, objects and methods instead of tables and SQL. This way, the developers can change the database engine of their application without having to change the code of the application. 
+
+	\begin{figure}[h!]
+		\centering
+		%\vspace{0.2cm}
+		\includegraphics[width=8cm]{sqlalchemy.png}
+		\caption{SQLAlchemy official logo (\cite{sqlalchemy_main_website})}
+		\label{fig:sqlalchemy}
+	\end{figure}
+
+	For this project we have chosen the SQLite engine , which stores the databases as files on disk. The reason to choose it is that SQLite is really convenient for small applications with a single thread such as ours, as there is no need to run a database server like MySQL. The database schema used in the server is very simple (Figure \ref{fig:database_diagram}). It only has one table, Student, which stores the ID number and the name of the students recognised by the system. 
+
+	\begin{figure}[h!]
+		\centering
+		%\vspace{0.2cm}
+		\includegraphics[width=8cm]{database_diagram.png}
+		\caption{Database diagram of the system}
+		\label{fig:database_diagram}
+	\end{figure}
+
+	\subsection{Tkinter} 
+	Python provides several different libraries to create \glspl{gui}, being Tkinter one of the most widely known. It is the standard Python interface to the Tk \gls{gui} toolkit and provides cross-platform support (\cite{tkinter_docs}). It is also quite easy to use, although it does not have graphical editors, such as the ones existing for Java GUI developers. It was the library used to design the \gls{gui} of the Raspberry Pi application.  
+
+	\subsection{Beautiful Soup}
+	Beautiful Soup is a Python library designed for parsing HTML and XML documents that may have irregular markup, hence the name Beatiful "Soup" (\cite{beautiful_soup_main}). The parsed document is stored in a structure that can be used to extract data from these documents, practice known as web scraping if the document was in fact a website. In the project, the version 4.6 of this library it is used with this same purpose, extracting the student's timetable. 	
+
+	\subsection{Google Static Maps API}
+	The Google Static Maps API allow the developers to obtain a Google Maps image without requiring to use JavaScript or to render HTML. This service creates a map based on URL parameters sent through a standard HTTP request and returns the map as an image \cite{google_maps_static}. To use Google Maps APIs, developers must a register their project on the Google API Console in order to get a Google API key. Once obtained, every call to the API must include this key.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=4.5cm]{google_maps.png}
+		\caption{Google Maps official logo (\cite{google_maps_static})}
+		\label{fig:google_maps}
+	\end{figure}
+
+	\subsection{Latex}
+	\LaTeX{} is a document preparation system for high-quality typesetting. It is most often used for medium-to-large technical or scientific documents but it can be used for almost any form of publishing (\cite{latex_main}). To generate a document using LaTeX, the process typically consists of using a text editor to edit the LaTeX source file (.tex), and then running LaTeX to convert this file to a format such as PDF.
+
+	For someone familiar with MS Word or such word processors, the aspect of Latex that may stands out most is that there does not have to be an interaction with a \gls{gui} or that the document will not be as it looks like in the LaTeX file. However, it has many advantages such as its compatibility with version control or an excellent mathematical typesetting, for what it was finally chosen for the project.
+
+	\subsection{Version Control: Git}
+	Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency \cite{git_about}. Git was developed by the Linux community (and in particular Linus Torvalds, the creator of Linux) in 2005 as the substitute of the previous version control tool (BitKeeper) used until in the Linux kernel. Nowadays, Git, along with the web-based hosting service platform GitHub, have become very popular. In 2014, the Eclipse Foundation reported in its annual community survey that Git was at that moment the most widely used source-code management tool (\cite{git_popular}).  
+
 \section{Front end}
 \section{Back end}	
 \section{Testing}
@@ -1724,7 +1873,7 @@ The setup of the project can be found in the Figure \ref{fig:system_setup}. Some
 %
 %	However, the performance of this method is way worse than its competitor in the Raspberry Pi for video: h.264. Why choose MJPEG then? As we can see in \cite{mjpeg_format_info}, the MJPEG format "is natively supported by the QuickTime Player, the PlayStation console, and web browsers such as Safari, Google Chrome, Mozilla Firefox and Microsoft Edge". The four most used browsers support natively it, what takes away the work of create an application for the client side to show the stream. 
 %
-%	The GitHub project was designed to send a pre-recorded video, but we need a real-time video, so we changed the code to include the task of capturing the images. To do this task simultaneously with the image sending, we chose to use threads with a producer-consumer paradigm, synchronizing them using semaphores. The thread capturing the images acts as producer, and the one that computes the server is the consumer.    
+%	The GitHub project was designed to send a pre-recorded video, but we need a real-time video, so we changed the code to include the task of capturing the images. To do this task simultaneously with the image sending, we chose to use threads with a producer-consumer paradigm, synchronizing them using semaphores. The thread capturing the images acts as producer, and the one that computes the server is the consumer.   
 %
 %		\subsubsection{Pros and Cons}
 %		Pros:

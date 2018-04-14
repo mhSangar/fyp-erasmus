@@ -368,7 +368,7 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
 	\subsection{Specifications}
 	All the specifications of this device can be found in the table \ref{table:rasp_pi_specs}. For this project a camera will be needed to take photos of the users. There are a lot of camera models available for the Raspberry Pi with no big differences of performance in the scope of this \gls{fyp}. However, the Camera Module V2 (8 Megapixels) was finally chosen above the rest because it is the official camera for the Raspberry and has been used in many other projects. It counts with a Sony Exmor IMX219 Sensor and it is capable to record up to 1080p at 30fps.
 
-
+	\renewcommand{\arraystretch}{1.3}
 	\begin{table}[h!b]
 		\centering
 	    \begin{tabular}{| l | l |}
@@ -392,6 +392,7 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
 	    \caption{Specifications of the Raspberry Pi 3 Model B}
 	    \label{table:rasp_pi_specs}
 	\end{table}
+	\renewcommand{\arraystretch}{1}
 
 %	\begin{itemize}
 %		\item Model name: Raspberry Pi 3 Model B
@@ -432,6 +433,7 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
 	\end{itemize} 
 
 \section{Python}
+\label{sec:python}
 Some of the features of Python have been already commented in the Introduction of this report, but there is more to talk about. Some people say that in order to explain something well, you need to start from the root of the question. If we apply it to Python, we have to talk about the Zen of Python (\cite{origin_zen_of_python}, \cite{zen_of_python}), a collection of software principles that influenced the design of this language. A total of 20 principles (of which only 19 were written down) that show how Tim Peters, one of the open source development leaders of Python, wanted it to be beatiful, explicit, simple among other thigs.
 
 The readability of Python was also in these principles and we can find many aspects of the language that confirm this feature. One that really impressed me at the first place was the lack of brackets ("\{\}"), which are the usual way to delimit control flow blocks in other languages. Instead of brackets, Python uses indentation. To indicate that a line is inside a function or an block (an \textit{if} block in the example), we just have to indent it one level deeper. We can see it clearly in the next comparative.
