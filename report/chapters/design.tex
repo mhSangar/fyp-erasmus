@@ -1526,10 +1526,182 @@ In a real world project, the requirement engineering is a four step process: Fea
 
 \section{Scenario}
 
+In this section we are going to explain what is the flow of tasks that the system performs to achieve its objective. To illustrate this flow, an activity diagram has been attached in the Figure \ref{fig:activity_diagram}. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=8cm]{placeholder.jpg}
+	\caption{Activity Diagram}
+	\label{fig:activity_diagram}
+\end{figure}	
+
+On the left side of the screen we can find the lateral menu, which contains four icons that link with the rest of the application. In the case that the link refers to the same window where the user is in the moment, nothing will happen if that icon is clicked. This condition is applied to every window of the application and in case that it does not, it will be said in the correspondent section.
+
+In this menu, the icons that refers to the windows can acquire different colors: blue if the icon is referred to the current window, black if it does not refer to the current window but it is still accessible and gray if it is disabled. All icons that have been used in the application are in the Appendix \ref{ch:appendix_a}.
+
+The setup of the project can be found in the Figure \ref{fig:system_setup}. Some extra information can be found below:
+
+\begin{itemize} 
+	\item The screen connected to the Raspberry Pi uses a \gls{1080p} resolution.
+	\item The camera connected to the Raspberry Pi (the exact model can be found in the section \ref{sec:arch_n_tech}) takes photos in \gls{720p} and is upside-down, as it is easier to position it this way with the small cable that comes with the camera by default. 
+	\item The Raspberry Pi and the server are connected to the same network and their IP directions follow the pattern 192.168.1.XXX, where \textit{XXX} can be a number from 2 to 254.
+	\item The server is running and listening requests from the network.
+	\item The the application has been launch in the Raspberry Pi, passing as a parameter the IP address of the server. 
+\end{itemize}
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=8cm]{placeholder.jpg}
+	\caption{Setup of the system}
+	\label{fig:system_setup}
+\end{figure}	
+
+	\subsection{Home window}
+	\label{subsec:home_window}
+	
+	The application starts showing this window (Figure \ref{fig:home_window}). The first icon is which links with the Home window. The second icon is for accessing the camera. This icon and the "Start Demo" button has the same purpose and link with the Preview window (\ref{subsec:preview_window}). The last two icons are linked to the windows that show the next class of the student and the map to that class, respectively. However, the application has just started, so there is nothing to show in these windows. Because of this reason, that icons will be disabled at this stage althought they will still be visible.  
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_1_home_window.png}
+		\caption{Home window of the application}
+		\label{fig:home_window}
+	\end{figure}
+
+	\subsection{Preview window}
+	\label{subsec:preview_window}
+
+	This window (Figure \ref{fig:preview_window}) shows the a real time video stream of the camera, which will allow the users to have time to position themselves in front of the camera. In the lateral menu, the first icon links to the Home window (\ref{subsec:home_window}) and if it is clicked, the Home window will show up. The second links to this same window. The last two icons are disabled but still visible for the same reason of the previous window (the data needed to fill this windows has not been obtained yet).
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_2_preview_window.png}
+		\caption{Preview window of the application}
+		\label{fig:preview_window}
+	\end{figure}
+
+	In the main panel of the right, the video stream of the \gls{picamera} is shown. The images of the stream have been flipped 180 degrees, as the camera is upside-down, and horizontally mirrored, so if the user moves to the right, the movement will be to the right in the preview as well. The button below the preview links to the Snapshot window (\ref{subsec:snapshot_window}) and will take the current video frame as the selected image in the moment it is clicked.
+
+	\subsection{Snapshot window}
+	\label{subsec:snapshot_window}
+	This window (Figure \ref{fig:snap_window}) shows the image that was selected previously and that we will call \textit{\gls{snapshot}}. In the lateral menu, the first icon links to the Home window (\ref{subsec:home_window}) and if it is clicked, the Home window will show up. The second icon and the button "Take another snapshot" has the same action: show again the Preview window (\ref{subsec:preview_window}) and discard the current snapshot. The last two icons are disabled but still visible for the same reason of the Home window (the data needed to fill this windows has not been obtained yet).
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_3_snap_window.png}
+		\caption{Snapshot window of the application}
+		\label{fig:snap_window}
+	\end{figure}
+
+	In the main panel of the right we can see the snapshot selected in the Preview window. The "Accept this photo" button links with the Loading window (\ref{subsec:loading_window}) and will send the snapshot to the server in order to identify the user as a student.
+
+	\subsection{Loading window}
+	\label{subsec:loading_window}
+	This window (Figure \ref{fig:loading_window}) shows the progress in the communication with the server. All icons of the lateral menu will be disabled until the communication with the server is over. Depending of the call of the server that is being used at the moment, some icons of the menu will be different:
+
+	\begin{itemize}
+		\item Face recognition. The timetable icon will represent an user and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other. 
+		\item Get next class. The timetable icon will represent a calendar and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other.
+		\item Get map. The map icon will represent a map pin and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other.
+	\end{itemize}
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_4_loading_window.png}
+		\caption{Loading window of the application}
+		\label{fig:loading_window}
+	\end{figure}
+
+	The snapshot from the previous window is sent to the server using a HTTP POST method to the route that it has for the face recognition service. The image is coded as UNICODE characters, so is can be wrapped using JSON. The server extracts the image from the request and decodes the JSON message to obtain again the original image. The server now applies the face detection proccess, where the faces detected are cropped out from the original image and saved in a new file. Now there are three possibilities depending of the output of this process (Figure \ref{fig:output_face_det}).
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=9cm]{output_face_det.png}
+		\caption{Possible outputs of the Face Detection process}
+		\label{fig:output_face_det}
+	\end{figure}
+
+	The first possibility is that only one face is detected, which is the expected output of this process, being this face the one selected for the face recognition process. Another is that more than one face is detected, but in this case the first and leftmost face detected is the one selected for the face recognition process. The third and last possibility is that no faces are detected in the original image. Under these circumstances the server will send back a predefined default student instance along with a flag that will report the Raspberri Pi that no face could be detected. The Raspberry Pi will then show the Error window (\ref{subsec:error_window}) with a message informing the user about the situation.
+
+	Following the expected output of the face detection process where only one face is detected, the face recognition process is applied to the new file with the cropped face. It will give back the student ID number of the recognised student with highest confidency percenteage (how sure is the \gls{cnn} of that the student in front of the camera is the recognised student) and the actual value of this confidency percenteage. 
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=9cm]{output_face_recog.png}
+		\caption{Possible outputs of the Face Recognition process}
+		\label{fig:output_face_recog}
+	\end{figure}
+
+	If the percenteage is less than 80\%, we will assume that the student is not recognised and therefore that the user is not a student. The system will follow a similar procedure to the no-face-detected case of before, but the flag sent will be different, informing that the student could not be detected. The Raspberry Pi will do the same as well, showing the Error window (\ref{subsec:error_window}) with a message to report the user about the situation. Otherwise, if the confidency percenteage is greater than 80\%, the server will take the name of the user from the database and send it along the ID number to the Raspberry Pi.
+
+	Now that the Raspberry Pi knows the identity of the student, it will do another call to the server to get their next class of the day using the student's ID number. The server will use this ID to log into the timetable website of the University of Limerick (timetable.ul.ie). The website will give back as a response a static HTML page with a fixed pattern that contains the timetable. Analysing this pattern, the server will extract the timetable information from the fields of this HTML page and store it into a dictionary. Then, the current hour and weekday are taken into consideration to obtain the next class of the student.   
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=9cm]{output_next_class.png}
+		\caption{Possible outputs of the process of obtaining the next class}
+		\label{fig:output_next_class}
+	\end{figure}
+
+	If the student has no more classes in the day, in the response a JSON is filled with a null value (\textit{None} in Python) and sent back. In this situation, the Raspberry Pi will show the No More Classes window (\ref{subsec:no_classes}) to inform the student about the situation. On the other hand, if the student actually has a next class, the previous referred JSON would be filled with the data of this class, which include: code of the module, name of the module, starting hour, ending hour, class type and location of the classroom.
+
+	Finally, the Raspberry will use the class information to obtain the map from the server. The current location of the student and the location of the classroom, formatted as latitude and longitude coordinates, are sent to the server using the specific route for the map. The server will receive these locations and use them to construct first a link to obtain the path from one point to the other, and then another link to obtain the map image. This image is sent back to the Raspberry Pi, that uses all the gathered information to fill the Timetable (\ref{subsec:timetable_window}) and Map (\ref{subsec:map_window}) windows.
+
+	Once the communication with the server is over and the windows have been updated, the application shows the Timetable window automatically.
+
+	\subsection{Timetable window}
+	\label{subsec:timetable_window}
+	This window (Figure \ref{fig:timetable_window}) shows the a welcome message using the name of the recognised student and some information of the next class of this student, such as the code and name of the module, the location and the type of class. In the lateral menu now all icons are available. These icons are Home (\ref{subsec:home_window}), Camera (\ref{subsec:preview_window}), Timetable and Map. The last icon has the same function as the button that is placed in the main panel of the right, which is to link this window to the Map window (\ref{subsec:map_window}). 
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_5_timetable_window.png}
+		\caption{Timetable window of the application}
+		\label{fig:timetable_window}
+	\end{figure}
+
+	\subsection{Map window}
+	\label{subsec:map_window}
+	This window (Figure \ref{fig:map_window}) shows the map to the next class of the student. In the lateral menu all icons are available. These buttons are These icons are Home (\ref{subsec:home_window}), Camera (\ref{subsec:preview_window}), Timetable (\ref{subsec:timetable_window}) and Map. In the top of the main panel of the right we can find the code and name of the module of the next class. Below it, the map image is displayed in a \gls{720p} resolution.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_6_map_window.png}
+		\caption{Map window of the application}
+		\label{fig:map_window}
+	\end{figure}
+
+	\subsection{Error window}
+	\label{subsec:error_window}
+	This window (\ref{fig:error_window}) shows the user the kind of error that has occurred to the application. Only two possible errors are handled: \textit{no faces could be detected in the taken snapshot} or \textit{the user could not be identified as a student of the University of Limerick}. In both cases a message informing about the situation is displayed below a red cross icon in the main panel. 
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_x_error_window}
+		\caption{Error window of the application}
+		\label{fig:error_window}
+	\end{figure}	
+
+	In the lateral menu we can find the Home and the Camera icons, that will link with the Home (\ref{subsec:home_window}) and Preview (\ref{subsec:preview_window}) windows, respectively. The third icon will represent a user using the red color instead of the usual Timetable icon and it will be disabled. When the user goes to another window from this point, this third icon will be still disabled but now showing the Timetable icon. The fourth and last icon will represent a Map pin, but as the map could not be obtained because of the error, it will be disabled.
+
+	\subsection{No More Classes window}
+	\label{subsec:no_classes}
+	This window (\ref{fig:no_classes_window}) shows the user a welcome message using the name of the student and another message informing that the student has no more classes that day. In the lateral menu we can find the Home and the Camera icons, that will link with the Home (\ref{subsec:home_window}) and Preview (\ref{subsec:preview_window}) windows, respectively. The third will be the Timetable icon and in this case it will be not disabled.
+	% When the user goes to another window from this point, this third icon will become disabled with the same icon.
+	The fourth and last icon will represent a Map pin, but as the map could not be obtained because the user has no more classes, it will be disabled.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=15cm]{app_x_noclasses_window}
+		\caption{No More Classes window of the application}
+		\label{fig:no_classes_window}
+	\end{figure}	
 
 
 
 \section{Architecture and Technologies}
+\label{sec:arch_n_tech}
 \section{Front end}
 \section{Back end}	
 \section{Testing}
