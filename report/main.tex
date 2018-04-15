@@ -44,6 +44,8 @@
 \def \checkedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} \hspace{-0.1cm}}
 %\renewcommand{\bibname}{References}
 
+
+
 % checked lists
 % --------------
 %\newlist{levels}{itemize}{2}
@@ -95,11 +97,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+\pagenumbering{roman}
 
 \maketitle
 \vfill
 
 \include{\chapterspath/abstract}
+\setcounter{page}{3}
 \include{\chapterspath/cheers}
 
 %
@@ -123,7 +127,8 @@
 %
 \printglossary[title=Glossary of Terms, toctitle=Glossary of Terms]
 
-
+\clearpage
+\pagenumbering{arabic}
 
 \include{\chapterspath/introduction}
 \include{\chapterspath/research}
