@@ -2326,8 +2326,118 @@ In addition to the connection with the server itself, the \textit{connect{\_}wit
 
 After this, the only thing left to do is to refresh the contents of the frames that are going to be shown using the data obtained from the server.
 
-\section{Back end}	
 
+
+%██████╗  █████╗  ██████╗██╗  ██╗    ███████╗███╗   ██╗██████╗ 
+%██╔══██╗██╔══██╗██╔════╝██║ ██╔╝    ██╔════╝████╗  ██║██╔══██╗
+%██████╔╝███████║██║     █████╔╝     █████╗  ██╔██╗ ██║██║  ██║
+%██╔══██╗██╔══██║██║     ██╔═██╗     ██╔══╝  ██║╚██╗██║██║  ██║
+%██████╔╝██║  ██║╚██████╗██║  ██╗    ███████╗██║ ╚████║██████╔╝
+%╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝    ╚══════╝╚═╝  ╚═══╝╚═════╝ 
+
+\section{Back end}	
+This section includes some captures of fragments of code from the back-end side of the system. Using these captures, a brief explanation of how this code work is also given. 
+
+As seen in the back-end component diagram (Figure \ref{fig:back_comp_diagram}), the structure of the server is composed of various files, all linked by the \textit{{\_}{\_}init{\_}{\_}.py} file (Figure \ref{fig:init_file}). A peculiarity about this file is that the modules \textit{models} and \textit{routes} are imported at the bottom of the script, and not at the top as it is usually done. Importing these modules at the bottom is a workaround to circular imports, caused when in these files we import the "db" variable defined in \textit{{\_}{\_}init{\_}{\_}.py} using "from app import db".
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=14cm]{back_captures/init_file}
+	\caption{\textit{{\_}{\_}init{\_}{\_}.py} file}
+	\label{fig:init_file}
+\end{figure}
+
+The \textit{routes.py} file is where the different calls to the server are defined (Figure \ref{fig:routes_file}), among which we can find "/recognise{\_}me" to identify a student using a photo, "/next{\_}class" to obtain the next class of a student using the ID number related to that student, and "/map" to obtain a map image with a path from the origin point to the destination point. In order to carry out these calls, the rest of the modules of the server (stored in the "utils" folder) are called. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=14cm]{back_captures/routes_file}
+	\caption{Structure of the \textit{routes.py} file}
+	\label{fig:routes_file}
+\end{figure}
+
+	\subsection{Face detection module}
+	This section refers to the \textit{face{\_}detection.py} file. It has two important functions called \textit{detect{\_}face} and \textit{lfw{\_}detect{\_}face}. The first is used to perform the face detection for the server, using a single file, while the second has been only used during the training of the network with the \gls{lfw} dataset, being adapted to the particular file structure of the dataset. Only \textit{face{\_}detection} (Figure \ref{fig:detect_face_function}) will be explained here but as both functions work pretty similar, the same explanation can be applied to the other one.
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{back_captures/detect_face}
+		\caption{\textit{detect{\_}face} function}
+		\label{fig:detect_face_function}
+	\end{figure}
+
+	First, from the OpenCV library the the classifier "haarcascade{\_}frontface{\_}default" is loaded, which applies the previously explained Viola-Jones method using Haar features (Section \ref{subsec:face_detec_techniques}). The image is loaded in grayscale , as this method work with the pixel intensities, not with the color channels. Using the classifier, the coordinates of the detected faces are obtained and stored in the array \textit{faces}. 
+
+	The detected faces that are smaller than 150 pixels are discarded. The reason after this is that it has been assumed that the user is always near the camera when the photo is taken, so if a small face is detected, it would be either another person in the background or a false positive.
+
+	The face image is finally resized to a square of 160 pixels because the \gls{cnn} cannot accept smaller images. During the convolution process, the pooling makes the image smaller in each step, so if the image has less than 160x160 pixels, in one of these steps it will not be possible to apply the pooling.
+
+	\subsection{Face recognition module}
+	The \textit{train{\_}classifier.py} has been chosen to be explained here because its main role in the face recognition. Nevertheless, as it has been shown in the component diagram (Figure \ref{fig:back_comp_diagram}), many others files contribute to make it possible.
+
+	This file is used by itself to train and evaluate the \gls{cnn} (\textit{main} function, Figure \ref{fig:train_classifier_main}), and as a library to get the prediction of who is the student in front of the camera (\textit{get{\_}prediction} function, Figure \ref{fig:get_pred_function}). 
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{back_captures/train_class_main}
+		\caption{\textit{main} function from \textit{train{\_}classifier.py}}
+		\label{fig:train_classifier_main}
+	\end{figure}
+
+	The \textit{main} function starts creating a Tensorflow session (line 182) to encapsulate the environment in which the tensors are evaluated. Then, the images from the \gls{lfw} dataset are loaded and splitted into the train and test sets (line 183). Internally, Tensorflow does not use the class names (student IDs, in this case) to identify the person that appears in the image. Instead, it uses an integer known as "label". These labels are created when the images are loaded, asigning them label values starting from 0.  
+
+	Image files, labels and class names are loaded from the train or the test set, depending on whether it is training or evaluation. During the training, the pool of images is increased by applying random flips and slight brightness and contrast changes to the original images (lines 190-192). Onthe other hand, during the evaluation, the number of \glspl{epoch} is fixed to 1 (line 196) because the output of every epoch would be the same, as the classifier does not change.
+
+	Now is when the pre-trained model (Inception Resnet v1) is loaded. Using this model, the \glspl{embedding} are extracted from the image, distributing the work among the defined number of threads (line 210). Once the embeddings have been created, they are used to train a SVC classifier and save it later to a .pkl file (line 220). This same classifier is used to evaluate how similar are the recently extracted embeddings to the embeddings of the students with whom it was trained in first place (line 223).
+
+	The \textit{get{\_}prediction} (Figure \ref{fig:get_pred_function}) function is pretty similar to the \textit{main} function, but instead of using a full dataset, the input is a single image. It was created specifically for the interaction between the Raspberry Pi and the server, evaluating the received image with the classifier. In this case, the ID number of the student with the best probability and the value of this probability is returned, so the server will be able to evaluate if it is high enough to assure that the student was in fact recognised.
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{back_captures/get_pred_function}
+		\caption{\textit{get{\_}prediction} function from \textit{train{\_}classifier.py}}
+		\label{fig:get_pred_function}
+	\end{figure}
+
+	\subsection{Web scraping module}
+	This module is contained in \textit{scrape{\_}timetable.py}. The only available function in this file, \textit{get{\_}week{\_}timetable} (Figure \ref{fig:get_timetable_function}), is called from the server in order to get the full timetable of the student. Is in the server itself where it is evaluated if the student has more classes using this week timetable.
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{back_captures/week_timetable_function}
+		\caption{\textit{get{\_}week{\_}timetable} function}
+		\label{fig:get_timetable_function}
+	\end{figure}
+
+	First, the student ID is used to log into the website by introduce it into the field "T1" (lines 129-130), that corresponds with the input tag in the HTML. The response, that contains the timetable page, is stored and the Beautiful Soup library is used to parse it to a format it can work with (line 132). The timetable is always inside the second "$<tr>$" tag (line 135) and inside it, the days are inside $<td>$ tags and the classes into $<b>$ tags (line 137). 
+
+	The tags are deleted and the text is splitted by the whitespace character (line 144). As the structure is always the same, the values always correspond for the same fields. These values are used to create a \textit{Timetable} object, which is defined in the same file. 
+
+	In the \textit{{\_}{\_}init{\_}{\_}} of the object (Figure \ref{fig:timetable_object}), the different parse methods (lines 87, 103, 123) are called to store the parameters as attributes of the object. The parse methods, using the \textit{re} library, compile regular expressions and obtain the actual values from the raw input (line 124). As the name of the module is not provided in the timetable, another request is necessary (line 77). Following a similar process, the Beautiful Soup library is used again to obtain the module name from "timetable.ul.ie/tt{\_}moduledetails.asp".
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{back_captures/timetable_object}
+		\caption{\textit{Timetable} object}
+		\label{fig:timetable_object}
+	\end{figure}
+	
+	\subsection{Map module}
+	This section refers to the \textit{static{\_}google{\_}map.py} file. Here, the Google Maps API is used to obtain a map image with a pin at the origin point, another pin at the destination point and a path that connects them. The way to use this API is to send a GET HTML request to a certain url (Figure \ref{fig:get_map_url_function}, line 42), including the parameters of the map and the Google developer key in it. 
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{back_captures/get_map_url}
+		\caption{\textit{get{\_}static{\_}google{\_}map{\_}url} function}
+		\label{fig:get_map_url_function}
+	\end{figure}
+
+	The function \textit{get{\_}static{\_}google{\_}map{\_}url} generates this url concatenating the parameters in the format of a GET request. Although the image must have a \gls{720p} resolution, the standard users of the API have a maximum image size of 640x360, so the option "scale" is also used to resize it (line 39). If the path is defined with just the locations of the origin and the destination, the result is a straight line connecting both points. In order to obtain a real path, the Google Directions API is also used in the function \textit{get{\_}path{\_}points} (line 83).
+
+	Once the url is created, \textit{get{\_}map{\_}image}, which is the function used by the server, sends the GET request and returns the image.
+	
+
+	
 
 \section{Testing}
 \section{Implementation issues}
