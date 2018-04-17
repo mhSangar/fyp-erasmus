@@ -27,6 +27,7 @@
 \usepackage{multicol}
 \usepackage{chngpage}	
 \usepackage{float}
+\usepackage{array}
 %\usepackage{enumitem,amssymb}	% checked lists
 %\usepackage{pifont}	% checked lists
 
@@ -42,6 +43,10 @@
 \glsaddall
 \def \uncheckedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$} \hspace{0.3cm}}
 \def \checkedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} \hspace{-0.1cm}}
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 %\renewcommand{\bibname}{References}
 
 
