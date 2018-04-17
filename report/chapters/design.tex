@@ -1879,7 +1879,7 @@ In this section we are going to explain what is the flow of tasks that the syste
 
 On the left side of the screen we can find the lateral menu, which contains four icons that link with the rest of the application. In the case that the link refers to the same window where the user is in the moment, nothing will happen if that icon is clicked. This condition is applied to every window of the application and in case that it does not, it will be said in the correspondent section.
 
-In this menu, the icons that refers to the windows can acquire different colors: blue if the icon is referred to the current window, black if it does not refer to the current window but it is still accessible and gray if it is disabled. All icons that have been used in the application are in the Appendix \ref{ch:appendix_a}.
+In this menu, the icons that refers to the windows can acquire different colours: blue if the icon is referred to the current window, black if it does not refer to the current window but it is still accessible and gray if it is disabled. All icons that have been used in the application are in the Appendix \ref{ch:appendix_a}.
 
 The setup of the project can be found in the Figure \ref{fig:system_setup}. Some extra information can be found below:
 
@@ -2025,7 +2025,7 @@ The setup of the project can be found in the Figure \ref{fig:system_setup}. Some
 		\label{fig:error_window}
 	\end{figure}	
 
-	In the lateral menu we can find the Home and the Camera icons, that will link with the Home (\ref{subsec:home_window}) and Preview (\ref{subsec:preview_window}) windows, respectively. The third icon will represent a user using the red color instead of the usual Timetable icon and it will be disabled. When the user goes to another window from this point, this third icon will be still disabled but now showing the Timetable icon. The fourth and last icon will represent a Map pin, but as the map could not be obtained because of the error, it will be disabled.
+	In the lateral menu we can find the Home and the Camera icons, that will link with the Home (\ref{subsec:home_window}) and Preview (\ref{subsec:preview_window}) windows, respectively. The third icon will represent a user using the red colourr instead of the usual Timetable icon and it will be disabled. When the user goes to another window from this point, this third icon will be still disabled but now showing the Timetable icon. The fourth and last icon will represent a Map pin, but as the map could not be obtained because of the error, it will be disabled.
 
 	\subsection{No More Classes window}
 	\label{subsec:no_classes}
@@ -2073,13 +2073,24 @@ It is a software architecture pattern that divides the system in three different
 In the high level context of this project, the View correspond to the Raspberry Pi application, the Controller is the server located at the laptop, and the Model is the database that the server queries to find the student's information. 
 
 	\subsection{Back-end architecture}
-	Unlike the Front End, which is contained in a single called "app.py", the Back End of the project is divided in multiple files/modules. In order to explain the interaction between these modules, a component diagram has been included in the Figure \ref{fig:back_comp_diagram}.
+	Unlike the Front End, which is contained in a single called "app.py", the Back End of the project is divided in multiple files/modules. The component diagrams have been included in the Figures \ref{fig:back_comp_diagram} and \ref{fig:face_recog_comp_diagram} to explain the interaction between these modules, 
+
+	\clearpage
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=8cm]{placeholder}
-		\caption{Back End component diagram}
+		\includegraphics[width=14cm]{back-end_comp_diagram}
+		\caption{Component diagram of the Back End of the system}
 		\label{fig:back_comp_diagram}
+	\end{figure}	
+
+	\clearpage
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{face-recog_module_comp_diagram}
+		\caption{Component diagram of the Face recognition module}
+		\label{fig:face_recog_comp_diagram}
 	\end{figure}	
 
 
@@ -2130,6 +2141,7 @@ In the following sub-sections we will include all the technologies that have bee
 	\end{figure}
 
 	\subsection{OpenCV}
+	\label{subsec:opencv}
 	OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine learning software library. OpenCV was built to provide a common infrastructure for computer vision applications and to accelerate the use of machine perception in the commercial products. Being a BSD-licensed product, OpenCV is free for comercial and personal use and allow to modify the code (\cite{opencv_about}). It has C++, Python, Java and MATLAB interfaces and supports Windows, Linux, Android and Mac OS, so the Python interface for Linux was chosen for this project. 
 
 	\begin{figure}[!ht]
@@ -2142,7 +2154,7 @@ In the following sub-sections we will include all the technologies that have bee
 
 	In the server, this library has been used to pre-process the image captured in the Raspberry Pi before feeding it to the trained network. A face detection process using the Viola-Jones method (Haar-Cascade) is applied on this image, cropping the face out to a new file. 
 
-	It has become also really popular outside the computer vision and machine learning environment thanks to its image processing functions, which is for what is mainly used in the Raspberry Pi. However, this library is only is installed by default in the Raspberry Pi for Python 2.x and we are using Python 3.x. In order to install it, the tutorial in \cite{opencv_for_python3} was followed, where the author guide step-by-step through the compile and installation process.
+	It has become also really popular outside the computer vision and machine learning environment thanks to its image processing functions, which is for what is mainly used in the Raspberry Pi. However, this library is only installed by default in the Raspberry Pi for Python 2.x. In order to install it for the Python 3, the tutorial in \cite{opencv_for_python3} was followed, where the author guide step-by-step through the compile and installation process.
 
 	\subsection{Flask Server}
 	Flask is an open-source microframework written in Python based on the Werkzeug tookit adn the Jinja 2 template engine. As OpenCV, it is distributed under a BSD license, so it is free for comercial and personal use (\cite{flask_server_docs}). 
@@ -2286,7 +2298,7 @@ Now the container's windows are created (Figure \ref{fig:container_frames}). The
 	\label{fig:container_frames}
 \end{figure}
 
-Once all contents are created, the application shows the Home window, moment in which the function \textit{update{\_}nav{\_}bt} is called (Figure \ref{fig:update_nav_function}). This function is used to update the icons of the lateral menu. The logic used to decide which icon should be loaded is based in the evaluation of flags related to the container's frames. During the creation of each frame, flags such as \textit{is{\_}focus} were added to the \textit{frames} dictionary, so they can be accessed in the \textit{update{\_}nav{\_}bt} function. In this case, a "focused" frame will lead to change the color of the icon representing this frame to blue. 
+Once all contents are created, the application shows the Home window, moment in which the function \textit{update{\_}nav{\_}bt} is called (Figure \ref{fig:update_nav_function}). This function is used to update the icons of the lateral menu. The logic used to decide which icon should be loaded is based in the evaluation of flags related to the container's frames. During the creation of each frame, flags such as \textit{is{\_}focus} were added to the \textit{frames} dictionary, so they can be accessed in the \textit{update{\_}nav{\_}bt} function. In this case, a "focused" frame will lead to change the colour of the icon representing this frame to blue. 
 
 \begin{figure}[!ht]
 	\centering
@@ -2366,7 +2378,7 @@ The \textit{routes.py} file is where the different calls to the server are defin
 		\label{fig:detect_face_function}
 	\end{figure}
 
-	First, from the OpenCV library the the classifier "haarcascade{\_}frontface{\_}default" is loaded, which applies the previously explained Viola-Jones method using Haar features (Section \ref{subsec:face_detec_techniques}). The image is loaded in grayscale , as this method work with the pixel intensities, not with the color channels. Using the classifier, the coordinates of the detected faces are obtained and stored in the array \textit{faces}. 
+	First, from the OpenCV library the the classifier "haarcascade{\_}frontface{\_}default" is loaded, which applies the previously explained Viola-Jones method using Haar features (Section \ref{subsec:face_detec_techniques}). The image is loaded in grayscale , as this method work with the pixel intensities, not with the colour channels. Using the classifier, the coordinates of the detected faces are obtained and stored in the array \textit{faces}. 
 
 	The detected faces that are smaller than 150 pixels are discarded. The reason after this is that it has been assumed that the user is always near the camera when the photo is taken, so if a small face is detected, it would be either another person in the background or a false positive.
 
@@ -2437,12 +2449,74 @@ The \textit{routes.py} file is where the different calls to the server are defin
 	Once the url is created, \textit{get{\_}map{\_}image}, which is the function used by the server, sends the GET request and returns the image.
 	
 
-	
 
+%████████╗███████╗███████╗████████╗██╗███╗   ██╗ ██████╗ 
+%╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██║████╗  ██║██╔════╝ 
+%   ██║   █████╗  ███████╗   ██║   ██║██╔██╗ ██║██║  ███╗
+%   ██║   ██╔══╝  ╚════██║   ██║   ██║██║╚██╗██║██║   ██║
+%   ██║   ███████╗███████║   ██║   ██║██║ ╚████║╚██████╔╝
+%   ╚═╝   ╚══════╝╚══════╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+                                                    
 \section{Testing}
+
+
+%██╗███╗   ███╗██████╗ ██╗     ███████╗███╗   ███╗       ██╗███████╗███████╗██╗   ██╗███████╗███████╗
+%██║████╗ ████║██╔══██╗██║     ██╔════╝████╗ ████║       ██║██╔════╝██╔════╝██║   ██║██╔════╝██╔════╝
+%██║██╔████╔██║██████╔╝██║     █████╗  ██╔████╔██║       ██║███████╗███████╗██║   ██║█████╗  ███████╗
+%██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝  ██║╚██╔╝██║       ██║╚════██║╚════██║██║   ██║██╔══╝  ╚════██║
+%██║██║ ╚═╝ ██║██║     ███████╗███████╗██║ ╚═╝ ██║██╗    ██║███████║███████║╚██████╔╝███████╗███████║
+%╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝    ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚══════╝╚══════╝
+                                                                                                    
 \section{Implementation issues}
-it may help other students working with the same  technologies.
+Many issues were found during the development of the system and, in order to help other developers who use the same technologies as in this project, this section will explain how some of these issues were solved.
+
+The first big problem developing the system came while OpenCV was being installed in the Raspberry Pi. As said before (Section \ref{subsec:opencv}), OpenCV is not installed by default for the version 3 of Python. The problem is that the command \textit{sudo apt-get install python-opencv} to install it from pre-built binaries does not work, because the Raspberry Pi architecture is not supported. 
+
+The only option left was to build it from the source code. Following the tutorial also mentioned before, the Raspberry Pi compiled the source code, but it targeted Python 2.x instead of Python 3, being in the same situation as at the beginning. After inspecting the logs of the compilation process, an ImportError was found: the library depency "atlas" was not installed. Once it was installed, the compilation process was repeated and OpenCV was finally available for Python3.
+
+Other issue was found while developing the application \gls{gui}. Many icons and images have been used in the \gls{gui}, some because they were necessary and others for aesthetic reasons. The process followed to load them was first read image file using OpenCV, resize it as necessary, change the colour space to RGB (OpenCV uses BGR), create a PhotoImage object and link it to the widget where the image was going to be displayed. However, the image was not displayed. 
+
+From \cite{tkinter_images_double_ref}:
+
+\say{The problem is that the Tkinter/Tk interface doesn’t handle references to Image objects properly; the Tk widget will hold a reference to the internal object, but Tkinter does not. When Python’s garbage collector discards the Tkinter object, Tkinter tells Tk to release the image. But since the image is in use by a widget, Tk doesn’t destroy it. Not completely. It just blanks the image, making it completely transparent…}
+
+The solution to this problem was to link the image twice, first to the "image" attibute and then to the image object of the widget.
+
+The third and last issue that is going to be explained here is related to how an image is sent in a HTML message using JSON. It was thought at first to create a dictionary to store a key "image" with the binary data of the image as value. However, after running the script, it was discovered that JSON does not support binary data. Is because of this reason that it was decided to encode the binary data in \gls{base64} on one side of the communication and decode it on the other, obtaining the image as if it was just read from the file.
+
 \section{Summary of the implementation}
+In order to measure the size of the system and the effort involved in its development, it has been chosen as metric the lines of code (\glspl{loc}). We can find the \glsps{loc} of each file in the Table \ref{}, having at the end the total amount of \glsps{loc} of the system.
+
+\begin{table}[!ht]
+	\centering
+    \resizebox{\columnwidth}{!}
+	{		
+    \begin{tabular}{| c | c |}
+	    \hline
+	    ID & \makecell[c]{NFR{\_}01} \\ 
+		\hline
+		Priority & 
+			\hspace{0.3cm} \checkedbox High \hspace{0.58cm} 
+			\hspace{0.3cm} \uncheckedbox Medium \hspace{0.05cm}
+			\hspace{0.3cm} \uncheckedbox Low \hspace{1.23cm} \\
+	    \hline
+	    Necessity & 
+			\hspace{0.3cm} \checkedbox Essential 
+			\hspace{0.3cm} \uncheckedbox Desirable 
+			\hspace{0.3cm} \uncheckedbox Optional \hspace{0.4cm} \\
+	    \hline
+	    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer \hspace{0.1cm}} \\ 
+	    \hline
+	    %						   ---------------------------------------|
+	    Description & \makecell[c]{Client and server will interact with each \\
+	    						   other using the HTTP protocol.}    \\ 
+	    \hline
+	\end{tabular}
+    }
+	\caption{Non\textendash Functional Requirement NFR{\_}01}
+    \label{nfr:01}
+\end{table}
+
 \section{Software Quality}
 
 
