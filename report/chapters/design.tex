@@ -930,7 +930,7 @@ In a real world project, the requirement engineering is a four step process: Fea
 			    Source & \makecell[c]{\checkedbox Client \hspace{1cm} \uncheckedbox Programmer} \\ 
 			    \hline
 			    %						   ---------------------------------------|
-			    Description & \makecell[c]{The server will gls{scrape} the \\
+			    Description & \makecell[c]{The server will \gls{scrape} the \\
 			    						   timetable.ul.ie website to obtain\\
 			    						   the timetable of the student.}    \\ 
 			    \hline
@@ -1868,6 +1868,7 @@ In a real world project, the requirement engineering is a four step process: Fea
                                                               
 
 \section{Scenario}
+\label{sec:scenario}
 
 In this section we are going to explain what is the flow of tasks that the system performs to achieve its objective. To illustrate this flow, an activity diagram has been attached in the Figure \ref{fig:activity_diagram}. 
 
@@ -1886,7 +1887,7 @@ The setup of the project can be found in the Figure \ref{fig:system_setup}. Some
 
 \begin{itemize} 
 	\item The screen connected to the Raspberry Pi uses a \gls{1080p} resolution.
-	\item The camera connected to the Raspberry Pi (the exact model can be found in the section \ref{sec:arch_n_tech}) takes photos in \gls{720p} and is upside-down, as it is easier to position it this way with the small cable that comes with the camera by default. 
+	\item The camera connected to the Raspberry Pi (the exact model can be found in the section \ref{sec:rasp_pi}) takes photos in \gls{720p} and is upside-down, as it is easier to position it this way with the small cable that comes with the camera by default. 
 	\item The Raspberry Pi and the server are connected to the same network and their IP directions follow the pattern 192.168.1.XXX, where \textit{XXX} can be a number from 2 to 254.
 	\item The server is running and listening requests from the network.
 	\item The the application has been launch in the Raspberry Pi, passing as a parameter the IP address of the server. 
@@ -1987,7 +1988,7 @@ The setup of the project can be found in the Figure \ref{fig:system_setup}. Some
 		\label{fig:output_next_class}
 	\end{figure}
 
-	If the student has no more classes in the day, in the response a JSON is filled with a null value (\textit{None} in Python) and sent back. In this situation, the Raspberry Pi will show the No More Classes window (\ref{subsec:no_classes}) to inform the student about the situation. On the other hand, if the student actually has a next class, the previous referred JSON would be filled with the data of this class, which include: code of the module, name of the module, starting hour, ending hour, class type and location of the classroom.
+	If the student has no more classes in the day or the last class of the day has already begun, a JSON is filled for the response with a null value (\textit{None} in Python) and sent back. In this situation, the Raspberry Pi will show the No More Classes window (\ref{subsec:no_classes}) to inform the student about the situation. On the other hand, if the student actually has a next class, the previous referred JSON would be filled with the data of this class, which include: code of the module, name of the module, starting hour, ending hour, class type and location of the classroom.
 
 	Finally, the Raspberry will use the class information to obtain the map from the server. The current location of the student and the location of the classroom, formatted as latitude and longitude coordinates, are sent to the server using the specific route for the map. The server will receive these locations and use them to construct first a link to obtain the path from one point to the other, and then another link to obtain the map image. This image is sent back to the Raspberry Pi, that uses all the gathered information to fill the Timetable (\ref{subsec:timetable_window}) and Map (\ref{subsec:map_window}) windows.
 
@@ -2052,7 +2053,7 @@ The setup of the project can be found in the Figure \ref{fig:system_setup}. Some
                                                                                               
 
 \section{Architecture}
-\label{sec:arch_n_tech}
+\label{sec:architecture}
 In this project the architecture follows the pattern Model-View-Controller (\gls{mvc}). It was first described in the original MVC note at Xerox PARC in 1978, by the Norwegian computer scientist Trygve Reenskaug (\cite{mvc_origin}). The first name of the pattern was "Thing Model View Editor" (\cite{tmve_reenskaug_1979}), but he quickly changed it to the popular "Model View Controller" (\cite{mvc_reenskaug_1979}). This first version of MVC was first implemented as part of the Smalltalk-80 class library and originally used as an architectural pattern to create \glspl{gui}.
 
 However, the definition of the MVC pattern has changed over the time to adapt to the changing environment. And because of this fact, it is one of the most quoted (and most misquoted) patterns around (\cite{current_mvc_definition}). A general and basic definition of the pattern is shared by most of the approaches and has been summarized in the Figure \ref{fig:mvc_diagram}.   
@@ -2106,6 +2107,7 @@ In the high level context of this project, the View correspond to the Raspberry 
 
 
 \section{Technologies}
+\label{sec:techs}
 In the following sub-sections we will include all the technologies that have been used in the development of this project, also represented in the Marketecture diagram (Figure \ref{fig:marketecture_diagram}).
 
 \begin{figure}[!ht]
@@ -2158,7 +2160,7 @@ In the following sub-sections we will include all the technologies that have bee
 	It has become also really popular outside the computer vision and machine learning environment thanks to its image processing functions, which is for what is mainly used in the Raspberry Pi. However, this library is only installed by default in the Raspberry Pi for Python 2.x. In order to install it for the Python 3, the tutorial in \cite{opencv_for_python3} was followed, where the author guide step-by-step through the compile and installation process.
 
 	\subsection{Flask Server}
-	Flask is an open-source microframework written in Python based on the Werkzeug tookit adn the Jinja 2 template engine. As OpenCV, it is distributed under a BSD license, so it is free for comercial and personal use (\cite{flask_server_docs}). 
+	Flask is an open-source microframework written in Python based on the Werkzeug toolkit and the Jinja 2 template engine. Like OpenCV, it is distributed under a BSD license, so it is free for comercial and personal use (\cite{flask_server_docs}). The communication with the server will be done using HTTP requests, wrapping the data of these requests in JSON format.
 
 	\begin{figure}[!ht]
 		\centering
@@ -2179,6 +2181,7 @@ In the following sub-sections we will include all the technologies that have bee
 	\end{figure}		
 
 	\subsection{SQLAlchemy}
+	\label{subsec:sql_alchemy}
 	SQLAlchemy is a Python SQL toolkit and Object Relational Mapper (\gls{orm}) (\cite{sqlalchemy_main_website}). \glspl{orm} allow applications to manage a database using high-level entities such as classes, objects and methods instead of tables and SQL. This way, the developers can change the database engine of their application without having to change the code of the application. 
 
 	\begin{figure}[!ht]
@@ -2252,6 +2255,7 @@ In the following sub-sections we will include all the technologies that have bee
 %╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝       ╚══════╝╚═╝  ╚═══╝╚═════╝ 
 
 \section{Front end}
+\label{sec:front_end}
 This section includes some captures of fragments of code from the front-end side of the system. Using these captures, a brief explanation of how this code work is also given. The front-end of the system is all contained in the "app.py" file, that creates and launchs the \gls{gui}.
 
 The library \textit{tkinter} (not \textit{Tkinter}, which is for Python 2.x) is imported along with its module "ttk". Some names are defined in both libraries and at the time of reading the code, it may be not clear which library is being used. In order to make the code clearer, the global import has been avoided (Figure \ref{fig:import_tkinter}). 
@@ -2317,18 +2321,18 @@ Eventually, the user will press the start button of the Home window, showing the
 	\label{fig:video_loop_function}
 \end{figure}
 
-The loop is created using the tkinter function \textit{after}, that allows the function to call itself after a certain amount of time (i.e. recursion). The reason to stop the video is that the Raspberry is a very limited device, so a heavy process like this uses most of its computational power. This can be proven by running the application, where the video stream shown on the screen does not even reach 30 \gls{fps} (the minimum callback time is setted to 10ms, so it is theoretically possible). As said before, the recursion depends on the value of the flag:
+The loop is created using the tkinter function \textit{after}, that allows the function to call itself after a certain amount of time (i.e. recursion). The reason to stop the video is that the Raspberry is a very limited device, so a heavy process like this uses most of its computational power. This can be proven by running the application, where the video stream shown on the screen does not even reach 30 \gls{fps} (the minimum callback time is set to 10ms, so it is theoretically possible). As said before, the recursion depends on the value of the flag:
 
 \begin{itemize}
-	\item \textit{false}. Starts the video stream. The flag is setted to this value everytime the "focus" is passed to the Preview window.
-	\item \textit{true}. Stops the video stream. The flag is setted to this value everytime the "focus" is passed to another window, if the previous window was the Preview window.
+	\item \textit{false}. Starts the video stream. The flag is set to this value everytime the "focus" is passed to the Preview window.
+	\item \textit{true}. Stops the video stream. The flag is set to this value everytime the "focus" is passed to another window, if the previous window was the Preview window.
 \end{itemize}
 
 When the user finally accept a snapshot, the connection with the server starts. A total of three phases are necessary to get all the data to fill the next windows of the application: recognise the student, get the next class and get the map to that class. Each phase is a call to the server, and as such, it will take some time to receive the response.
 
 The tkinter function \textit{wait{\_}variable} is used to wait for the server response (Figure \ref{fig:connect_with_server}). First, a thread executing a function that sends the request to the server (i.e. auxiliary function) is launched and then the \textit{wait{\_}variable} function blocks the elements of the \gls{gui}. Once the server sends back a response, the auxiliary function updates the variable for what the \textit{wait{\_}variable} function is waiting, unlocking the flow of the application. 
 
-In addition to the connection with the server itself, the \textit{connect{\_}with{\_}server} function also decides which is the frame to show depending of the responses of the server. In the auxiliary functions, other flags besides the one waited by \textit{wait{\_}variable} are setted as well (e.g. \textit{is{\_}detected}). And it is through the use of these flags how the \textit{connect{\_}with{\_}server} function decides whether to show one frame or another. 
+In addition to the connection with the server itself, the \textit{connect{\_}with{\_}server} function also decides which is the frame to show depending of the responses of the server. In the auxiliary functions, other flags besides the one waited by \textit{wait{\_}variable} are set as well (e.g. \textit{is{\_}detected}). And it is through the use of these flags how the \textit{connect{\_}with{\_}server} function decides whether to show one frame or another. 
 
 \begin{figure}[!ht]
 	\centering
@@ -2370,6 +2374,7 @@ The \textit{routes.py} file is where the different calls to the server are defin
 \end{figure}
 
 	\subsection{Face detection module}
+	\label{subsec:face_det}
 	This section refers to the \textit{face{\_}detection.py} file. It has two important functions called \textit{detect{\_}face} and \textit{lfw{\_}detect{\_}face}. The first is used to perform the face detection for the server, using a single file, while the second has been only used during the training of the network with the \gls{lfw} dataset, being adapted to the particular file structure of the dataset. Only \textit{face{\_}detection} (Figure \ref{fig:detect_face_function}) will be explained here but as both functions work pretty similar, the same explanation can be applied to the other one.
 
 	\begin{figure}[!ht]
@@ -2386,6 +2391,7 @@ The \textit{routes.py} file is where the different calls to the server are defin
 	The face image is finally resized to a square of 160 pixels because the \gls{cnn} cannot accept smaller images. During the convolution process, the pooling makes the image smaller in each step, so if the image has less than 160x160 pixels, in one of these steps it will not be possible to apply the pooling.
 
 	\subsection{Face recognition module}
+	\label{subsec:face_recog}
 	The \textit{train{\_}classifier.py} has been chosen to be explained here because its main role in the face recognition. Nevertheless, as it has been shown in the component diagram (Figure \ref{fig:back_comp_diagram}), many others files contribute to make it possible.
 
 	This file is used by itself to train and evaluate the \gls{cnn} (\textit{main} function, Figure \ref{fig:train_classifier_main}), and as a library to get the prediction of who is the student in front of the camera (\textit{get{\_}prediction} function, Figure \ref{fig:get_pred_function}). 
@@ -2413,6 +2419,7 @@ The \textit{routes.py} file is where the different calls to the server are defin
 	\end{figure}
 
 	\subsection{Web scraping module}
+	\label{subsec:scraping_module}
 	This module is contained in \textit{scrape{\_}timetable.py}. The only available function in this file, \textit{get{\_}week{\_}timetable} (Figure \ref{fig:get_timetable_function}), is called from the server in order to get the full timetable of the student. Is in the server itself where it is evaluated if the student has more classes using this week timetable.
 
 	\begin{figure}[!ht]
@@ -2436,6 +2443,7 @@ The \textit{routes.py} file is where the different calls to the server are defin
 	\end{figure}
 	
 	\subsection{Map module}
+	\label{subsec:map_module}
 	This section refers to the \textit{static{\_}google{\_}map.py} file. Here, the Google Maps API is used to obtain a map image with a pin at the origin point, another pin at the destination point and a path that connects them. The way to use this API is to send a GET HTML request to a certain url (Figure \ref{fig:get_map_url_function}, line 42), including the parameters of the map and the Google developer key in it. 
 
 	\begin{figure}[!ht]
@@ -2459,7 +2467,119 @@ The \textit{routes.py} file is where the different calls to the server are defin
 %   ╚═╝   ╚══════╝╚══════╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ 
                                                     
 \section{Testing}
-Two approaches are possible to perform the testing: automated, where a set of unit tests are executed to obtain a "passed"/"failed" answer, and manual testing, where is a human who applies the tests to the system. The automated testing of the GUI is actually possible (e.g. \cite{maveryx_testing}), but the manual testing was finally chosen because its simplicity, validating the requirements defined previously (\ref{sec:requirements}) to verify the proper operation of the system.
+Two approaches are possible to perform the testing: automated, where a set of unit tests are executed to obtain a "passed"/"failed" answer, and manual testing, where is a human who applies the tests to the system. The automated testing on a GUI is actually possible (e.g. \cite{maveryx_testing}), but the manual testing was finally chosen because its simplicity. The results of this testing are displayed in following tables (\ref{table:fun_1_req_validation}, \ref{table:fun_2_req_validation}, \ref{table:non_fun_req_validation}), where the requirements have been validated to verify the proper operation of the system.
+
+\clearpage
+
+\begin{table}[p]
+	\centering
+	\resizebox{\textwidth}{!}
+	{
+    \begin{tabular}{| C{2cm} | C{3cm} | L{9cm} |}
+	    \hline
+	    \textbf{ID} & \textbf{Satisfied} & \multicolumn{1}{c|}{\textbf{Notes}} \\
+	    \hline
+	    FR{\_}01 & \checkmark & Architectural requirement. See \ref{sec:architecture}. \\
+	    \hline
+	    FR{\_}02 & \checkmark & Architectural requirement. See \ref{sec:architecture}. \\
+	    \hline
+	    FR{\_}03 & \checkmark & Architectural requirement. See \ref{sec:architecture}. \\
+	    \hline
+	    FR{\_}04 & \checkmark & Architectural requirement. See \ref{sec:architecture}. \\
+	    \hline
+	    FR{\_}05 & \xmark & Not satisfied in the Loading window. As an optional requirement, used mostly during the development of the app, it is an acceptable behaviour. \\
+	    \hline
+	    FR{\_}06 & \checkmark & Showing the focus (blue icons), disabled button (gray icons) and waiting for server response (yellow icons). \\
+	    \hline
+	    FR{\_}07 & \checkmark & Architectural requirement. See \ref{sec:architecture}. \\
+	    \hline
+	    FR{\_}08 & \xmark & Not satisfied in the Loading window, but within the expected behaviour. See FR{\_}09.  \\
+	    \hline
+	    FR{\_}09 & \checkmark & Included in Loading window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}10 & \checkmark & Included in Preview window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}11 & \checkmark & Included in Preview window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}12 & \checkmark & Included in Preview window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}13 & \checkmark & Included in Snapshot window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}14 & \checkmark & \multicolumn{1}{c|}{-} \\
+	    \hline
+	    FR{\_}15 & \checkmark & Included in \textit{routes.py}, see Figure \ref{fig:routes_file}. \\
+	    \hline
+	    FR{\_}16 & \checkmark & Loading window. See \ref{sec:scenario}  \\
+	    \hline
+	    FR{\_}17 & \checkmark & \multicolumn{1}{c|}{-} \\
+	    \hline
+	    FR{\_}18 & \checkmark & \multicolumn{1}{c|}{-} \\
+	    \hline
+	    FR{\_}19 & \checkmark & Face detection module. See \ref{subsec:face_det} \\
+	    \hline
+	    FR{\_}20 & \checkmark & Error window. See \ref{sec:scenario} \\
+	    \hline
+	\end{tabular}	    
+	}
+	\caption{Functional Requirements (1-20) validation}
+    \label{table:fun_1_req_validation}
+\end{table}
+
+\clearpage
+
+\begin{table}[p]
+	\centering
+	\resizebox{\textwidth}{!}
+	{
+    \begin{tabular}{| C{2cm} | C{3cm} | L{9cm} |}
+	    \hline
+	    \textbf{ID} & \textbf{Satisfied} & \multicolumn{1}{c|}{\textbf{Notes}} \\
+	    \hline
+	    FR{\_}21 & \checkmark & Face detection module. See \ref{subsec:face_det} \\
+	    \hline
+	    FR{\_}22 & \checkmark & Error window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}23 & \checkmark & File \textit{reset{\_}db.py}. See \ref{subsec:sql_alchemy} \\
+	    \hline
+	    FR{\_}24 & \checkmark & Response of the server for the face recognition process. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}25 & \checkmark & Timetable window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}26 & \checkmark & Included in \textit{routes.py}, see Figure \ref{fig:routes_file}. \\
+	    \hline
+	    FR{\_}27 & \checkmark & Included in \textit{scrape{\_}timetable.py}, see \ref{subsec:scraping_module}. \\
+	    \hline
+	    FR{\_}28 & \checkmark & Included in \textit{scrape{\_}timetable.py}, see \ref{subsec:scraping_module}. \\
+	    \hline
+	    FR{\_}29 & \xmark & Not all the information was included in the response because it is not shown in the application, so it is not necessary to send it back. \\
+	    \hline
+	    FR{\_}30 & \checkmark & No More Classes window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}31 & \checkmark & Timetable window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}32 & \checkmark & Included in \textit{routes.py}, see Figure \ref{fig:routes_file}. \\
+	    \hline
+	    FR{\_}33 & \checkmark & Map module. See \ref{subsec:map_module} \\
+	    \hline
+	    FR{\_}34 & \checkmark & Map module. See \ref{subsec:map_module} \\
+	    \hline
+	    FR{\_}35 & \checkmark & Map module. See \ref{subsec:map_module} \\
+	    \hline
+	    FR{\_}36 & \checkmark & Map window. See \ref{subsec:map_window} \\
+	    \hline
+	    FR{\_}37 & \checkmark & Lateral menu of the Home window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}38 & \checkmark & Lateral menu of the Home window. See \ref{sec:scenario} \\
+	    \hline
+	    FR{\_}39 & \checkmark & Lateral menu of the Home window. See \ref{sec:scenario} \\
+	    \hline
+	\end{tabular}	    
+	}
+	\caption{Functional Requirements (21-39) validation}
+    \label{table:fun_2_req_validation}
+\end{table}
+
+\clearpage
 
 
 \begin{table}[!ht]
@@ -2468,27 +2588,45 @@ Two approaches are possible to perform the testing: automated, where a set of un
 	{
     \begin{tabular}{| C{2cm} | C{3cm} | L{9cm} |}
 	    \hline
-	    \textbf{ID} & \textbf{Implemented} & \multicolumn{1}{c|}{\textbf{Notes}} \\
+	    \textbf{ID} & \textbf{Satisfied} & \multicolumn{1}{c|}{\textbf{Notes}} \\
 	    \hline
-	    FR{\_}01 & \checkmark & notes \\
+	    NFR{\_}01 & \checkmark & Included in the Flask server. See \ref{sec:techs}. \\
 	    \hline
-	    NFR{\_}01 & \checkmark & notes \\
+	    NFR{\_}02 & \checkmark & Included in the Flask server. See \ref{sec:techs}. \\
 	    \hline
-	    FR{\_}01 & \checkmark & notes \\
+	    NFR{\_}03 & \checkmark & Setup of the project. See \ref{sec:scenario}. \\
 	    \hline
-	    FR{\_}01 & \checkmark & notes \\
+	    NFR{\_}04 & \checkmark & Included in the attributes of the root window. See \ref{sec:front_end}. \\
 	    \hline
-	    FR{\_}01 & \checkmark & notes \\
+	    NFR{\_}05 & \checkmark & \multicolumn{1}{c|}{-} \\
 	    \hline
-	    FR{\_}01 & \checkmark & notes \\
+	    NFR{\_}06 & \checkmark & Lateral menu. See \ref{sec:scenario}. \\
 	    \hline
-	    FR{\_}01 & \checkmark & notes \\
+	    NFR{\_}07 & \checkmark & Lateral menu. See \ref{sec:scenario}. \\
+	    \hline
+	    NFR{\_}08 & \checkmark & \multicolumn{1}{c|}{-} \\
+	    \hline
+	    NFR{\_}09 & \checkmark & Face detection face recognition modules. See \ref{subsec:face_det} and \ref{subsec:face_recog}. \\
+	    \hline
+	    NFR{\_}10 & \checkmark & Web scraping module. See \ref{subsec:scraping_module}. \\
+	    \hline
+	    NFR{\_}11 & \checkmark & Map module. See \ref{subsec:map_module}. \\
+	    \hline
+	    NFR{\_}12 & \checkmark & Face recognition module. See \ref{subsec:face_recog}.  \\
+	    \hline
+	    NFR{\_}13 & \checkmark & See \ref{sec:scenario}. \\
+	    \hline
+	    NFR{\_}14 & \checkmark & \multicolumn{1}{c|}{-} \\
+	    \hline
+	    NFR{\_}15 & \checkmark & \multicolumn{1}{c|}{-} \\
 	    \hline
 	\end{tabular}	    
 	}
-	\caption{Requirement validation}
-    \label{table:req_validation}
+	\caption{Non-Functional Requirements validation}
+    \label{table:non_fun_req_validation}
 \end{table}
+
+\clearpage
 
 
 %██╗███╗   ███╗██████╗ ██╗     ███████╗███╗   ███╗       ██╗███████╗███████╗██╗   ██╗███████╗███████╗
