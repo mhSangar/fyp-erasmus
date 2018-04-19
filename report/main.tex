@@ -5,9 +5,9 @@
 %
 \usepackage[utf8]{inputenc}
 \usepackage[export]{adjustbox} % loads also graphicx
+\usepackage{natbib}	% harvard ref 
 \usepackage{epsf}
 \usepackage{psfig}
-%\usepackage{thesis}
 \usepackage[font={small,it}, justification=centering]{caption}
 \usepackage{multirow}
 \usepackage{makecell}
@@ -15,20 +15,19 @@
 \usepackage{mathtools}	% maths 
 \usepackage{hyperref}	% linked references 
 \usepackage[nottoc,numbib]{tocbibind}
-\usepackage{natbib}
 \usepackage{listings}	% code
 \usepackage{parcolumns}	% columns
-%\usepackage[toc, acronym, style=altlist, nonumberlist]{glossaries}
 \usepackage[toc, acronym, nonumberlist]{glossaries}
-\usepackage{dirtytalk}
-\usepackage{amssymb}
-\usepackage{pifont}
-\usepackage{colortbl,xcolor}
+\usepackage{dirtytalk} % cites in-text
+\usepackage{amssymb} % symbols (check)
+\usepackage{pifont} % symbols (cross)
+\usepackage{colortbl,xcolor} 
 \usepackage[toc,page]{appendix}
-\usepackage{multicol}
-\usepackage{chngpage}	
-\usepackage{float}
-\usepackage{array}
+\usepackage{multicol} 
+\usepackage{chngpage} % change page attr ad-hoc	
+\usepackage{float} % position of floats in the doc
+\usepackage{array} % tables attributes
+
 %\usepackage{enumitem,amssymb}	% checked lists
 %\usepackage{pifont}	% checked lists
 
@@ -42,12 +41,17 @@
 \makeglossaries
 \loadglsentries{glossary}
 \glsaddall
+
 \def \uncheckedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$} \hspace{0.3cm}}
 \def \checkedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} \hspace{-0.1cm}}
+
 \newcommand{\xmark}{\ding{55}}%
+\newcommand{\realblankpage}{\newpage\thispagestyle{empty}\mbox{}}
+
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
 %\renewcommand{\bibname}{References}
 
 
@@ -67,20 +71,26 @@
 %
 \title{
 	{Intelligent Assistant with Face Recognition}\\
-	{\large University of Limerick}\\
-	%\vspace{0.4cm}
-	{\includegraphics[max width=126mm]{university.jpg}}
-	\vspace{0.8cm}
+	\vspace{0.9cm}
+	\begin{adjustwidth}{-2cm}{-2cm}
+		\centering
+		\begin{tabular}{l r}
+			\\
+			\multicolumn{1}{c}{{\large University of Limerick}}  & \multicolumn{1}{c}{{\large University Carlos III of Madrid}} \\
+			{\includegraphics[width=7cm]{frontpage/ul_logo.jpg}} & {\includegraphics[width=7cm]{frontpage/uc3m_logo.jpg}}
+		\end{tabular}	
+	\end{adjustwidth}
+	%\vspace{0.8cm}
 }
 \author{
 	\textbf{Erasmus Student:} Mario Sánchez García\\
-	ID: 17150868\\
+	UL Student ID: 17150868 \hspace{1cm} UC3M Student ID: 100315075\\
 	\\
-	\textbf{Supervisor:} JJ. Collins\\
+			\textbf{Supervisor:} JJ. Collins\\
 	\\
-	CS4617/8 - Computer Systems Project 1/2
+			CS4617/8 - Computer Systems Project 1/2
 }
-\date{May XX, 2018}
+				\date{April 20, 2018}
 
 
 %
@@ -103,14 +113,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-\pagenumbering{roman}
+
+\pagenumbering{gobble}
 
 \maketitle
 \vfill
 
+\realblankpage
+
 \include{\chapterspath/abstract}
-\setcounter{page}{3}
+
+\realblankpage
+
 \include{\chapterspath/cheers}
+
+\realblankpage
+\pagenumbering{roman}
+\setcounter{page}{6}
 
 %
 % Table of Contents
@@ -127,7 +146,6 @@
 %
 \listoftables
 
-
 %
 % Glossary of terms
 %
@@ -142,7 +160,6 @@
 \include{\chapterspath/empirical-study}
 \include{\chapterspath/last}
 
-%\bibliographystyle{unsrt}
 \bibliographystyle{agsm}
 \bibliography{ref}  
 
