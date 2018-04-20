@@ -3,52 +3,68 @@
 
 
 \section{General Introduction}
-Humans have used body characteristics such as face, voice or even gait for thousands of years to recognize each other. Back in the 19th century Alphonse Bertillon (chief of the criminal identification division of the police department in Paris, France) laid the foundation of biometrics by his idea of using a number of body measurements to identify criminals. However, his idea lost popularity by the far more practical discovery of the distinctiveness of human fingerprints (\cite{jain_biometrics}).
+Humans have used body characteristics such as face, voice or even gait to recognize each other for thousands of years. In the mid-19th century, Alphonse Bertillon (chief of the criminal identification division of the police department in Paris, France) developed and then practised the idea of using body measurements to identify criminals. In the late 19th century, the idea of Bertillon lost popularity due to the far more practical discovery of the distinctiveness of human fingerprints (\cite{jain_biometrics}). 
 
-Time has passed since that discovery, and technology has advanced enough to do the work of recognition by itself, no humans are needed. In this project we are going to use one kind of recognition that has been limited for a long time by technology and processing power of computers: face recognition. Fortunately in the last years the Google Brain team developed TensorFlow, an open source library for face recognition based in deep learning and written in Python, doing the task a bit easier. Using this library, this project sets out to build an \textit{intelligent assistant} that will recognise the user's face.
+Nowadays, biometrics have advanced to the point that it is no surprise if criminals are imprisoned because their fingerprints were found in the crime scene. However, other biometric methods are not as known as fingerprints and for certain people it is something that can only be found in science fiction movies. Their doubts are not unfounded, biometrics have long been used in science fiction movies to portray futuristic worlds of advanced technology. From retina scans to voice identification and facial recognition, these technologies have been seen on the big screen for more than 50 years (\cite{biometrics_in_scifi}). 
 
-But this is not the only task of the assistant. As an Erasmus student I have seen how difficult could be to come to a new University. First days are caotic and you do not know anything about the campus, so even with the help from the University staff, finding the room of your next class can become an adventure. That is why this project will be aimed to help Erasmus students, identifying them by the face recognition and then showing them their timetable and the route to the room of their next class.
+Nonetheless, as we can see in \cite{iphonex_and_other_uses}, face recognition is already being used around the world to examine, investigate, and monitor. There it is explained how in the United States, more than half of all American adults are in a face recognition database that can be used for criminal investigations, simply because they have a driver’s license. In the UK, face recognition was also used at an annual West Indian cultural festival to identify revelers in real-time. 
 
-\section{Technologies Used}	
+Although biometrics, and therefore face recognition, emerged from its extensive use in law enforcement to identify criminals, it is being increasingly used today to establish person recognition in a large number of civilian applications (\cite{jain_biometrics}), such as the recently released FaceID for the new iPhone model that identify the face of the owner to unlock the phone. 
 
-	\subsection{Why TensorFlow?}
-	We have talked about TensorFlow as it would be the only library available, but there are many more, some of them even written also in Pyhton (e.g. \cite{theano_main_site}, \cite{caffe_main_site}). That said, why choose it instead other deep learning library? First, TensorFlow is one of the newest libraries at the moment of writing for deep learning in Python and we want this project to deal with a current issue. And second, this library has two APIs (\cite{tensorflow_main_website}): a high level API (MNIST), which makes it accessible for everyone and it will be easy to start with; and a low level API (Deep MNIST), which can provide a more advanced control for the final development of the project.
+The technology around face recognition has advanced following diverse paths, being neural networks the most recent and successful. Within neural networks, there is one particular type of deep, feedforward network that was much easier to train and generalized much better than networks with full connectivity between adjacent layers. This was the \gls{cnn}. It has achieved many practical successes during the period when neural networks were out of favour and it has recently been widely adopted by the computer-vision community (\cite{lecun2015deep}). 
 
-	\subsection{Why Raspberry Pi?}
-	TensorFlow still needs a computer with a certain computing power, which also means that it will have a considerable size. In order to provide mobility to the assistant, a client-server architecture is going to be used. In the server side is where face recognition and high computing requirement tasks are actually going to be executed, while the client side will act as the interface of the system. 
+With the advent of several open source libraries, face recognition is now possible and available for everyone. Among this motley group of open source libraries, we find Tensorflow, originally developed by the Google Brain team for the purposes of conducting \gls{ml} and deep neural networks research (\cite{tensorflow_main_website}). Despite the fact that before TensorFlow there were plenty of \gls{ml} libraries that offered great functionality and were reasonably well documented (e.g. \cite{theano_main_site}, \cite{caffe_main_site}), this library has become very popular in the last years thanks to its powerful yet easily readable API, written in Python. 
 
-	As the client side will not require much computing power, Raspberry Pi becomes an option. With the size of a credit card, Raspberry Pi is a low-cost and barebones computer capable to work as a traditional desktop tower. Many versions of this board have been released, but for this project we have chosen the Raspberry Pi 3 Model B.
+These such libraries would not be possible without the previous work done in the fields of \gls{ml}, \gls{ai} and face recognition by researchers like Yann LeCun, Yoshua Bengio or Geoffrey Hinton (\cite{rumelhart1985learning}, \cite{lecun1995convolutional}, \cite{lecun1998efficient}, \cite{bengio2009learning}, \cite{krizhevsky2012deep}, \cite{lecun2015deep}), and it will be further discussed in the following sections.
 
-	\begin{figure}[ht]
-		\centering
-		\includegraphics{raspberry-pi-3-b.jpg}
-		\caption{Raspberry Pi 3, model B}
-	\end{figure}
+In this report we will explain the development of an application that we have called \textit{Intelligent Asissistant}. It is based in one of the currently most advanced implementations of face recognition: FaceNet (\cite{facenet_article}), heavily inspired by the previous OpenFace (\cite{amos2016openface}). Here we will use Tensorflow to re-train a kind of \gls{cnn} named \textit{Resnet Inception v1} from one of the models that FaceNet has left available in their Github website (\cite{facenet_github}).
 
-	\subsection{Why Python?}
-	The reasons that made Python the language chosen for this project were many. First, it is the language that Tensorflow uses to express the model of the network, so it was necessary to use it at least for the face recognition module of the project. Second, Python has become a widely used language because (\cite{why_python}):
+The objective of the \textit{Intelligent Assistant} is to help the students of the University of Limerick in their first days around the University. This help consists in showing them which is the next class that they will have in the day and the path to the classroom. Face recognition is used here to confirm the identity of a student and be able to search the timetable of such student. Other identification approaches were also available, but as a biometric system, face recognition allow students to be identified by "who they are", rather than "what they possess" (e.g. student ID card) or "what they remember" (e.g. password), which may be things not very clear in the first caotic days in the University. 
 
-	\begin{itemize}
-		\item Proven language. Python is used by many important companies, such as Dropbox, Google or Amazon. 
-		\item Fast prototypes. Python's dynamic nature and simple syntax make it perfect for prototyping, preventing us from worrying about the actual implementation and helping to focus on data and algorithms, which the main task of machine learning.
-		\item For everyone. Many data scientist and engineers have a background in maths and statistics, but they may not have any experience in programming. Python's simplicity and readability, as it is said to have a math-like syntax, make it easier to pick up.
-		\item Mature Data Science Ecosystem. There is a great collection of math and data science for Python, incremented by new libraries that are built on top of the older ones (but controlled by the solid Python's packaging). 
-	\end{itemize}
+The timetable information can be publicly accessed, in the website \textit{timetable.ul.ie}, so applying a technique known as web \gls{scraping}, the student's timetable is obtained and then analysed in order to find their next class. The path to the next class will be shown as a Google Map image, using the Static Google Map API (\cite{google_maps_static}). The face recognition process is preceded by a face \textit{detection} process, that will crop the face out of the image, removing the background and making easier the identification.
 
-	Finally, the last reason is personal. During the last years in my home University, I heard many times how important Python was and how popular it was becoming. However, the modules from my study program never used this language for their assignments, so I never had the opportunity to learn it in an academic environment. Because of that, I decided to use Python in all aspects of this project in order to learn how to work with it.  
+Architecturally, the \textit{Intelligent Assistant} is divided in a laptop, which will run the server that actually perform the different tasks of the assistant, and a small, low-cost and basic computer called Raspberry Pi, which will run the \gls{gui} used to interact with the application and will communicate with the server to obtain the needed information. The whole application is written in Python, allowing us to use the Tensorflow library and to learn this popular language, which, as the topics of \gls{ai} and \gls{ml}, was not previously taught in the study program. 
+
+%\section{Technologies Used}	
+%
+%	\subsection{Why TensorFlow?}
+%	We have talked about TensorFlow as it would be the only library available, but there are many more, some of them even written also in Pyhton . That said, why choose it instead other deep learning library? First, TensorFlow is one of the newest libraries at the moment of writing for deep learning in Python and we want this project to deal with a current issue. And second, this library has two APIs (\cite{tensorflow_main_website}): a high level API (MNIST), which makes it accessible for everyone and it will be easy to start with; and a low level API (Deep MNIST), which can provide a more advanced control for the final development of the project.
+%
+%	\subsection{Why Raspberry Pi?}
+%	TensorFlow still needs a computer with a certain computing power, which also means that it will have a considerable size. In order to provide mobility to the assistant, a client-server architecture is going to be used. In the server side is where face recognition and high computing requirement tasks are actually going to be executed, while the client side will act as the interface of the system. 
+%
+%	As the client side will not require much computing power, Raspberry Pi becomes an option. With the size of a credit card, Raspberry Pi is a low-cost and barebones computer capable to work as a traditional desktop tower. Many versions of this board have been released, but for this project we have chosen the Raspberry Pi 3 Model B.
+%
+%	\begin{figure}[ht]
+%		\centering
+%		\includegraphics{raspberry-pi-3-b.jpg}
+%		\caption{Raspberry Pi 3, model B}
+%	\end{figure}
+%
+%	\subsection{Why Python?}
+%	The reasons that made Python the language chosen for this project were many. First, it is the language that Tensorflow uses to express the model of the network, so it was necessary to use it at least for the face recognition module of the project. Second, Python has become a widely used language because (\cite{why_python}):
+%
+%	\begin{itemize}
+%		\item Proven language. Python is used by many important companies, such as Dropbox, Google or Amazon. 
+%		\item Fast prototypes. Python's dynamic nature and simple syntax make it perfect for prototyping, preventing us from worrying about the actual implementation and helping to focus on data and algorithms, which the main task of machine learning.
+%		\item For everyone. Many data scientist and engineers have a background in maths and statistics, but they may not have any experience in programming. Python's simplicity and readability, as it is said to have a math-like syntax, make it easier to pick up.
+%		\item Mature Data Science Ecosystem. There is a great collection of math and data science for Python, incremented by new libraries that are built on top of the older ones (but controlled by the solid Python's packaging). 
+%	\end{itemize}
+%
+%	Finally, the last reason is personal. During the last years in my home University, I heard many times how important Python was and how popular it was becoming. However, the modules from my study program never used this language for their assignments, so I never had the opportunity to learn it in an academic environment. Because of that, I decided to use Python in all aspects of this project in order to learn how to work with it.  
 
 \section{Objectives}
-The objectives of this project are many and can be divided in personal and technical. The first and more important personal one is to learn about the fields of Computer Science with which I never experimented before. In my home University (Carlos III of Madrid), I chose the computer architecture specialization in my third year. This means that my knowledge about Artificial Intelligence and Machine Learning was almost not existent, as it was taught in the other specializations. 
+The objectives of this project are many and can be divided in personal and technical. The first and more important personal one is to learn about the fields of Computer Science with which I never experimented before. In my home University (Carlos III of Madrid), I chose the computer architecture specialization in my third year. This means that my knowledge about \gls{ai} and \gls{ml} was almost not existent, as it was taught in the other specializations. 
 
-The situation with the Python language at the beginning of the year was similar. It is a well known language and it has become very popular in the last years. However, the modules from my study program never used this language for their assignments, so I never had the opportunity to learn it in an academic environment. Because of that, when my coordinator explained me that for the Tensorflow library I would need to use Python, I decided to use it. Not only in the interaction with the library, but also in the server communication and the application graphical user interface.
+The situation with the Python language at the beginning of the year was similar, even when tt is a well known language and it has become very popular in the last years. The modules from my study program never used this language for the assignments, so I never had the opportunity to learn it in an academic environment. Because of that, when my coordinator explained me that for the Tensorflow library I would need to use Python, I decided to use it. Not only in the interaction with the library, but also in the server communication and the application \gls{gui}.
 
 On the other hand, among the technical objectives of this project we can find:
 
 \begin{itemize}
-	\item Create a tool (Intelligent Assistant) to help the students of the University of Limerick to find their next class.
+	\item Create a tool called \textit{Intelligent Assistant} to help the students of the University of Limerick to find their next class.
 	\item Use Python for the development of this tool.
 	\item Divide the system in a client-server communication in order to achieve a light-weight application in the client side.
-	\item Use the microframework Flask, also written in Python, to create the server, which I never have used before either.
+	\item Use the microframework Flask (never used before either), also written in Python, to create the server.
 	\item Use a Raspberry Pi in the client side to act as interface with the students.
 	\item Design a graphical user interface that allows to use all the features of the application.
 	\item Perform face recognition using the Tensorflow library to identify the students.
@@ -58,7 +74,8 @@ On the other hand, among the technical objectives of this project we can find:
 \section{Motivation}
 The use of face recognition have experimented an incredible rise in the last times. Not long ago we saw how Apple brought out the new iPhoneX. This new model says goodbye to the usual ways to unblock the terminal (e.g. codes, patterns or fingerprints) incorporating the FaceID software, which is nothing but a face recognition approach. This may be a more known case of face recognition, but as we see in \cite{iphonex_and_other_uses}, it is already used around the world to examine, investigate, and monitor. For example in China, police use it to identify the people who commit the crime of jaywalking. In the United States, more than a half of all American adults are in a face recognition database that can be used for criminal investigations (thanks to their driver’s license).
 
-
+\section{Structure of the Document}
+pass
 
 
 
