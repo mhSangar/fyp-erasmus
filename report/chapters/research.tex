@@ -57,11 +57,11 @@ Within machine learning, we can find three different approaches (\cite{kevin_p_m
 
 It is apparent that a neural network derives its computing power through, first, its massively parallel distributed structure of simple computing cells (i.e. neurons) and, second, its ability to learn and therefore generalize (i.e. product reasonable outputs for inputs not encountered during training). These last two capabilities make \glspl{ann} a good approximate solution for intractable problems, such as the previously mentioned speech and image recognition.
 
-In the Figure \ref{fig:org_neuron} we can see the model of the organic mutual of the neurons used in an \gls{ann}. Organic neurons interact with each others using synapses, which are constituted by axon terminals, the transmission lines, and dendrites (so called because of its resemblance to a tree), the receptive zones. The artificial neurons we use to build our neural networks are truly primitive in comparison with those found in the brain, but there is still a ressemblance between them.
+In the Figure \ref{fig:org_neuron} we can see the model of the organic equivalent of the neurons used in an \gls{ann}. Organic neurons interact with each others using synapses, which are constituted by axon terminals, the transmission lines, and dendrites (so called because of its resemblance to a tree), the receptive zones. The artificial neurons we use to build our neural networks are truly primitive in comparison with those found in the brain, but there is still a ressemblance between them.
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=10cm]{bio-neuron.jpg}
+	\includegraphics[width=10cm]{research/bio-neuron}
 	\caption{Organic Neuron model}
 	\label{fig:org_neuron}
 \end{figure}
@@ -105,7 +105,7 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=10cm]{ann_neuron_haykin}
+	\includegraphics[width=10cm]{research/ann_neuron_haykin}
 	\caption{Nonlinear model of a neuron (\cite{haykin2009neural})}
 	\label{fig:nonlinear_neuron_model}
 \end{figure}
@@ -139,7 +139,7 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=10cm]{linearly_sep_xor}
+		\includegraphics[width=10cm]{research/linearly_sep_xor}
 		\caption{Linear separation problem of the XOR operation (\cite{mitchell1997})}
 		\label{fig:linear_sep_xor}
 	\end{figure}
@@ -181,7 +181,7 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 	\begin{figure}[!ht]
 		\centering
 		\vspace{0.5cm}
-		\includegraphics[width=9cm]{parabolic_surface.jpg}
+		\includegraphics[width=9cm]{research/parabolic_surface.jpg}
 		\caption{Parabolic Surface with one local minimum}
 		\label{fig:parabolic_surf}
 	\end{figure}
@@ -240,7 +240,7 @@ In the section \ref{sec:perceptron}, we explained Rosenblatt’s perceptron, whi
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=12cm]{multilayer_network}
+	\includegraphics[width=12cm]{research/multilayer_network}
 	\caption{Architectural graph of a multilayer perceptron with two hidden layers (\cite{haykin2009neural})}
 	\label{fig:mlp_architectural_graph}
 \end{figure}
@@ -260,7 +260,7 @@ the input data into a new space called the feature space. The formation of this 
 	\begin{figure}[!ht]
 		\centering
 		\vspace{0.3cm}
-		\includegraphics[width=7cm]{threshold_vs_sigmoid}
+		\includegraphics[width=7cm]{research/threshold_vs_sigmoid}
 		\caption
 		{
 			Activation functions of a neuron (\cite{haykin2009neural}). \\
@@ -316,47 +316,61 @@ the input data into a new space called the feature space. The formation of this 
 
 
 \section{Convolutional Neural Networks and Face Recognition}
-The Artificial Neural Networks (\glspl{ann}) we have seen until now have their applications, but the current state of the art for detecting what an image is (or what does it contains) are Convolutional Neural Networks (\glspl{cnn}). First of all we need to explain that this two kinds of neural networks are not at the same level. The \glspl{ann} we have seen until now usually have a few hidden layers, but \glspl{cnn} need to have multiple of these hidden layers in order to achieve what is known as Deep Learning. 
+Up to this point, we have been concerned with the algorithmic design of \glspl{mlp} and related issues. In this section, we focus on the structural layout of the \gls{mlp} itself, explaining in particular a kind of \gls{mlp} known as Convolutional Neural Network (\gls{cnn}). It is specifically designed to recognise two-dimensional shapes despite of several forms of distortion (e.g. translation, scaling, skewing) and is the current state of the art for detecting what an image is or what does it contains.
 
-It may seem normal that adding more hidden layers to a network will improve its learning potential, but the problem with deep networks is that it becomes harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}, explaining that the features of the input instance (or those computed by previous layers) are "washed out" in the proccess of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (even impossible) to achieve learning in a deep neural network using backpropagation. Here is where Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
+First of all, we need to explain that the previously explained neural networks and \glspl{cnn} are not at the same level. While the \glspl{ann} seen until now usually have a few hidden layers, \glspl{cnn} belong to the group of networks that apply Deep Learning, where the term "deep" refer to the several hidden layers that are trained to make these such networks learn.
 
-Convolutional Neural Networks are one of the options Deep Learning provides. As \cite{lecun2015deep} explain, they are designed to proccess data that comes in the form of multiple arrays, which suits perfectly to our needs to work with images. For example, a colour image could be decomposed in three two-dimensions arrays that contain the pixel intensities in the three colour channel of RGB. 
+A conjecture may be that by adding more hidden layers to a network, the learning potential of the network would see an improvement. However, it is actually one of the problems of the deep networks, becoming harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}. In this article is explained that the features of the input instance, or those computed by previous layers, are "washed out" in the proccess of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (or even impossible) to achieve learning in a deep neural network using backpropagation. Here is where the actual Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
 
-%%% maybe include something from lecun paper, first page %%%
+As \cite{lecun2015deep} explain, \glspl{cnn} are designed to proccess data that comes in the form of multiple arrays, which suits perfectly to our needs to work with images. For example, a colour image could be decomposed in three two-dimension arrays that contain the pixel intensities in the three colour channel of RGB. In terms of architecture, \glspl{cnn} are structured as a series of stages (Figure \ref{fig:conv_net_architecture}). 
 
-In terms of architecture, \glspl{cnn} are structured as a series of stages. First few stages are composed by convolutional and pooling layers (\cite{lecun2015deep}). 
+\begin{figure}[!ht]
+	\centering
+	\vspace{0.3cm}
+	\includegraphics[width=\textwidth]{research/conv_net_architecture}
+	\caption{Example of the architecture of a \gls{cnn} \cite{haykin2009neural}}
+	\label{fig:conv_net_architecture}
+\end{figure}
 
-Pooling is simple, it is just a down-sampling. We start with an image of a certain size, 30x30 pixels (which are just values from 0 to 255) for example. From this full image, taking it as a matrix, we select a window of a certain size. Usually we choose a size that makes possible to divide the full image in little windows that do not collide with each other. In this case, from a image of 30x30 we are going to take a 3x3 window, leaving us a total of 100 windows. 
+First few stages are composed by convolutional and pooling (i.e. subsampling) layers (\cite{lecun2015deep}). The pooling process is simple, it is just a down-sampling. We start with an image of a certain size and, taking it as a matrix, we select a window to apply pooling. In each window, we are going to perform the pooling, taking the highest value as the representative of the window (Figure \ref{fig:pooling_proc}). While other operations may obtain a better representative value (e.g. mean), "max-pooling" is preferred because it makes the training easier with a minimal loss of accuracy.
 
-Now, in each window we are going to perform a "max-pooling", which is to take the highest value of the window and output it to a new "image" in the position where the window was in the previous image. After doing this to all windows, we obtain a new image or matrix of 10x10, smaller than the initial one, but also with a worse quality.
+\begin{figure}[!ht]
+	\centering
+	\vspace{0.3cm}
+	\includegraphics[width=12cm]{research/pooling_process}
+	\caption{Phase of the pooling process for a 4x4 input image}
+	\label{fig:pooling_proc}
+\end{figure}
 
-%%%%%% INCLUDE IMAGE EXPAINING POOLING %%%%%%
-image explaining pooling
+The result of the pooling is a new image, smaller than the initial one. At first glance it may look like pooling simply make the image less sharp, but the actual role of the pooling layers is to merge semantically similar features into one, discarding the rest of information of the window that is not important.
 
-Convolutional layers, in the other hand, follow a proccess more complex. They apply convolution (hence the name of the network) to the input image, which can be defined in a simple way as mixing information from two sources according to a specific rule. From the mathematical point of view, convolution is the integral of the element-wise multiplication of the two input functions. While it is complex itself, it is usually used to simplify even more complex equations. In our case we are going to work only with integers, so the convolution used here is a \textit{discrete convolution}. 
+Convolutional layers, on the other hand, follow a proccess more complex. They apply convolution (hence the name of the network) to the input image. A simple way to define "convolution" is as mixing information from two sources according to a specific rule (\cite{lecun2015deep}). From the mathematical point of view, convolution is the integral of the element-wise multiplication of the two input functions. While it is complex itself, it is usually used to simplify even more complex equations. Working with images, the only values that are treated are integers, so the convolution used is a \textit{discrete convolution}. 
 
 \begin{equation}
 	\label{discrete_conv}
 	f*g(n) = \sum_{m= -\infty}^{\infty} f(m) g(n-m) 
 \end{equation}
 
-If we apply this to the algorithm of a \gls{cnn}, the first input function would be a part of the image itself, that is called \textit{receptive field} or \textit{window}; and the second would be the \textit{filter}, which is a matrix of weights of the same size of the window. The result of this convolution is a \textit{feature map}, a new image that shows how the feature recognised by the filter is distributed in the original picture. 
+If we apply the convolution definition to the algorithm of a \gls{cnn}, the first source would be a part of the image itself, called \textit{receptive field} or \textit{window}; and the second source would be the \textit{filter}, which is a matrix of weights of the same size of the window. The result of this convolution is a \textit{feature map}, a new image that shows how the feature recognised by the filter is distributed in the original picture. 
 
-If the image is in color, it is composed by the three different channels of the RBG standard, so the multiplication has to be applied to all of them. This element-wise multiplication in matrices has the name of Hadamard Product and it produces a matrix of the same size of the inputs. Once the multiplication is done, we have three matrices that we sum in one value. Now a function $f$ is applied to this output to finally obtain the value of the first pixel of the feature map. After that, the window moves one pixel to the right (or to the first pixel of the next row, if the end is reached) and applies again convolution to obtain the next pixel of the feature map. 
+The neurons of the convolutional layer are different from those explained above, but they still keep their basic structure. Each one of the inputs of the neuron receives a pixel from the image. If the image is is composed by the three different RGB channels (i.e. color images), the convolution is applied to all of them. The filter, which is nothing else than a matrix of weights, is multiplied to these inputs using the element-wise multiplication (\textit{Hadamard Product} when applied between matrices). The result of each channel is a matrix of the same size of the input image. 
+
+The three resultant matrices are sum in a single scalar, something similar to what we did in the previously explained neurons, using in that case a linear combination. The activation function $f$ is applied to this scalar, obtaining the value of the first pixel of the feature map. The convolution process is repeated again using a new window from the image until the whole feature map is obtained. 
+
+The process of selecting a new window from the image is referred as "slide" the window, as the next window chosen in the image is always a few pixels away from the previous one. The number of pixels that separate each window is called \textit{sliding length}. This sliding length allow the network to skip windows that are too close to each other that the features recognised by both windows woulb be the same.
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\textwidth]{convolution.jpg}
+	\includegraphics[width=\textwidth]{research/convolution}
 	\caption{Convolution proccess for the creation of a Feature Map}
 	\label{fig:convol_creation_feature_map}
 \end{figure}
 
-In the previous paragraph we said that a function $f$ is applied to the sum, as is usual in the structure of a neuron. Before \cite{krizhevsky2012deep}, the standard way to model this function was $f(x)=tanh(x)$. However, in this paper it is explained that these kind of saturating nonlinearities are much slower than a non-saturating nonlinearity as $f(x)=max(0, x)$. The neurons with this nonlinearity are called Rectified Linear Units or ReLUs, and help to train a deep convolutional network several times faster than their equivalents with $f(x)=tanh(x)$.
+The previously mentioned activation function $f$ was usually modelled as $f(x)=tanh(x)$. However, in \cite{krizhevsky2012deep} it is explained how these kind of saturating nonlinearities are much slower than non-saturating nonlinearities such as $f(x)=max(0, x)$. The neurons that use this nonlinearity are called Rectified Linear Units or ReLUs, and help to train a deep convolutional network several times faster than their equivalents with $f(x)=tanh(x)$.
 
-At this point, we know how convolution and pooling works. Two or three stages of convolution, followed by the non-linearity function, and then pooling; are stacked. After that, in the structure of a \gls{cnn} we find fully-connected layers, like a usual neural network, and finally an output layer that shows the prediction as the class with highest percenteage.
+At this point, we know how convolution and pooling works. Some stages of convolution using the non-linearity function followed by stages of pooling are stacked. After that, the results of these stages come to a fully-connected neural network, that process the data and finally an output layer shows the prediction as the class with highest percenteage.
 
-Backpropagation through a \gls{cnn} is as simple as through a regular deep network, allowing all the weights of the network (which also includes the filters of the convolution) to be trained.
-
+The network described in the Figure \ref{fig:conv_net_architecture} contains approximately 100,000 synaptic connections, but only about 2,600 free parameters. This dramatic reduction in the number of free parameters is achieved through the use of weight sharing. The capacity of the learning machine is thereby reduced, which in turn improves the machine’s generalization ability. The adjustments to these free parameters are made by using the stochastic mode of backpropagation learning.
 
 
 %███████╗ █████╗  ██████╗███████╗    ██████╗ ███████╗████████╗███████╗ ██████╗████████╗
@@ -389,7 +403,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=13cm]{rowley_network.png}
+		\includegraphics[width=13cm]{research/rowley_network}
 		\caption{Basic algorithm used for face detection in \cite{rowley1998neural}}
 		\label{fig:rowley_network}
 	\end{figure}
@@ -400,7 +414,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=8cm]{fd_statistical_method.png}
+		\includegraphics[width=8cm]{research/fd_statistical_method}
 		\caption{Results of applying the face detection method \\from \cite{schneiderman2000statistical}}
 		\label{fig:statistical_method_face_det}
 	\end{figure}
@@ -414,14 +428,14 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 
 		\begin{figure}[!ht]
 			\centering
-			\includegraphics[width=8cm]{types_haar_features.png}
+			\includegraphics[width=8cm]{research/types_haar_features}
 			\caption{Different types of Haar features (\cite{opencv_haar_cascade_tut})}
 			\label{fig:haar_features}
 		\end{figure}
 
 		\begin{figure}[!ht]
 			\centering
-			\includegraphics[width=8cm]{application_haar_features.png}
+			\includegraphics[width=8cm]{research/application_haar_features}
 			\caption{Application of Haar features to an image (\cite{viola2001rapid})}
 			\label{fig:application_haar_features}
 		\end{figure}
@@ -443,7 +457,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 		
 		\begin{figure}[!ht]
 			\centering
-			\includegraphics[width=10cm]{cascade_decission_tree.png}
+			\includegraphics[width=10cm]{research/cascade_decission_tree.png}
 			\caption{Schematic depiction of a the detection cascade (\cite{viola2001rapid})}
 			\label{fig:cascade_decission_tree}
 		\end{figure}
@@ -460,12 +474,12 @@ if there is a face in the image, and second, where it is located (\cite{marques2
                                                                       
 
 \section{Public Data Sets} 
-Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data, face images in this case. The problem is that we need a high amount of them, in addition to that each face image has to be different (or the model would only work well with the data we worked with, and not any face, which is our purpose). As we cannot generate this dataset by ourselves, we must look for a public dataset with enough and different face images:
+Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data (i.e. face images). The problem is that in order to be trained, \glspl{cnn} require a large quantity of data where each train example must be sufficiently different from the others. Otherwise, the model would be "overfitted" to the set used in the training and it would not be able to generalise the learned features. As we cannot generate this kind of dataset by ourselves, a research was done with the purpose of finding a public dataset of face images that we could use for the application:
 
 \begin{itemize}
-	\item CASIA Webface Database. It is the second largest database of faces (first is private and belongs to Facebook), with more than 10,000 subjects and almost 500,000 images. In order to use it an agreement needs to be signed so the database will only be used for non-comercial, research or educational purposes. We finally discarded it because its size, which would be more suitable for a big project with a research group (\cite{casia_db}). 
-	\item WIDER FACE. This database counts with more than 32,000 images and can be freely accessed by a Google or Baidu Drive. It has the advantage that its images are already labelled and the faces in them are marked. However, many of the images have more than one face on them (they say they count with almost 400,000 faces in the dataset) and we need them to have only one person (\cite{widerf_db}).
-	\item \gls{lfw}. This database only counts with more than 13,000 images that only have one person in them, which is perfect for the scope of this project. It can be explored online and has been recently updated, solving some erratum. Finally, it also has the option to download the images aligned with funneling or commercial software, reducing the work to do on the dataset. Because of all these reasons, it is the dataset that is going to be used for the project (\cite{lfw_db}).
+	\item CASIA Webface Database. It is the second largest database of faces (the first is private and belongs to Facebook), with more than 10,000 subjects and almost 500,000 images (\cite{casia_db}). To be able to use it, it is necessary to sign an agreement where we assure that it will be for non-comercial, research or educational purposes. It was discarded because its size correspond more a project of a larger scale. 
+	\item WIDER FACE. This database (\cite{widerf_db}) has more than 32,000 images that can be freely accessed by Google Drive. It has the advantage of having the images already labelled and the faces in them marked with a square. However, in many of the images appear more than person, plus that the marked images would make the training to depend of this pre-processing, so it is finally discarded.
+	\item \gls{lfw}. This database has more than 13,000 images where the person appears in a near front-face position, which fits perfectly the needs of this project. It can be explored online and has been recently updated (09/05/2017, \cite{lfw_db}). Althought it has the option to download the images already aligned using funneling or commercial software, the "raw" set of images is preferred in order to include the preprocessing in the application.
 \end{itemize}
 
 
@@ -566,21 +580,21 @@ These reasons have brought Python to be very popular. When looking at different 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=13cm]{TIOBE_python_ranking.png}
+	\includegraphics[width=13cm]{research/TIOBE_python_ranking.png}
 	\caption{TIOBE Index for April 2018 (\cite{tiobe_index})}
 	\label{fig:tiobe_rank}
 \end{figure}
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=9cm]{PYPL_python_ranking.png}
+	\includegraphics[width=9cm]{research/PYPL_python_ranking.png}
 	\caption{PYPL PopularitY for March 2018 \\(\cite{pypl_pop_rank})}
 	\label{fig:pypl_rank}
 \end{figure}
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=13cm]{Github_python_ranking.png}
+	\includegraphics[width=13cm]{research/Github_python_ranking.png}
 	\caption{Pull requests in Github for 2017 (\cite{octoverse_2017})}
 	\label{fig:github_octoverse_rank}
 \end{figure}
