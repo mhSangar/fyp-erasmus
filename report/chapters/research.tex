@@ -43,6 +43,15 @@ Within machine learning, we can find three different approaches (\cite{kevin_p_m
 	\item Reinforcement learning. Less commonly than the other two, it learns how to act or behave when given occasional reward or punishment signals. For example, the way dogs are trained to piss out of the house would be a great example of the application of this learning approach.  
 \end{itemize}
 
+
+% █████╗ ███╗   ██╗███╗   ██╗    ███████╗
+%██╔══██╗████╗  ██║████╗  ██║    ██╔════╝
+%███████║██╔██╗ ██║██╔██╗ ██║    ███████╗
+%██╔══██║██║╚██╗██║██║╚██╗██║    ╚════██║
+%██║  ██║██║ ╚████║██║ ╚████║    ███████║
+%╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝    ╚══════╝
+                                        
+
 \section{Artificial Neural Networks}
 \glspl{ann} have generated a lot of excitement in \gls{ml} research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing (\cite{intro_ann}). 
 
@@ -80,8 +89,19 @@ The \glspl{ann} design is actually motivated by analogy with the brain, which is
 %\end{itemize}
 
 
+
+%██████╗ ███████╗██████╗  ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ███╗   ██╗
+%██╔══██╗██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗████╗  ██║
+%██████╔╝█████╗  ██████╔╝██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║██╔██╗ ██║
+%██╔═══╝ ██╔══╝  ██╔══██╗██║     ██╔══╝  ██╔═══╝    ██║   ██╔══██╗██║   ██║██║╚██╗██║
+%██║     ███████╗██║  ██║╚██████╗███████╗██║        ██║   ██║  ██║╚██████╔╝██║ ╚████║
+%╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝        ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+                                                                                    
+
+
 \section{The perceptron}
-Within \glspl{ann}, we can find great variety of neurons, among which perceptrons occupy a special place in the historical development of neural networks, being the first algorithmically described. Invented by \cite{rosenblatt1958perceptron}, it is built around a nonlinear neuron (Figure \ref{fig:nonlinear_neuron_model}), which is composed of:
+\label{sec:perceptron}
+Within \glspl{ann}, we can find great variety of neurons, among which perceptrons occupy a special place in the historical development of neural networks, being the first algorithmically described. Invented by \cite{rosenblatt1958perceptron}, it is built around a nonlinear neuron model (Figure \ref{fig:nonlinear_neuron_model}) named McCulloch-Pitts, which is composed of:
 
 \begin{figure}[!ht]
 	\centering
@@ -113,9 +133,9 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 	\end{itemize}
 
 	\subsection{Linearly Separable attribute}
-	For the perceptron to function properly, the two classes ($C_0$,$C_1$)must be linearly separable. This, in turn, means that the patterns to be classified must be sufficiently separated from each other to ensure that the decision surface consists of a hyperplane.
+	For the perceptron to function properly, the two classes ($C_0$,$C_1$) must be \textit{linearly separable}. This, in turn, means that the patterns to be classified must be sufficiently separated from each other to ensure that the decision surface consists of a hyperplane.
 
-	We are going to explain it with an example, using a percetron with two inputs (i.e. 2 dimensions perceptron). This problem is known as the \textit{exclusive-OR problem} or simply \textit{XOR problem}.
+	We are going to explain it with an example, using a percetron with two inputs (i.e. 2 dimensions). The use of a single neuron with two inputs results in a straight line (i.e. hyperplane) for a decision boundary in the input space (Figure \ref{fig:linear_sep_xor}, (a)). For all points on one side of this line, the perceptron outputs $+1$; for all points on the other side of the line, it outputs $-1$.
 
 	\begin{figure}[!ht]
 		\centering
@@ -124,69 +144,61 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 		\label{fig:linear_sep_xor}
 	\end{figure}
 
-
-	We need to consider only the four corners of a unit square that correspond to the input patterns (0,0), (0,1), (1,1), and (1,0). The first (\ref{eq:xor_problem}, line 1) and fourth (\ref{eq:xor_problem}, line 4) input patterns are in the class 0, while the second (\ref{eq:xor_problem}, line 2) and the third (\ref{eq:xor_problem}, line 4) are in the class 1.
+	However, nonlinearly separable patterns commonly occur, like in the known \textit{exclusive-OR problem} or simply \textit{XOR problem}. We need to consider the four corners of a square centered in (0,0) that correspond to the input patterns (1,1), (1,-1), (-1,-1) and (-1,1) (Figure \ref{fig:linear_sep_xor}, (b)). With the top-left and bottom-right input patterns belonging to one class and the top-right and bottom-left belonging to the other class (Equation \ref{eq:xor_problem}), it is clear that we cannot construct a straight line for a decision boundary so the ($+$) class lie in one decision region and the ($-$) class lie in the other decision region. In other words, \textit{a single perceptron cannot solve the XOR problem} because \textit{the inputs are not linearly separable}.
 
 	\begin{equation}
 		\label{eq:xor_problem}
 	    \begin{aligned}
-	        (0,0) \hspace{0.2cm} \rightarrow \hspace{0.2cm} 0 \oplus 0 = 0 \hspace{0.2cm} \rightarrow \hspace{0.2cm} C_0 \\[5pt]
-	        (0,1) \hspace{0.2cm} \rightarrow \hspace{0.2cm} 0 \oplus 1 = 1 \hspace{0.2cm} \rightarrow \hspace{0.2cm} C_1 \\[5pt]
-	        (1,0) \hspace{0.2cm} \rightarrow \hspace{0.2cm} 1 \oplus 0 = 1 \hspace{0.2cm} \rightarrow \hspace{0.2cm} C_1 \\[5pt]
-	        (1,1) \hspace{0.2cm} \rightarrow \hspace{0.2cm} 1 \oplus 1 = 0 \hspace{0.2cm} \rightarrow \hspace{0.2cm} C_0 \\[15pt]
+	        (\hspace{0.78em} 1,\hspace{0.78em} 1) \quad \rightarrow \quad  \hspace{0.78em} 1 \oplus \hspace{0.78em} 1 = 0 \quad \rightarrow \quad C_0(-) \\[5pt]
+	        (\hspace{0.78em} 1,-1) \quad \rightarrow \quad  \hspace{0.78em} 1 \oplus -1 = 1 \quad \rightarrow \quad C_1(+) \\[5pt]
+	        (-1,-1) \quad \rightarrow \quad -1 \oplus -1 = 0 \quad \rightarrow \quad C_0(-) \\[5pt]
+	        (-1, \hspace{0.78em} 1) \quad \rightarrow \quad -1 \oplus \hspace{0.78em} 1 = 1 \quad \rightarrow \quad C_1(+) \\[15pt]
 	    \end{aligned}
 	\end{equation}
 
-	
-
-	With this inputs we can produce a Cartesian map (first input would be X axis; and second input, Y axis). Instead of using a point to represent the input, we use the output symbol (``"+``" or ``"-``"). If we can draw a line (our hyperplane in a 2-dimension space) that divides the map in two sides, so that on each side of the line we can only find one kind of symbol (all positives or all negatives), then we can say that the set of points we have used is linearly separable.  
-	
-	With a single perceptron there are sets of points that can't be linearly separable. That's why networks of perceptrons with more than one layer are created, whose first layer perceptron's outputs is not the final result, but performs the role as input to another perceptron in the next layer. This way, even the non-linear surfaces can be represented.
-
 	\subsection{Training Rule}
-	In order to train perceptrons, we begin assigning random values to the weights and then we apply the perceptron to each training example. If the perceptron misclassifies an example, the training rule will modify the weights according to:
+	In order to train perceptrons, we begin assigning random values to the weights to then apply the perceptron to each training example. If the perceptron misclassifies an example, the training rule will modify the weights $w_i$ according to:
 
 	\begin{equation}
 		\label{training_rule}
 		w_{i}^{'} \leftarrow w_{i} + \eta (t - o) x_{i}
 	\end{equation}
 
-	where $\eta$ is the \textit{learning rate} (constant usually small that determines how much weights vary in each step), $t$ is the target value, $o$ is the actual output that we have obtained from the perceptron and $x_{i}$ is the input value.
-
-	The weights will converge to a value that classify correctly within a finite number of iterations if (and only if) examples are linearly separable and the $\eta$ value used is sufficiently small.
+	where $\eta$ is the \textit{learning rate} (constant usually small that determines how much weights vary in each step), $t$ is the target value, $o$ is the actual output that we have obtained from the perceptron and $x_{i}$ is the input value. The weights will converge to a value that classify correctly within a finite number of iterations \textit{if (and only if) examples are linearly separable} and the $\eta$ value used is sufficiently small.
 	
 	\subsection{Delta Rule and Gradient Descent}
-	When the input set is not linearly separable, we need an alternative to the training rule: delta rule. Delta rule uses gradient descent to search for the hypothesis space (set of outputs) that best fit the training example. 
+	When the input set is not linearly separable, we need an alternative to the training rule: the delta rule. Delta rule uses gradient descent to search for the set of outputs (i.e. hypothesis space) that fit best the training example. 
 
-	To explain this we’re going to use a linear unit (not thresholded as the perceptron) which output is calculated by $o = \vec{w} \cdot \vec{x}$. To measure the training error we’re going to use the next formula, where $D$ is the set of examples. It depends only of $\vec{w}$ because we assume that its relation with the examples set $\vec{x}$ will be gone after the training.
+	To explain this we are going to use a linear unit that, unlike the perceptron, is not thresholded. Its output is calculated by $o = \vec{w} \cdot \vec{x}$. To measure the training error we are going to use the following formula (Equation \ref{error_function_full_square}), where $D$ is the set of examples. We assume that the relation with the example set $\vec{x}$ will be gone after the training, so the error depends only of $\vec{w}$.
 
 	\begin{equation}
 		\label{error_function_full_square}
 		E(\vec{w}) = \frac{1}{2} \sum_{d \varepsilon D} (t_d-o_d)^2 
 	\end{equation}
 
-	If error is defined by this formula, its representation (assuming two inputs) would be a parabolic surface with only one local minimum (as shown in fgure blabla). The gradient descent will start using a random initial vector and the algorithm will modify its direction step by step. In each step, the algorithm will choose the variation that go the deepest along the error surface. By this way, the process will continue until the local (and global minimum in this case) is reached.
+	When the error is defined by this formula, its visual representation refers to a parabolic surface with only one local minimum (Figure \ref{fig:parabolic_surf}). We can imagine that the current error value is a small ball located inside this bowl-like parabolic surface. The gradient descent will start using a random initial vector, so the ball will be located in a random point of the surface. The algorithm will move this ball like the gravity would do, modifying its direction step by step by choosing the variation that go the deepest along the error surface. The process will continue until the ball reaches the bottom of the bowl, or formally, until the error reaches the local and global minimum.
 
-	\begin{figure}[ht]
+	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=\textwidth-30mm]{parabolic_surface.jpg}
+		\vspace{0.5cm}
+		\includegraphics[width=9cm]{parabolic_surface.jpg}
 		\caption{Parabolic Surface with one local minimum}
 		\label{fig:parabolic_surf}
 	\end{figure}
 
 	\subsection{Derivation of Gradient Descent}
-	To modify the direction of the vector we will derivate the error function ($E(\vec{w})$) respect of $\vec{w}$, form that is called \textit{gradient of E}:
+	To modify the direction of the vector we will derivate the error function ($E(\vec{w})$) respect of $\vec{w}$, obtaining the \textit{gradient of E}:
 
 	\begin{equation}
 		\label{gradient_of_E}
 		\nabla E(\vec{w})= [\frac{\partial{E}}{\partial{w_{0}}}, \frac{\partial{E}}{\partial{w_{1}}}, ..., \frac{\partial{E}}{\partial{w_{n}}}]
 	\end{equation}
 
-	This vector specifies the direction that produces the steepest increase in E, so including a negative factor ($-1$) we can calculate the steepest decrease in E. We can represent the training rule with its component form:
+	This vector specifies the direction that produces the steepest \textit{increase} in E, so to calculate the steepest \textit{decrease} in E, a negative factor ($-1$) is included. We can represent the training rule with its component form:
 
 	\begin{equation}
 		\label{training_rule_component_form}
-		w_{i}^{'} \leftarrow w_{i} + \Delta w_{i} \hspace{1.5cm} ; \hspace{1.5cm} \Delta{w_{i}}=-\eta \frac{\partial{E}}{\partial{w_i}}
+		w_{i}^{'} \leftarrow w_{i} + \Delta w_{i} \qquad ; \qquad \Delta{w_{i}}=-\eta \frac{\partial{E}}{\partial{w_i}}
 	\end{equation}
 
 	So the final expression of the gradient descent is:
@@ -196,62 +208,79 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 		\Delta w_i = -\eta \frac{\partial{E}}{\partial{w_i}} = \eta \sum_{d \varepsilon D} (t_d - o_d) x_{id}
 	\end{equation}
 
-
-	\subsection{Gradient Descent Algorithm}
-	A brief version of the algorithm would be as follows:
-
-	\begin{enumerate}
-
-		\item Pick an initial random weight vector.
-		\item Apply the linear unit to all training examples and then compute $\Delta w_i$  using the gradient descent formula.
-		\item Update each weight adding $\Delta w_i$.
-		\item If the algorithm hasn’t reached the local minimum, repeat from step 2.
-	
-	\end{enumerate}
+	The Gradient Descent algorithm would start then with a random weight vector. It will apply the linear unit to all the training examples and then compute $\Delta w_i$ using the gradient descent formula (Equation \ref{gradient_descent_final_expr}). The weights are updated with the calculated value $\Delta{w_{i}}$ (Equation \ref{training_rule_component_form}). Finally, if the local minimum is reached, it stops. If not, the linear unit is applied to all the training examples and the process is repeated from that point, but using the weights from the previous step.
 
 	\subsection{Stochastic Approximation}
-	Instead of using all the examples to update the weight each step (which could imply a lot of work) there is another option: incremental/stochastic gradient descent. This way we will approximate the gradient descent updating the weights with each training example:
+	Using all the examples in each step to update the weights may imply a lot of computing work. Another approach is the incremental or stochastic gradient descent, where the gradient descent is just approximated, updating the weights with each training example (Equation \ref{delta_rule}). From a practical perspective, some accuracy is sacrificed in order to make the algorithm much faster.
 
 	\begin{equation}
 		\label{delta_rule}
 		\Delta w_{i}= \eta (t - o) x_{i}
 	\end{equation}
 
-	So the error function must be changed to:
+	The error function also changes with this approach, being now:
 
 	\begin{equation}
 		\label{error_function_stoc_square}
 		E(\vec{w}) = \frac{1}{2} (t_d-o_d)^2 
 	\end{equation}
 
+
+%███╗   ███╗██╗     ██████╗ 
+%████╗ ████║██║     ██╔══██╗
+%██╔████╔██║██║     ██████╔╝
+%██║╚██╔╝██║██║     ██╔═══╝ 
+%██║ ╚═╝ ██║███████╗██║     
+%╚═╝     ╚═╝╚══════╝╚═╝     
+                           
+
 \section{Multilayer Perceptron Networks}
-A single perceptron can only express linear decision surfaces, so it is very limited for real life situations. In contrast, a multilayer network learned by the backpropagation algorithm can express a rich variety of non-linear decision surfaces, which are more suitable for that kind of problems.
+In the section \ref{sec:perceptron}, we explained Rosenblatt’s perceptron, which is basically a single-layer neural network. Therein, we showed that how it is limited to the classification of linearly separable patterns. To overcome the practical limitations of the perceptron, we look to the \glspl{mlp}. The Figure \ref{fig:mlp_architectural_graph} shows the architectural graph of a fully-connected \gls{mlp}. The perceptrons are organised in layers (i.e. input layer, hidden layers and ouput layer), so the signal flow through the network progresses in a forward direction.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{multilayer_network}
+	\caption{Architectural graph of a multilayer perceptron with two hidden layers (\cite{haykin2009neural})}
+	\label{fig:mlp_architectural_graph}
+\end{figure}
+
+The hidden layers act as feature detectors and, as such, play a critical role in the operation of a \gls{mlp}. When the networks starts the learning process, the hidden neurons begin to gradually “discover” the salient features that characterize the training data. They do so by performing a nonlinear transformation on
+the input data into a new space called the feature space. The formation of this feature space through supervised learning is what distinguishes \glspl{mlp} from the Rosenblatt’s perceptron.
 
 	\subsection{Is a perceptron valid for MLP? The Sigmoid Unit}
-	A perceptron unit is perfectly valid for a MLP, but its discontinuous threshold output make it not suitable at all for gradient descent. Also, as a linear unit, multiple layers of cascaded units will only produce linear functions. Then, another option is required: a \textbf{sigmoid threshold unit}. This unit works pretty similar to the perceptron, but has another function at the output to perform the threshold, which is called logistic or sigmoid function ($\sigma(y)$).
+	A perceptron, as nonlinear neuron model, is perfectly valid for a \gls{mlp}. However, the discontinuous threshold output of the perceptron make it undifferentiable and hence not suitable for gradient descent (Figure \ref{fig:threshold_vs_sigmoid}). What we need is a unit whose output is a nonlinear function of its inputs, but whose output is a differentiable function of its inputs. One solution is the \textit{sigmoid unit}, a unit very similar to the perceptron, but based on a smoothed, differentiable threshold function called logistic or \textit{sigmoid function} ($\sigma(y)$).
 
 		\begin{equation}
 			\label{sigmoid_function}
 			\sigma(y) = \frac{1}{1+e^{-y}}
 		\end{equation}
 
-	This function increases monotonically and continuously with its input and is able to map a large input domain to a small range (0, 1) of outputs, reason because is usually called \textit{squashing function}. Finally, being easy derivable make it a really good choice for our task. 
 
+	\begin{figure}[!ht]
+		\centering
+		\vspace{0.3cm}
+		\includegraphics[width=7cm]{threshold_vs_sigmoid}
+		\caption{Activation functions of a neuron (\cite{haykin2009neural}). \\(a) Threshold function. \\(b) Sigmoid funtion.}
+		\label{fig:threshold_vs_sigmoid}
+	\end{figure}
+
+	The sigmoid function increases monotonically and continuously with its input (Figure \ref{fig:threshold_vs_sigmoid}). Because it is able to map a large input domain to a small range (0, 1) of outputs, it is usually referred as \textit{squashing function}. It also has the useful property of being easy derivable in terms of its output, which will be taken advantage of calculating the gradient descent learning rule.
 
 	\subsection{Backpropagation Algorithm}
-	The Backpropagation Algorithm learns the weights for a multilayer  network, given a network with a fixed set of units and interconnections. It uses gradient descent to minimize the squared error between the output and its target values of the network:
+	Back Propagation is a specific technique for implementing gradient descent in the weight space for a \glspl{mlp}. The gradient descent now minimize a different function to the defined previously in the Equation \ref{error_function_full_square} for the perceptron: 
 
 		\begin{equation}
 			\label{squared_error_function_network}
 			E(\vec{w}) = \frac{1}{2} \sum_{d \varepsilon D} \sum_{k \varepsilon outputs} (t_{kd}-o_{kd})^2 
 		\end{equation}
 
-	As we have changed the error function definition, the error surface will have more than one local minima (not as before with a single perceptron). This means that gradient descent may fail in order to find the global minima and only reach a local minima instead. Anyway, it has been proved to produce excellent results even with this problem.
+	As we have changed the error function definition, the error surface has changed too, having now more than one local minimum. This means that gradient descent may fail in order to find the global minimum and only reach local minima instead. Following with the metaphor of the error value and the small ball, the error surface could now be a golf terrain with many holes. The gradient descent will try to move the ball inside one of these holes (i.e. local minima), but it has no way to know whether that hole is the deepest of the field (i.e. global minima). 
 
-	The stochastic version of the Backpropagation Algorithm, applied for each training example, would be:
+	Despite this obstacle, in practice the backpropagation algorithm has been found to produce excellent results in many real-world applications. It is also interesting to see that some of the variations of this algorithm are actually based in the physics of treating the error value as a ball. One example is including momentum in the gradient descent, so the "ball" tends to keep rolling in the same direction from one iteration to the next one.
+
+	As seen previously in the perceptron section, the gradient descent has an incremental or stochastic version, where the weights are computed for each training example. A brief explanation of the stochastic version of the backpropagation algorithm would be:
 
 		\begin{enumerate}
-
 			\item Input the values in the network and obtain the output values computing every unit of the network.
 			\item For each output unit ($k$), calculate its error term $\delta_k$, which is the usual $(t-o)$ multipied to the derivate of the sigmoid function:
 				\begin{equation}
@@ -270,7 +299,6 @@ A single perceptron can only express linear decision surfaces, so it is very lim
 					\label{backpropagation_weight_update}
 					w^{'}_{ji} \leftarrow w_{ji} + \Delta w_{ji} \hspace{1.5cm} ; \hspace{1.5cm} \Delta w_{ji} = \eta \delta_j x_{ji}
 				\end{equation}
-
 		\end{enumerate} 
 
 
@@ -303,7 +331,7 @@ If we apply this to the algorithm of a \gls{cnn}, the first input function would
 
 If the image is in color, it is composed by the three different channels of the RBG standard, so the multiplication has to be applied to all of them. This element-wise multiplication in matrices has the name of Hadamard Product and it produces a matrix of the same size of the inputs. Once the multiplication is done, we have three matrices that we sum in one value. Now a function $f$ is applied to this output to finally obtain the value of the first pixel of the feature map. After that, the window moves one pixel to the right (or to the first pixel of the next row, if the end is reached) and applies again convolution to obtain the next pixel of the feature map. 
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\textwidth]{convolution.jpg}
 	\caption{Convolution proccess for the creation of a Feature Map}
@@ -336,7 +364,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 	\label{subsec:face_detec_techniques}
 	In order to perform the face detection in a photo, there are many different techniques among which to choose. In 1998, Henry A. Rowley and his team presented an approach based in the use of neural networks. In the Figure \ref{fig:rowley_network} we can see the algorithm followed to perfom the face detection on an image. Examining preprocessed small windows of a grayscaled image, a retinally connected network decides whether the window contains a face or not. The system arbitrates between multiple of these networks to improve the performance (\cite{rowley1998neural}). 
 
-	\begin{figure}[h!b]
+	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=13cm]{rowley_network.png}
 		\caption{Basic algorithm used for face detection in \cite{rowley1998neural}}
@@ -347,7 +375,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 
 	Using a product of histograms, they represent the statistics of both object and "non-object" appearance. Each histogram represents the joint statistics of a subset of wavelet coefficients and their position on the object. Their approach was based in using many of these histograms in order to represent a wide variety of visual attributes. In the Figure \ref{fig:statistical_method_face_det} we can see how this method, in addition to detect the faces in the image, it also detects the direction to where the person is looking to.
 
-	\begin{figure}[h!b]
+	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=8cm]{fd_statistical_method.png}
 		\caption{Results of applying the face detection method from \cite{schneiderman2000statistical}}
@@ -361,14 +389,14 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 	\begin{enumerate}
 		\item Obtaining Haar features. In the Figure \ref{fig:haar_features} we can see the Haar filters that are used to extract face features (Haar features in short) in the OpenCV library. Haar features work with the similarities that all human faces share and that are shown in a photo as a difference in the intensities of the pixels. For example, in the Figure \ref{fig:application_haar_features} an horizontal line Haar feature is applied for detecting the position of the eyes, as the pixels that represent them are way darker than the pixels that represent the cheeks. The same happen with the vertical line Haar feature in the same figure, dectecting the dark pixels of the eyebrows and the brighter ones for the space in the middle. The use of Haar filters was motivated by the work of \cite{haar_features_before_vj}, but in this case they do not work directly with image intensities. 
 
-		\begin{figure}[h!b]
+		\begin{figure}[!ht]
 			\centering
 			\includegraphics[width=8cm]{types_haar_features.png}
 			\caption{Different types of Haar features (\cite{opencv_haar_cascade_tut})}
 			\label{fig:haar_features}
 		\end{figure}
 
-		\begin{figure}[h!b]
+		\begin{figure}[!ht]
 			\centering
 			\includegraphics[width=8cm]{application_haar_features.png}
 			\caption{Application of Haar features to an image (\cite{viola2001rapid})}
@@ -390,7 +418,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 
 		\item Cascade architecture. The main idea of this stage is to build a degenerated decission tree (called \textit{"cascade"} in the article) using strong classifiers like the one we can see in the Figure \ref{fig:cascade_decission_tree}. Image sub-windows are feeded to this cascade, so if a face is detected by the first classifier, it triggers the evaluation of the second classifier. A positive result in the sencond triggers a third classifier, and so on. If a face is not detected in one of the classifiers, the sub-window is rejected. 
 		
-		\begin{figure}[h!b]
+		\begin{figure}[!ht]
 			\centering
 			\includegraphics[width=10cm]{cascade_decission_tree.png}
 			\caption{Schematic depiction of a the detection cascade (\cite{viola2001rapid})}
@@ -513,21 +541,21 @@ Finally, the most important feature of Python: it is very easy to learn. It has 
 
 These reasons have brought Python to be very popular. When looking at different sites, the ranking of the most popular languages can vary depending on the parameters that have been used for the calculations. The TIOBE Programming Community index in the Figure \ref{fig:tiobe_rank} shows a rank based in the hits for the search query, using engines like Google, Yahoo, or Wikipedia (\cite{tiobe_index_def}). The PYPL PopularitY is another rank that we can find in the Figure \ref{fig:pypl_rank}, which was created by analyzing how often language tutorials are searched on Google. The last one but not less important is the rank from the Github Octoverse, in the Figure \ref{fig:github_octoverse_rank}, which shows the number of pull request during 2017.
 
-\begin{figure}[h!b]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=13cm]{TIOBE_python_ranking.png}
 	\caption{TIOBE Index for April 2018 (\cite{tiobe_index})}
 	\label{fig:tiobe_rank}
 \end{figure}
 
-\begin{figure}[h!b]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=9cm]{PYPL_python_ranking.png}
 	\caption{PYPL PopularitY for March 2018 (\cite{pypl_pop_rank})}
 	\label{fig:pypl_rank}
 \end{figure}
 
-\begin{figure}[h!b]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=13cm]{Github_python_ranking.png}
 	\caption{Pull requests in Github for 2017 (\cite{octoverse_2017})}
