@@ -15,7 +15,7 @@ The technology around face recognition has advanced following diverse paths, bei
 
 With the advent of several open source libraries, face recognition is now possible and available for everyone. Among this motley group of open source libraries, we find Tensorflow, originally developed by the Google Brain team for the purposes of conducting \gls{ml} and deep neural networks research (\cite{tensorflow_main_website}). Despite the fact that before TensorFlow there were plenty of \gls{ml} libraries that offered great functionality and were reasonably well documented (e.g. \cite{theano_main_site}, \cite{caffe_main_site}), this library has become very popular in the last years thanks to its powerful yet easily readable API, written in Python. 
 
-These such libraries would not be possible without the previous work done in the fields of \gls{ml}, \gls{ai} and face recognition by researchers like Yann LeCun, Yoshua Bengio or Geoffrey Hinton (\cite{rumelhart1985learning}, \cite{lecun1995convolutional}, \cite{lecun1998efficient}, \cite{bengio2009learning}, \cite{krizhevsky2012deep}, \cite{lecun2015deep}), and it will be further discussed in the following sections.
+These such libraries would not be possible without the previous work done in the fields of \gls{ml}, \gls{ai} and face recognition by researchers like Yann LeCun, Yoshua Bengio or Geoffrey Hinton (\cite{rumelhart1985learning}, \cite{lecun1995convolutional}, \cite{lecun1998efficient}, \cite{lecun1998gradient}, \cite{bengio2009learning}, \cite{krizhevsky2012deep}, \cite{lecun2015deep}), and it will be further discussed in the following sections.
 
 In this report we will explain the development of an application that we have called \textit{Intelligent Asissistant}. It is based in one of the currently most advanced implementations of face recognition: FaceNet (\cite{facenet_article}), heavily inspired by the previous OpenFace (\cite{amos2016openface}). Here we will use Tensorflow to re-train a kind of \gls{cnn} named \textit{Resnet Inception v1} from one of the models that FaceNet has left available in their Github website (\cite{facenet_github}).
 
@@ -56,10 +56,9 @@ Architecturally, the \textit{Intelligent Assistant} is divided in a laptop, whic
 \section{Objectives}
 The objectives of this project are many and can be divided in personal and technical. The first and more important personal one is to learn about the fields of Computer Science with which I never experimented before. In my home University (Carlos III of Madrid), I chose the computer architecture specialization in my third year. This means that my knowledge about \gls{ai} and \gls{ml} was almost not existent, as it was taught in the other specializations. 
 
-The situation with the Python language at the beginning of the year was similar, even when tt is a well known language and it has become very popular in the last years. The modules from my study program never used this language for the assignments, so I never had the opportunity to learn it in an academic environment. Because of that, when my coordinator explained me that for the Tensorflow library I would need to use Python, I decided to use it. Not only in the interaction with the library, but also in the server communication and the application \gls{gui}.
+The situation with the Python language at the beginning of the year was similar, even when it is a well known language and has become very popular in the last years. The modules from my study program never used this language for the assignments, so I never had the opportunity to learn it in an academic environment. Because of that, when my coordinator explained me that for the Tensorflow library I would need to use Python, I decided to use it. Not only in the interaction with the library, but also in the server communication and the application \gls{gui}.
 
 On the other hand, among the technical objectives of this project we can find:
-
 \begin{itemize}
 	\item Create a tool called \textit{Intelligent Assistant} to help the students of the University of Limerick to find their next class.
 	\item Use Python for the development of this tool.
@@ -72,10 +71,28 @@ On the other hand, among the technical objectives of this project we can find:
 \end{itemize}
 
 \section{Motivation}
-The use of face recognition have experimented an incredible rise in the last times. Not long ago we saw how Apple brought out the new iPhoneX. This new model says goodbye to the usual ways to unblock the terminal (e.g. codes, patterns or fingerprints) incorporating the FaceID software, which is nothing but a face recognition approach. This may be a more known case of face recognition, but as we see in \cite{iphonex_and_other_uses}, it is already used around the world to examine, investigate, and monitor. For example in China, police use it to identify the people who commit the crime of jaywalking. In the United States, more than a half of all American adults are in a face recognition database that can be used for criminal investigations (thanks to their driver’s license).
+This \gls{fyp} was motivated for many reasons that started with the idea of doing it abroad. In my third year I decided to do my fourth and final year of the degree as an Erasmus student, but it was too late to be included in the Erasmus lists of that year. The only option to be able to go on Erasmus was to finish my degree one year later, so I splitted the modules of the fourth year in two groups with the idea of doing the first half of the modules in my fourth year in Spain, and the other half abroad. 
+
+Althought it was forced by the circumstances, I do not regret the fact of doing my \gls{fyp} abroad. It gave me the opportunity to improve my academic writting in English by doing this document, reaching a total of X pages and becoming the longest document I have ever written in English. I must apologise about this fact, because English is not my mother tongue and, even when I have spent much time looking for grammatical errors, there may still be some that I could not detect.
+
+Another motivation of this project, already mentioned in the previous section, was to learn about topics that my degree in Spain did not cover in its study program. The decission I took in my third year of choosing the \textit{computer architecture} specialization closed me the doors to learn about \gls{ai} and \gls{ml}, so this project was the perfect occasion to expand my knowledge on such topics. Besides, other related (e.g. face detection, face recognition) and not related (e.g. Python, web \gls{scraping}, \gls{gui} design) issues that were never treated before, were also included in the project in order to learn more about them. 
 
 \section{Structure of the Document}
-pass
+This present document is divided in:
+
+\begin{itemize}
+	\item Glossary of Terms and Acronyms. List of definitions of the terms and acronyms that have been used in this report and that may result confusing for the reader. Every term and acronym used in the text is linked its definition here.
+	\item Introduction. This section, in which we are currently in, includes a little background about biometrics and \gls{ml}, along with a brief explanation of the project and the reasons that motivated its realization.  
+	\item Research. In this section, the state of the art of the different fields with which this project is related (i.e. machine learning, neural networks, face detection and face recognition) and some of the technologies used, are widely explained, referencing the books and papers from where the factual information actually comes from. 
+	\item Design and Implementation. The complete development process of the \textit{Intelligent Assistant} application can be found here.
+	\item Empirical Studies. A total of two empirical studies are included in this section, treating the effectiveness of the approaches used in the project for the face detection (i.e. Viola-Jones Haar cascades) and the face recognition (i.e. \glspl{cnn}).
+	\item Discussion and Conclussion.
+	\item Appendices. 
+	\begin{itemize}
+		\item Appendix A. Set of icons used in the \gls{gui} of the application.
+		\item Appendix B. Actual captures of the final version of the \gls{gui} of the application.
+	\end{itemize}
+\end{itemize}
 
 
 
