@@ -226,13 +226,14 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 	\end{equation}
 
 
-%███╗   ███╗██╗     ██████╗ 
-%████╗ ████║██║     ██╔══██╗
-%██╔████╔██║██║     ██████╔╝
-%██║╚██╔╝██║██║     ██╔═══╝ 
-%██║ ╚═╝ ██║███████╗██║     
-%╚═╝     ╚═╝╚══════╝╚═╝     
-                           
+
+%███╗   ███╗██╗   ██╗██╗  ████████╗██╗██╗      █████╗ ██╗   ██╗███████╗██████╗ 
+%████╗ ████║██║   ██║██║  ╚══██╔══╝██║██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗
+%██╔████╔██║██║   ██║██║     ██║   ██║██║     ███████║ ╚████╔╝ █████╗  ██████╔╝
+%██║╚██╔╝██║██║   ██║██║     ██║   ██║██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗
+%██║ ╚═╝ ██║╚██████╔╝███████╗██║   ██║███████╗██║  ██║   ██║   ███████╗██║  ██║
+%╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝   ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
+                                                                              
 
 \section{Multilayer Perceptron Networks}
 In the section \ref{sec:perceptron}, we explained Rosenblatt’s perceptron, which is basically a single-layer neural network. Therein, we showed that how it is limited to the classification of linearly separable patterns. To overcome the practical limitations of the perceptron, we look to the \glspl{mlp}. The Figure \ref{fig:mlp_architectural_graph} shows the architectural graph of a fully-connected \gls{mlp}. The perceptrons are organised in layers (i.e. input layer, hidden layers and ouput layer), so the signal flow through the network progresses in a forward direction.
@@ -260,7 +261,11 @@ the input data into a new space called the feature space. The formation of this 
 		\centering
 		\vspace{0.3cm}
 		\includegraphics[width=7cm]{threshold_vs_sigmoid}
-		\caption{Activation functions of a neuron (\cite{haykin2009neural}). \\(a) Threshold function. \\(b) Sigmoid funtion.}
+		\caption
+		{
+			Activation functions of a neuron (\cite{haykin2009neural}). \\
+			(a) Threshold function. \hspace{1.5cm} (b) Sigmoid funtion.
+		}
 		\label{fig:threshold_vs_sigmoid}
 	\end{figure}
 
@@ -300,6 +305,14 @@ the input data into a new space called the feature space. The formation of this 
 					w^{'}_{ji} \leftarrow w_{ji} + \Delta w_{ji} \hspace{1.5cm} ; \hspace{1.5cm} \Delta w_{ji} = \eta \delta_j x_{ji}
 				\end{equation}
 		\end{enumerate} 
+
+
+% ██████╗ ██████╗ ███╗   ██╗██╗   ██╗  
+%██╔════╝██╔═══██╗████╗  ██║██║   ██║  
+%██║     ██║   ██║██╔██╗ ██║██║   ██║  
+%██║     ██║   ██║██║╚██╗██║╚██╗ ██╔╝  
+%╚██████╗╚██████╔╝██║ ╚████║ ╚████╔╝██╗
+% ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝  ╚═══╝ ╚═╝
 
 
 \section{Convolutional Neural Networks and Face Recognition}
@@ -344,6 +357,16 @@ At this point, we know how convolution and pooling works. Two or three stages of
 
 Backpropagation through a \gls{cnn} is as simple as through a regular deep network, allowing all the weights of the network (which also includes the filters of the convolution) to be trained.
 
+
+
+%███████╗ █████╗  ██████╗███████╗    ██████╗ ███████╗████████╗███████╗ ██████╗████████╗
+%██╔════╝██╔══██╗██╔════╝██╔════╝    ██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝
+%█████╗  ███████║██║     █████╗      ██║  ██║█████╗     ██║   █████╗  ██║        ██║   
+%██╔══╝  ██╔══██║██║     ██╔══╝      ██║  ██║██╔══╝     ██║   ██╔══╝  ██║        ██║   
+%██║     ██║  ██║╚██████╗███████╗    ██████╔╝███████╗   ██║   ███████╗╚██████╗   ██║██╗
+%╚═╝     ╚═╝  ╚═╝ ╚═════╝╚══════╝    ╚═════╝ ╚══════╝   ╚═╝   ╚══════╝ ╚═════╝   ╚═╝╚═╝
+                                                                                      
+
 \section{Face Detection}
 The databases used in the training of the networks that perform the face recognition usually have face images already normalized  to  a  given  pose  standard. However,  the  conventional  input  image  of  computer  vision  systems  may  contain many items and/or faces, either for recognition or tracking. In these cases, face detection becomes mandatory. It acts as preprocessing of the images to determine first
 if there is a face in the image, and second, where it is located (\cite{marques2010face}).
@@ -378,7 +401,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=8cm]{fd_statistical_method.png}
-		\caption{Results of applying the face detection method from \cite{schneiderman2000statistical}}
+		\caption{Results of applying the face detection method \\from \cite{schneiderman2000statistical}}
 		\label{fig:statistical_method_face_det}
 	\end{figure}
 
@@ -427,6 +450,15 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 			
 	\end{enumerate}
 
+
+%██████╗  █████╗ ████████╗ █████╗     ███████╗███████╗████████╗███████╗
+%██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗    ██╔════╝██╔════╝╚══██╔══╝██╔════╝
+%██║  ██║███████║   ██║   ███████║    ███████╗█████╗     ██║   ███████╗
+%██║  ██║██╔══██║   ██║   ██╔══██║    ╚════██║██╔══╝     ██║   ╚════██║
+%██████╔╝██║  ██║   ██║   ██║  ██║    ███████║███████╗   ██║   ███████║
+%╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝    ╚══════╝╚══════╝   ╚═╝   ╚══════╝
+                                                                      
+
 \section{Public Data Sets} 
 Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data, face images in this case. The problem is that we need a high amount of them, in addition to that each face image has to be different (or the model would only work well with the data we worked with, and not any face, which is our purpose). As we cannot generate this dataset by ourselves, we must look for a public dataset with enough and different face images:
 
@@ -436,6 +468,15 @@ Face recognition is nothing but another kind of machine learning and as such, it
 	\item \gls{lfw}. This database only counts with more than 13,000 images that only have one person in them, which is perfect for the scope of this project. It can be explored online and has been recently updated, solving some erratum. Finally, it also has the option to download the images aligned with funneling or commercial software, reducing the work to do on the dataset. Because of all these reasons, it is the dataset that is going to be used for the project (\cite{lfw_db}).
 \end{itemize}
 
+
+
+%██████╗  █████╗ ███████╗██████╗ ██████╗ ███████╗██████╗ ██████╗ ██╗   ██╗
+%██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝
+%██████╔╝███████║███████╗██████╔╝██████╔╝█████╗  ██████╔╝██████╔╝ ╚████╔╝ 
+%██╔══██╗██╔══██║╚════██║██╔═══╝ ██╔══██╗██╔══╝  ██╔══██╗██╔══██╗  ╚██╔╝  
+%██║  ██║██║  ██║███████║██║     ██████╔╝███████╗██║  ██║██║  ██║   ██║   
+%╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝     ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
+                                                                         
 \section{Raspberry Pi}	
 \label{sec:rasp_pi}
 The Raspberry Pi was designed by scientists from the University of Cambridge and realeased their first commercial model in 2012. At the first instance it was thought to be a programming learning tool accessible for everyone thanks to the low cost of the device (\cite{raspberry_pi_for_learning}), now around the 40e (\cite{price_raspberry_pi}). However, a huge community has grown around this project that goes from the original purpose of programming learning to industrial and comercial products.
@@ -469,33 +510,6 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
 	\end{table}
 	\renewcommand{\arraystretch}{1}
 
-%	\begin{itemize}
-%		\item Model name: Raspberry Pi 3 Model B
-%		\item Processor:
-%			\begin{itemize}
-%				\item Chipset Broadcom BCM2387.
-%				\item CPU Quad-Core 1,2GHz ARM Cortex-A53.
-%			\end{itemize}
-%		\item GPU: Dual Core Broadcom VideoCore IV.
-%		\item RAM memory: 1GB LPDDR2.
-%		\item Conectivity:
-%			\begin{itemize}
-%				\item Ethernet socket 10/100Mbps BaseT.
-%				\item BCM43438 chip, providing 802.11 b/g/n wireless LAN and Bluetooth 4.1 (Classic and BLE).
-%				\item 4x USB ports 2.0.
-%				\item 40-pin extended GPIO.
-%				\item CSI-2 camera port for connecting a Raspberry Pi camera (15 pins).
-%				\item DSI display port for connecting a Raspberry Pi touchscreen display (15 pins).
-%				\item Micro-SD port for OS and storage (power source up to 2.5A).
-%			\end{itemize}
-%		\item Video output:
-%			\begin{itemize}
-%				\item Full size HDMI (rev 1.3 \& 1.4).
-%				\item Composite RCA (PAL \& NTSC).
-%			\end{itemize}
-%		\item Audio output: 3.5mm jack conector.
-%	\end{itemize}
-
 	\subsection{Possible Operative System}
 	In order to use the Raspberry Pi in this project, we first need to install an Operative System (OS). There are many possible options and, not a surprise, most of them are Linux-based:
 
@@ -507,6 +521,15 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
 		\item PiBang Linux. Insired by Crunchbang Linux, and based on Rasbian, it aims at being a fully functioning desktop. It features a modified version of Raspi-Config along with a fully optimized Openbox install (\cite{pibang_website}).
 	\end{itemize} 
 
+
+
+%██████╗ ██╗   ██╗████████╗██╗  ██╗ ██████╗ ███╗   ██╗
+%██╔══██╗╚██╗ ██╔╝╚══██╔══╝██║  ██║██╔═══██╗████╗  ██║
+%██████╔╝ ╚████╔╝    ██║   ███████║██║   ██║██╔██╗ ██║
+%██╔═══╝   ╚██╔╝     ██║   ██╔══██║██║   ██║██║╚██╗██║
+%██║        ██║      ██║   ██║  ██║╚██████╔╝██║ ╚████║
+%╚═╝        ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+                                                     
 \section{Python}
 \label{sec:python}
 Some of the features of Python have been already commented in the Introduction of this report, but there is more to talk about. Some people say that in order to explain something well, you need to start from the root of the question. If we apply it to Python, we have to talk about the Zen of Python (\cite{origin_zen_of_python}, \cite{zen_of_python}), a collection of software principles that influenced the design of this language. A total of 20 principles (of which only 19 were written down) that show how Tim Peters, one of the open source development leaders of Python, wanted it to be beatiful, explicit, simple among other thigs.
@@ -551,7 +574,7 @@ These reasons have brought Python to be very popular. When looking at different 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=9cm]{PYPL_python_ranking.png}
-	\caption{PYPL PopularitY for March 2018 (\cite{pypl_pop_rank})}
+	\caption{PYPL PopularitY for March 2018 \\(\cite{pypl_pop_rank})}
 	\label{fig:pypl_rank}
 \end{figure}
 
