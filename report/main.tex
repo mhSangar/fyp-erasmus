@@ -26,7 +26,6 @@
 \usepackage{chngpage} % change page attr ad-hoc	
 \usepackage{float} % position of floats in the doc
 \usepackage{array} % tables attributes
-
 %\usepackage{enumitem,amssymb}	% checked lists
 %\usepackage{pifont}	% checked lists
 
@@ -43,7 +42,7 @@
 
 \def \uncheckedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$} \hspace{0.3cm}}
 \def \checkedbox {\hspace{0.1cm} \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} \hspace{-0.1cm}}
-
+	
 \newcommand{\xmark}{\ding{55}}%
 \newcommand{\realblankpage}{\newpage\thispagestyle{empty}\mbox{}}
 
@@ -96,7 +95,6 @@
 % FORMAT %
 %
 \linespread{1.3}    
-\pagestyle{plain}
 
 \setlength{\textheight}{8.5in}
 %\setlength{\oddsidemargin}{0.7in}
@@ -114,6 +112,7 @@
 \begin{document}
 
 \pagenumbering{gobble}
+\pagestyle{plain}
 
 \maketitle
 \vfill
@@ -150,6 +149,7 @@
 %
 \printglossary[title=Glossary of Terms, toctitle=Glossary of Terms]
 \printglossary[type=\acronymtype]
+
 \clearpage
 \pagenumbering{arabic}
 

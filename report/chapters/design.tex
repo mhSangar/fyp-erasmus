@@ -2373,7 +2373,7 @@ The \textit{routes.py} file is where the different calls to the server are defin
 		\label{fig:detect_face_function}
 	\end{figure}
 
-	First, from the OpenCV library the the classifier "haarcascade{\_}frontface{\_}default" is loaded, which applies the previously explained Viola-Jones method using Haar features (Section \ref{subsec:face_detec_techniques}). The image is loaded in grayscale , as this method work with the pixel intensities, not with the colour channels. Using the classifier, the coordinates of the detected faces are obtained and stored in the array \textit{faces}. 
+	First, from the OpenCV library the classifier "haarcascade{\_}frontface{\_}default" is loaded, which applies the previously explained Viola-Jones method using Haar features (Section \ref{subsec:face_detec_techniques}). The image is loaded in grayscale , as this method work with the pixel intensities, not with the colour channels. Using the classifier, the coordinates of the detected faces are obtained and stored in the array \textit{faces}. 
 
 	The detected faces that are smaller than 150 pixels are discarded. The reason after this is that it has been assumed that the user is always near the camera when the photo is taken, so if a small face is detected, it would be either another person in the background or a false positive.
 
