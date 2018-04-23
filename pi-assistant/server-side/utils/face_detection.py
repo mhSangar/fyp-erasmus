@@ -1,6 +1,56 @@
 import numpy as np
 import cv2
 import os
+import argparse
+
+classifier = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+
+def fd_emp_study (input_dir, detected_matrix):
+
+	sorted_file_list = sorted(os.listdir(input_dir))
+
+	for i, file in enumerate(sorted_file_list):
+		# load img in grayscale
+		grayscale_img = cv2.imread(os.path.join(input_dir, file), 0)
+		# face detection with viola-jones
+		faces = classifier.detectMultiScale(grayscale_img, scaleFactor=1.3, minNeighbors=5)
+		
+		if len(faces) == 0:
+			is_detected = False
+		else:
+			is_detected = True
+	
+		detected_matrix.append( (file, is_detected) )
+
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser(add_help=True)
+
+	parser.add_argument('--input-dir', type=str, action='store', default='img/', dest='input_dir')	
+	args = parser.parse_args()
+
+	detected_matrix = []
+	fd_emp_study(args.input_dir, detected_matrix)
+
+	for face in detected_matrix:
+		print(face[0] + ": " + str(face[1]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 all_imgs = True
 display_info = True
@@ -9,10 +59,10 @@ limits = [100, 500]
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-input_dir = os.path.join(basedir, "pi_img/")
-_output_dir = os.path.join(basedir, "selected_out/")
+#input_dir = os.path.join(basedir, "pi_img/")
+#_output_dir = os.path.join(basedir, "selected_out/")
 
-classifier = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+
 
 def detect_face(img_filepath, output_dir):
 	img = cv2.imread(img_filepath)
@@ -134,26 +184,33 @@ def proccess(_input_dir, multiple, skipped):
 				break
 	return multiple, skipped
 
-if __name__ == '__main__':
-	multiple = []
-	skipped = []
 
-	for directory in os.listdir(input_dir):
-		multiple, skipped = proccess(input_dir + directory, multiple, skipped)
-		print("")
 
-	if display_info:
-		if len(multiple) > 0:
-			print("\n> More than one face detected in:")
-			for i in multiple:
-				print("\t", end="")
-				print(i)
 
-		if len(skipped) > 0:
-			print("\n> No faces detected in:")
-			for i in skipped:
-				print("\t", end="")
-				print(i)
-	else:
-		print("")
+
+
+
+
+
+#	multiple = []
+#	skipped = []
+#
+#	for directory in os.listdir(input_dir):
+#		multiple, skipped = proccess(input_dir + directory, multiple, skipped)
+#		print("")
+#
+#	if display_info:
+#		if len(multiple) > 0:
+#			print("\n> More than one face detected in:")
+#			for i in multiple:
+#				print("\t", end="")
+#				print(i)
+#
+#		if len(skipped) > 0:
+#			print("\n> No faces detected in:")
+#			for i in skipped:
+#				print("\t", end="")
+#				print(i)
+#	else:
+#		print("")
 	
