@@ -1,7 +1,26 @@
-\chapter{Discussion and Conclusion}
-\label{ch:conclussions}
+\chapter{Conclusions and Further Work}
+\label{ch:conclusions}
+
+\section{Conclusions}
 In this section we will discuss how the objectives of this report, indicated at the beginning, have been achieved. A brief section about further work on the project is included at the end.
 
 First of all, the development of the \textit{Intelligent Assistant} has been a complete success. The application combine the lightweight architecture of a Raspberry Pi and the computing power of a usual computer thanks to a client-server communication. The Raspberry Pi runs a graphical user interface (\gls{gui}) that allow users to take a photo of themselves and send it to the server via HTTP. The server, created using the micro-framework Flask, receives this photo and apply a face detection pre-processing using Viola-Jones Haar cascades and then the face recognition process with a \gls{cnn} using the library Tensorflow.
 
-Once the user is recognised, the next class of the student in the day is obtained using web scraping from \textit{timetable.ul.ie}. The map from the actual location of the student to that class is obtained just after, showing all this information in the \gls{gui} to be accessible to the user. All the intermediate situations, such as when the student's face is not detected or recognised, or when the student has no more classes in the day, have been covered. 
+Once the user is recognised, the server obtains the next class of the student in the day using web scraping from \textit{timetable.ul.ie}. The map from the actual location of the student to that class is obtained just after, sending back all this information and showing it in the \gls{gui} to be accessible for the user. All the intermediate situations, such as when the student's face is not detected or recognised, or when the student has no more classes in the day, have been covered. 
+
+In the Empirical Studies we have proven the capacity of the methods chosen for face detection and face recognition, both with a precision of 100\% and a recall above 80\% in the experiments realised. 
+
+Now talking about the personal objectives, this project has managed to teach everything that it was supposed to. First, doing the whole application in Python has made me reach a point where I feel comfortable with the language, I would even say that some more comfortable than with the other languages that I have used until now (e.g. Java, C, C++). Second, it has opened me the doors to the world of Artificial Intelligence and Machine Learning, as they were not taught in the specialization of my Home University. All the research done in the Chapter 2 made me learn what these such topics (e.g. perceptrons, \glspl{cnn}, Haar features) are and how they work internally.
+
+Third, it has made me practise my English academic writing as never before. On the one hand, by reading articles and formal documents in order to understand or to include some topic in the report. On the second hand, by actually writing this report, which has become the longest document I have ever written in English. 
+
+Fourth and last, it has made me feel proud. Proud of being capable of learning such different and new topics. Proud of doing this project in a language that is not my mother tongue. And proud of, even with the help of the people already mentioned in the Acknowledgements, doing it by myself.
+
+\section{Further work}
+As it was explained before, the \textit{Intelligent Assistant} is completely functional and, under my own opinion, could be really useful for the new students of the University of Limerick. In order to be actually deployed, it would need first the help of the students that may be interested in the service. They would need to provide a set of photos to train the network and after participate in sessions for the testing of the application. However, the process to obtain the timetable data would be much easier, as the University already have that information in its internal database.
+
+Now referring to the actual changes of the application, the first and most important change would be to use another database engine. As it was explained in the correspondent section (\ref{subsec:sql_alchemy}), SQLite works well in small applications and other engines, such as MySQL or PostgreSQL, are more suitable for these tasks. The application is prepared for this change, but the database server would require further configuration. The server of the application itself would also need to be configured in order to accept more than one request at the same time (e.g. threads).
+
+The interface between server and client could be modified to follow the REST architectural style. It could be implemented by POST calls that create the item (i.e. student, timetable, map) in the server and returns an ID, followed by GET calls that, using this ID, obtain such item. The database schema would need to be changed, but the application is already prepared for this kind of events thanks to the use of migrations (\ref{subsec:sql_alchemy}).
+
+Finally, the \gls{gui} of the application was designed using tkinter. This library was selected for this project because it is written in Python, being the current standard interface to the Tk toolkit, and it is easy to use. However, using other libraries (e.g. PyQt, WxPython) could make the finishes more aesthetic and more attractive to the user.
