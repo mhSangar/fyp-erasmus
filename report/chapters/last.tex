@@ -1,2 +1,7 @@
 \chapter{Discussion and Conclusion}
 \label{ch:conclussions}
+In this section we will discuss how the objectives of this report, indicated at the beginning, have been achieved. A brief section about further work on the project is included at the end.
+
+First of all, the development of the \textit{Intelligent Assistant} has been a complete success. The application combine the lightweight architecture of a Raspberry Pi and the computing power of a usual computer thanks to a client-server communication. The Raspberry Pi runs a graphical user interface (\gls{gui}) that allow users to take a photo of themselves and send it to the server via HTTP. The server, created using the microframework Flask, receives this photo and apply a face detection pre-processing using Viola-Jones Haar cascades and then the face recognition process with a \gls{cnn} using the library Tensorflow.
+
+Once the user is recognised, the next class of the student in the day is obtained using web scraping from \textit{timetable.ul.ie}. The map from the actual location of the student to that class is obtained just after, showing all this information in the \gls{gui} to be accesible to the user. All the intermediate situations, such as when the student's face is not detected or recognised, or when the student has no more classes in the day, have been covered. 
