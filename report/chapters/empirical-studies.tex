@@ -16,6 +16,8 @@ In this section we include the analysis of two of the techniques used in the pro
 	\subsection{Objective}
 	As it was already explained in the Research section (\ref{subsec:face_detec_techniques}), the Viola-Jones method "stands out for performing a high detection rate with a very low false positive rate and it is capable to work in a real time situation". These features have made it widely used in the recent years and it was also the reason why it was finally chosen for this project. 
 
+	\clearpage
+
 	In this experiment, we are going to test this affirmation by applying the method to a certain set of images. It will be composed of an equal proportion of face images, near-face images from a human perspective and non-face images. The results will be displayed including the faces that were correctly detected, the faces that were missed (i.e. false negatives) and the images incorrectly classified as having a face, when they did not (i.e. false positives).
 
 	\subsection{Method and parameters}
@@ -51,7 +53,28 @@ In this section we include the analysis of two of the techniques used in the pro
 	\end{figure} 
 
 	\subsection{Results}
-	The results of the experiment are shown in the Table \ref{table:experiment_1_res}, where the rows refer to the prediction of the classifier and the columns refer to the three different datasets (in the case of the near-face dataset, each sub-group is shown in a different column).
+	The results of the experiment are shown in Figure \ref{plot:results_exp1} and in the Table \ref{table:experiment_1_res}, where the rows refer to the prediction of the classifier and the columns refer to the three different datasets (in the case of the near-face dataset, each sub-group is shown in a different column).
+
+	\begin{figure}[!ht]
+		\centering
+		\resizebox{!}{6cm}
+		{
+			\begin{tikzpicture}
+				\begin{axis}[
+				    ybar, ymin=0, ymax=42, ylabel=Detections,
+				    xlabel=Dataset,
+				    xtick=data,
+				    xticklabels from table={exp1_results.csv}{Dataset},
+				    ]
+				    \addplot table [x expr=\coordindex, y=FaceDetected]{exp1_results.csv};
+				    \addplot table [x expr=\coordindex, y=FaceNotDetected]{exp1_results.csv};
+				    \legend{Detected,Not detected}
+				\end{axis}
+			\end{tikzpicture} 
+		}
+		\caption{Plot of the results of the Experiment 1}
+		\label{plot:results_exp1}
+	\end{figure}
 
 	\begin{table}[H]
 		\centering
@@ -70,24 +93,6 @@ In this section we include the analysis of two of the techniques used in the pro
 		\caption{Results of the Experiment 1}
 	    \label{table:experiment_1_res}
 	\end{table}
-
-	\begin{figure}[!ht]
-		\centering
-		\begin{tikzpicture}
-			\begin{axis}[
-			    ybar, ymin=0, ymax=42, ylabel=Detections,
-			    xlabel=Dataset,
-			    xtick=data,
-			    xticklabels from table={exp1_results.csv}{Dataset},
-			    ]
-			    \addplot table [x expr=\coordindex, y=FaceDetected]{exp1_results.csv};
-			    \addplot table [x expr=\coordindex, y=FaceNotDetected]{exp1_results.csv};
-			    \legend{Detected,Not detected}
-			\end{axis}
-		\end{tikzpicture} 
-		\caption{Plot of the results of the Experiment 1}
-		\label{plot:results_exp1}
-	\end{figure}
 
 	\subsection{Evaluation}
 	In the Table \ref{table:true_false_exp1} we have analysed the results showed previously. Fot this analysis we have assumed that the near-face images actually contain a face, and as such, if the classifier has not detected a face in them, it will count as a false negative.
@@ -142,7 +147,7 @@ In this section we include the analysis of two of the techniques used in the pro
 %╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝    ╚══════╝
                                                        
 
-\section{Experiment 2: Effectiveness of Convolutional Neural Networks for Face Recognition}
+\section{Experiment 2: Effectiveness of CNNs for Face Recognition}
 	\subsection{Objective}
 	Convolutional Neural Networks are used in many current state-of-art tools for face recognition (\cite{facenet_article}) and it is because their features why they were selected for this project. However, an analysis of how well does our network work specifically is something that must be present in this \gls{fyp}. 
 
@@ -181,7 +186,9 @@ In this section we include the analysis of two of the techniques used in the pro
 	\subsection{Results}
 	The exact results are included in the Tables \ref{table:results_exp2_mset} and \ref{table:results_exp2_lfwset} and can be seen in the Figures \ref{plot:results_exp2_mset} and \ref{plot:results_exp2_lfwset}, where a red line indicates the 90\% of confidence necessary to assume the recognition.
 
-	\begin{figure}[p]
+	\vspace{2cm}
+
+	\begin{figure}[!ht]
 		\centering
 		\resizebox{\textwidth}{!}
 		{		
@@ -210,7 +217,9 @@ In this section we include the analysis of two of the techniques used in the pro
 		\label{plot:results_exp2_mset}
 	\end{figure}
 
-	\begin{figure}[p]
+	\vspace{2cm}
+
+	\begin{figure}[!ht]
 		\centering
 		\resizebox{\columnwidth}{!}
 		{		
@@ -387,7 +396,9 @@ In this section we include the analysis of two of the techniques used in the pro
 				&= \frac{positive_{true}}{positive_{true} \cup negative_{false}} = \frac{37}{37+3} = 92.5\%
 	\end{flalign}
 
-	With a 100\% of precision and 92.5\% of recall, we can see the huge potential of the Convolutional Neural Networks for face recognition, even with variations in pose, gesture, illumination and accessories (e.g. glasses). From the \gls{lfw} dataset none of the faces were recognised, not only as the author, but neither as any of the other "students" (in fact, different subjects also from the \gls{lfw}) for who the network was trained. The highest confidence value of this dataset was 79.3\%, not even close to the necessary 90\% .
+	With a 100\% of precision and 92.5\% of recall, we can see the huge potential of the Convolutional Neural Networks for face recognition, even with variations in pose, gesture, illumination and accessories (e.g. glasses). From the \gls{lfw} dataset none of the faces were recognised, not only as the author, but neither as any of the other "students" (in fact, different subjects also from the \gls{lfw}) for who the network was trained. The highest confidence value of this dataset was 79.3\%, not even close to the necessary 90\%.
+
+	\clearpage
 
 	About the false negatives, the three photos were rejected because they did not exceed the selected confidence level of 90\%, but with more than 80\% in all of them, the identification of the author was almost confirmed. One option would be to lower this value to, say, 80\%. However, the use of this application tolerate better the false negatives than the false positives, which could have occurred with an 80\%, so the confidence value will be kept at 90\%. 
 

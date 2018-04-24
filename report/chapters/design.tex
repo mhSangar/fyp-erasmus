@@ -15,11 +15,12 @@ From \cite{req_engineering_def}:
 In a real world project, the requirement engineering is a four step process: Feasibility Study, Requirement Gathering, Software Requirement Specification, Software Requirement Validation. However, in this project all roles are combined in one person, so the process is going to be more brief. We are going to assume that the first two steps are already done and directly going to create the Software Requirement Specification, where the following tables include the requirements that the system must follow.
 
 	\subsection{Functional Requirements}
-	The requirements have been divided in two different types. In this section we have included the functional requirements, which fall into "what the system should do".
+	The requirements have been divided in two different types. In this section we have included the functional requirements, which fall into "what the system should do" (Tables from \ref{fr:01} to \ref{fr:39}).
 
-	%############## maybe change this newpage?
+	\subsection{Non-functional Requirements}
+	In this section we have included the non-functional requirements, which fall into "how the system performs a certain function" (Tables from \ref{nfr:01} to \ref{nfr:15}).
 
-	\vspace{1cm}
+	\newpage
 	
 	%███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗ █████╗ ██╗     
 	%██╔════╝██║   ██║████╗  ██║██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔══██╗██║     
@@ -1348,11 +1349,6 @@ In a real world project, the requirement engineering is a four step process: Fea
 	\clearpage
 
 
-	\subsection{Non-functional Requirements}
-	The requirements have been divided in two different types. In this section we have included the non-functional requirements, which fall into "how the system performs a certain function".
-
-	\vspace{1cm}
-
 	%███╗   ██╗ ██████╗ ███╗   ██╗      ███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗ █████╗ ██╗     
 	%████╗  ██║██╔═══██╗████╗  ██║      ██╔════╝██║   ██║████╗  ██║██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔══██╗██║     
 	%██╔██╗ ██║██║   ██║██╔██╗ ██║█████╗█████╗  ██║   ██║██╔██╗ ██║██║        ██║   ██║██║   ██║██╔██╗ ██║███████║██║     
@@ -1392,6 +1388,7 @@ In a real world project, the requirement engineering is a four step process: Fea
 		    }
 			\caption{Non\textendash Functional Requirement NFR{\_}01}
 		    \label{nfr:01}
+		    \vspace{0.5cm}
 		\end{table}
 
 		\begin{table}[H]
@@ -1872,6 +1869,8 @@ On the left side of the screen we can find the lateral menu, which contains four
 
 In this menu, the icons that refers to the windows can acquire different colours: blue if the icon is referred to the current window, black if it does not refer to the current window but it is still accessible and gray if it is disabled. All icons that have been used in the application are in the Appendix \ref{ch:appendix_a}.
 
+\clearpage
+
 The set-up of the project can be found below:
 
 \begin{itemize} 
@@ -1919,17 +1918,13 @@ The set-up of the project can be found below:
 		\label{fig:snap_window}
 	\end{figure}
 
+	\clearpage
+
 	In the main panel of the right we can see the snapshot selected in the Preview window. The "Accept this photo" button links with the Loading window (\ref{subsec:loading_window}) and will send the snapshot to the server in order to identify the user as a student.
 
 	\subsection{Loading window}
 	\label{subsec:loading_window}
 	This window (Figure \ref{fig:loading_window}) shows the progress in the communication with the server. All icons of the lateral menu will be disabled until the communication with the server is over. Depending of the call of the server that is being used at the moment, some icons of the menu will be different:
-
-	\begin{itemize}
-		\item Face recognition. The timetable icon will represent an user and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other. 
-		\item Get next class. The timetable icon will represent a calendar and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other.
-		\item Get map. The map icon will represent a map pin and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other.
-	\end{itemize}
 
 	\begin{figure}[!ht]
 		\centering
@@ -1938,29 +1933,35 @@ The set-up of the project can be found below:
 		\label{fig:loading_window}
 	\end{figure}
 
+	\begin{itemize}
+		\item Face recognition. The timetable icon will represent an user and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other. 
+		\item Get next class. The timetable icon will represent a calendar and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other.
+		\item Get map. The map icon will represent a map pin and it will be blinking each 0.5 seconds, being black in one phase and yellow in the other.
+	\end{itemize}
+
 	The snapshot from the previous window is sent to the server using a HTTP POST method to the route that it has for the face recognition service. The image is coded as UNICODE characters, so is can be wrapped using JSON. The server extracts the image from the request and decodes the JSON message to obtain again the original image. The server now applies the face detection process, where the faces detected are cropped out from the original image and saved in a new file. Now there are three possibilities depending of the output of this process (Figure \ref{fig:output_face_det}).
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=9cm]{output_face_det.png}
+		\includegraphics[width=8cm]{output_face_det.png}
 		\caption{Possible outputs of the Face Detection process}
 		\label{fig:output_face_det}
 	\end{figure}
 
 	The first possibility is that only one face is detected, which is the expected output of this process, being this face the one selected for the face recognition process. Another is that more than one face is detected, but in this case the first and leftmost face detected is the one selected for the face recognition process. The third and last possibility is that no faces are detected in the original image. Under these circumstances the server will send back a predefined default student instance along with a flag that will report the Raspberry Pi that no face could be detected. The Raspberry Pi will then show the Error window (\ref{subsec:error_window}) with a message informing the user about the situation.
 
-	Following the expected output of the face detection process where only one face is detected, the face recognition process is applied to the new file with the cropped face. It will give back the student ID number of the recognised student with highest confidence percentage (how sure is the \gls{cnn} of that the student in front of the camera is the recognised student) and the actual value of this confidence percentage. 
+	Following the expected output of the face detection process where only one face is detected, the face recognition process is applied to the new file with the cropped face (Figure \ref{fig:output_face_recog}). It will give back the student ID number of the recognised student with highest confidence percentage (how sure is the \gls{cnn} of that the student in front of the camera is the recognised student) and the actual value of this confidence percentage. 
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=9cm]{output_face_recog.png}
+		\includegraphics[width=8cm]{output_face_recog.png}
 		\caption{Possible outputs of the Face Recognition process}
 		\label{fig:output_face_recog}
 	\end{figure}
 
 	If the percentage is less than 80\%, we will assume that the student is not recognised and therefore that the user is not a student. The system will follow a similar procedure to the no-face-detected case of before, but the flag sent will be different, informing that the student could not be detected. The Raspberry Pi will do the same as well, showing the Error window (\ref{subsec:error_window}) with a message to report the user about the situation. Otherwise, if the confidence percentage is greater than 80\%, the server will take the name of the user from the database and send it along the ID number to the Raspberry Pi.
 
-	Now that the Raspberry Pi knows the identity of the student, it will do another call to the server to get their next class of the day using the student's ID number. The server will use this ID to log into the timetable website of the University of Limerick (timetable.ul.ie). The website will give back as a response a static HTML page with a fixed pattern that contains the timetable. Analysing this pattern, the server will extract the timetable information from the fields of this HTML page and store it into a dictionary. Then, the current hour and weekday are taken into consideration to obtain the next class of the student.   
+	Now that the Raspberry Pi knows the identity of the student, it will do another call to the server to get their next class of the day using the student's ID number. The server will use this ID to log into the timetable website of the University of Limerick (timetable.ul.ie). The website will give back as a response a static HTML page with a fixed pattern that contains the timetable. Analysing this pattern, the server will extract the timetable information from the fields of this HTML page and store it into a dictionary. Then, the current hour and weekday are taken into consideration (Figure \ref{fig:output_next_class}) to obtain the next class of the student.   
 
 	\begin{figure}[!ht]
 		\centering
@@ -2023,7 +2024,7 @@ The set-up of the project can be found below:
 		\label{fig:no_classes_window}
 	\end{figure}	
 
-
+\newpage
 
 % █████╗ ██████╗  ██████╗██╗  ██╗██╗████████╗███████╗ ██████╗████████╗██╗   ██╗██████╗ ███████╗
 %██╔══██╗██╔══██╗██╔════╝██║  ██║██║╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗██╔════╝
@@ -2039,6 +2040,10 @@ In this project the architecture follows the pattern Model-View-Controller (\gls
 
 However, the definition of the MVC pattern has changed over the time to adapt to the changing environment. And because of this fact, it is one of the most quoted (and most misquoted) patterns around (\cite{current_mvc_definition}). A general and basic definition of the pattern is shared by most of the approaches and has been summarized in the Figure \ref{fig:mvc_diagram}.   
 
+\clearpage
+
+It is a software architecture pattern that divides the system in three different components named Model, View and Controller: the application data, the user interface and the control logic, respectively (\cite{mvc_components_definition}).
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=10cm]{mvc_diagram.png}
@@ -2046,7 +2051,6 @@ However, the definition of the MVC pattern has changed over the time to adapt to
 	\label{fig:mvc_diagram}
 \end{figure}	
 
-It is a software architecture pattern that divides the system in three different components named Model, View and Controller: the application data, the user interface and the control logic, respectively (\cite{mvc_components_definition}).
 \begin{itemize}
 	\item Model. It is the information representation with which the system operates, managing every access to this information. The interaction with the other components consists in 	sending the information to the data to the View to be visualised by the user and accepting or denying the access and modifying requests that come from the Controller.
 	\item View. It shows the Model in an appropriated format that allows users to interact with the system, usually using a \gls{gui}.
@@ -2058,6 +2062,15 @@ In the high level context of this project, the View correspond to the Raspberry 
 	\subsection{Back-end architecture}
 	Unlike the Front End, which is contained in a single called "app.py", the Back End of the project is divided in multiple files/modules. The component diagrams have been included in the Figures \ref{fig:back_comp_diagram} and \ref{fig:face_recog_comp_diagram} to explain the interaction between these modules, 
 
+	\vspace{1.5cm}
+
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=14cm]{face-recog_module_comp_diagram}
+		\caption{Component diagram of the Face recognition module}
+		\label{fig:face_recog_comp_diagram}
+	\end{figure}	
+
 	\clearpage
 
 	\begin{figure}[!ht]
@@ -2065,15 +2078,6 @@ In the high level context of this project, the View correspond to the Raspberry 
 		\includegraphics[width=14cm]{back-end_comp_diagram}
 		\caption{Component diagram of the Back End of the system}
 		\label{fig:back_comp_diagram}
-	\end{figure}	
-
-	\clearpage
-
-	\begin{figure}[!ht]
-		\centering
-		\includegraphics[width=14cm]{face-recog_module_comp_diagram}
-		\caption{Component diagram of the Face recognition module}
-		\label{fig:face_recog_comp_diagram}
 	\end{figure}	
 
 
@@ -2091,12 +2095,16 @@ In the high level context of this project, the View correspond to the Raspberry 
 \label{sec:techs}
 In the following sub-sections we will include all the technologies that have been used in the development of this project, also represented in the Marketecture diagram (Figure \ref{fig:marketecture_diagram}).
 
+\vspace{1cm}
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=14.5cm]{marketecture_diagram}
 	\caption{Marketecture diagram}
 	\label{fig:marketecture_diagram}
 \end{figure}	
+
+	\clearpage
 
 	\subsection{Python}
 	Another section about this language was included in the Research, so here we will only talk about the decisions made about it, referring to \ref{sec:python} for all the background information. For the development of this project, the version 3.6.3 of Python was finally chosen over the 2.x or legacy. The main reason of this choice is that all recent standard library improvements are only available by default in Python 3.x (\cite{python_2or3}) and, eventually, there will be no future security or bug fixes for Python 2.x.
@@ -2106,14 +2114,16 @@ In the following sub-sections we will include all the technologies that have bee
 	\subsection{Tensorflow}
 	TensorFlow is an open source software library for high performance numerical computation. Its flexible architecture allows an easy deployment across a variety of platforms, such as desktop computers, clusters and mobiles devices. It was originally developed by researchers and engineers from the Google Brain team within Google’s AI organization (\cite{tensorflow_main_website}). It has a strong support for machine learning and deep learning processes, which is for what it will be used in this project. 
 
+	The "CPU support only" type of Tensorflow was installed in the server machine for Python3. The creation of a \gls{cnn} model from scratch that would be actually capable to perform face recognition is outside the scope of a \gls{fyp}. Because of this reason, we chose a pre-trained model from the famous FaceNet project (\cite{facenet_article}) that uses the architecture Inception Resnet v1.
+
+	\clearpage
+
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=5cm]{logos/tensorflow.png}
 		\caption{Tensorflow official logo (\cite{tensorflow_main_website})}
 		\label{fig:tensorflow}
 	\end{figure}
-
-	The "CPU support only" type of Tensorflow was installed in the server machine for Python3. The creation of a \gls{cnn} model from scratch that would be actually capable to perform face recognition is outside the scope of a \gls{fyp}. Because of this reason, we chose a pre-trained model from the famous FaceNet project (\cite{facenet_article}) that uses the architecture Inception Resnet v1.
 
 	Another possible architecture would have been Inception-v3. Both of them have been proven to give excellent results in image and face recognition, but as seen in \cite{inception_resnet_article}, with a similar computational cost, the training process of the Inception Resnet v1 is faster (Figure \ref{fig:incep_arch_diff}).
 
@@ -2123,6 +2133,8 @@ In the following sub-sections we will include all the technologies that have bee
 		\caption{Top-5 error evolution during training of pure Inception-v3 vs Inception Resnet v1 (\cite{inception_resnet_article}))}
 		\label{fig:incep_arch_diff}
 	\end{figure}
+
+	\clearpage
 
 	\subsection{OpenCV}
 	\label{subsec:opencv}
@@ -2191,15 +2203,15 @@ In the following sub-sections we will include all the technologies that have bee
 
 	\subsection{Google Static Maps API}
 	The Google Static Maps API allow the developers to obtain a Google Maps image without requiring to use JavaScript or to render HTML. This service creates a map based on URL parameters sent through a standard HTTP request and returns the map as an image \cite{google_maps_static}. To use Google Maps APIs, developers must a register their project on the Google API Console in order to get a Google API key. Once obtained, every call to the API must include this key.
+	
+	%\begin{figure}[!ht]
+	%	\centering
+	%	\includegraphics[width=3.5cm]{logos/google_maps.png}
+	%	\caption{Google Maps official logo \\(\cite{google_maps_static})}
+	%	\label{fig:google_maps}
+	%\end{figure}
 
 	Other Google Maps APIs also allow developers to use maps in their projects. However, the easiest way found to insert a map in a tkinter \gls{gui} was to use an image. This fact, along with the API's simple HTTP interface, made us to finally choose it for the project.
-
-	\begin{figure}[!ht]
-		\centering
-		\includegraphics[width=4.5cm]{logos/google_maps.png}
-		\caption{Google Maps official logo (\cite{google_maps_static})}
-		\label{fig:google_maps}
-	\end{figure}
 
 	\subsection{Latex}
 	\LaTeX{} is a document preparation system for high-quality typesetting. It is most often used for medium-to-large technical or scientific documents but it can be used for almost any form of publishing (\cite{latex_main}). To generate a document using LaTeX, the process typically consists of using a text editor to edit the LaTeX source file (.tex), and then running LaTeX to convert this file to a format such as PDF.
@@ -2222,7 +2234,8 @@ In the following sub-sections we will include all the technologies that have bee
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=4.5cm]{github_project_structure}
+		\vspace{-0.1cm}
+		\includegraphics[width=3.3cm]{github_project_structure}
 		\caption{Github project structure}
 		\label{fig:github_project_structure}
 	\end{figure}
@@ -2239,7 +2252,7 @@ In the following sub-sections we will include all the technologies that have bee
 \label{sec:front_end}
 This section includes some captures of fragments of code from the front-end side of the system. Using these captures, a brief explanation of how this code work is also given. The front-end of the system is all contained in the "app.py" file, that creates and launchs the \gls{gui}.
 
-The library \textit{tkinter} (not \textit{Tkinter}, which is for Python 2.x) is imported along with its module "ttk". Some names are defined in both libraries and at the time of reading the code, it may be not clear which library is being used. In order to make the code clearer, the global import has been avoided (Figure \ref{fig:import_tkinter}). 
+The library \textit{tkinter} (not \textit{Tkinter}, for Python 2.x) is imported along with its module "ttk". Some names are defined in both libraries and at the time of reading the code, it may be not clear which library is being used. In order to make the code clearer, the global import has been avoided (Figure \ref{fig:import_tkinter}). 
 
 \begin{figure}[!ht]
 	\centering
@@ -2259,14 +2272,16 @@ As we can see in the Figure \ref{fig:class_and_main}, the tkinter application is
 
 In the moment the instance of the class is created, the {\_\_}init{\_\_} function is called, taking the parameters and storing them in the \textit{self} object (Figure \ref{fig:init_head}). The video stream thread of the \gls{picamera} is launched using the \textit{imutils} library, and the master window is configured to be displayed in fullscreen. Although the video stream is not displayed for now, the picamera needs some warm-up time to work properly, so it is launched now with the purpose of having the picamera ready for when it will be required. 
 
+Three frames are attached to the master window (Figure \ref{fig:master_frames}): the lateral menu (\textit{navigation{\_}toolbar} in the code), the main panel of the right that will act as a container of the rest of the windows, and a last frame with the sole purpose of dividing the first two, hence its name \textit{line}.
+
+\clearpage
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=14cm]{front_captures/init_f_header}
 	\caption{{\_\_}init{\_\_} function}
 	\label{fig:init_head}
 \end{figure}
-
-Three frames are attached to the master window (Figure \ref{fig:master_frames}): the lateral menu (\textit{navigation{\_}toolbar} in the code), the main panel of the right that will act as a container of the rest of the windows, and a last frame with the sole purpose of dividing the first two, hence its name \textit{line}.
 
 \begin{figure}[!ht]
 	\centering
@@ -2338,6 +2353,8 @@ This section includes some captures of fragments of code from the back-end side 
 
 As seen in the back-end component diagram (Figure \ref{fig:back_comp_diagram}), the structure of the server is composed of various files, all linked by the \textit{{\_}{\_}init{\_}{\_}.py} file (Figure \ref{fig:init_file}). A peculiarity about this file is that the modules \textit{models} and \textit{routes} are imported at the bottom of the script, and not at the top as it is usually done. Importing these modules at the bottom is a workaround to circular imports, caused when in these files we import the "db" variable defined in \textit{{\_}{\_}init{\_}{\_}.py} using "from app import db".
 
+\clearpage
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=14cm]{back_captures/init_file}
@@ -2386,18 +2403,20 @@ The \textit{routes.py} file is where the different calls to the server are defin
 
 	The \textit{main} function starts creating a Tensorflow session (line 182) to encapsulate the environment in which the tensors are evaluated. Then, the images from the \gls{lfw} dataset are loaded and splitted into the train and test sets (line 183). Internally, Tensorflow does not use the class names (student IDs, in this case) to identify the person that appears in the image. Instead, it uses an integer known as "label". These labels are created when the images are loaded, assigning them label values starting from 0.  
 
-	Image files, labels and class names are loaded from the train or the test set, depending on whether it is training or evaluation. During the training, the pool of images is increased by applying random flips and slight brightness and contrast changes to the original images (lines 190-192). On the other hand, during the evaluation, the number of \glspl{epoch} is fixed to 1 (line 196) because the output of every epoch would be the same, as the classifier does not change.
-
-	Now is when the pre-trained model (Inception Resnet v1) is loaded. Using this model, the \glspl{embedding} are extracted from the image, distributing the work among the defined number of threads (line 210). Once the embeddings have been created, they are used to train a SVC classifier and save it later to a .pkl file (line 220). This same classifier is used to evaluate how similar are the recently extracted embeddings to the embeddings of the students with whom it was trained in first place (line 223).
-
-	The \textit{get{\_}prediction} (Figure \ref{fig:get_pred_function}) function is pretty similar to the \textit{main} function, but instead of using a full dataset, the input is a single image. It was created specifically for the interaction between the Raspberry Pi and the server, evaluating the received image with the classifier. In this case, the ID number of the student with the best probability and the value of this probability is returned, so the server will be able to evaluate if it is high enough to assure that the student was in fact recognised.
-
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=14cm]{back_captures/get_pred_function}
 		\caption{\textit{get{\_}prediction} function from \textit{train{\_}classifier.py}}
 		\label{fig:get_pred_function}
 	\end{figure}
+
+	Image files, labels and class names are loaded from the train or the test set, depending on whether it is training or evaluation. During the training, the pool of images is increased by applying random flips and slight brightness and contrast changes to the original images (lines 190-192). On the other hand, during the evaluation, the number of \glspl{epoch} is fixed to 1 (line 196) because the output of every epoch would be the same, as the classifier does not change.
+
+	Now is when the pre-trained model (Inception Resnet v1) is loaded. Using this model, the \glspl{embedding} are extracted from the image, distributing the work among the defined number of threads (line 210). Once the embeddings have been created, they are used to train a SVC classifier and save it later to a .pkl file (line 220). This same classifier is used to evaluate how similar are the recently extracted embeddings to the embeddings of the students with whom it was trained in first place (line 223).
+
+	\clearpage
+
+	The \textit{get{\_}prediction} (Figure \ref{fig:get_pred_function}) function is pretty similar to the \textit{main} function, but instead of using a full dataset, the input is a single image. It was created specifically for the interaction between the Raspberry Pi and the server, evaluating the received image with the classifier. In this case, the ID number of the student with the best probability and the value of this probability is returned, so the server will be able to evaluate if it is high enough to assure that the student was in fact recognised.
 
 	\subsection{Web scraping module}
 	\label{subsec:scraping_module}
@@ -2410,13 +2429,16 @@ The \textit{routes.py} file is where the different calls to the server are defin
 		\label{fig:get_timetable_function}
 	\end{figure}
 
-	First, the student ID is used to log into the website by introduce it into the field "T1" (lines 129-130), that corresponds with the input tag in the HTML. The response, that contains the timetable page, is stored and the Beautiful Soup library is used to parse it to a format it can work with (line 132). The timetable is always inside the second "$<tr>$" tag (line 135) and inside it, the days are inside $<td>$ tags and the classes into $<b>$ tags (line 137). 
+	\clearpage
+
+	First, we use the student ID to log into the website by introducing it into the field "T1" (lines 129-130), that corresponds to the input tag in the HTML. The response, which contains the timetable page, is stored and the Beautiful Soup library is used to parse it to a format it can work with (line 132). The timetable is always inside the second "$<$tr$>$" tag (line 135) and inside it, the days are inside $<$td$>$ tags and the classes into $<$b$>$ tags (line 137). 
 
 	The tags are deleted and the text is splitted by the white space character (line 144). As the structure is always the same, the values always correspond for the same fields. These values are used to create a \textit{Timetable} object, which is defined in the same file. 
 
 	In the \textit{{\_}{\_}init{\_}{\_}} of the object (Figure \ref{fig:timetable_object}), the different parse methods (lines 87, 103, 123) are called to store the parameters as attributes of the object. The parse methods, using the \textit{re} library, compile regular expressions and obtain the actual values from the raw input (line 124). As the name of the module is not provided in the timetable, another request is necessary (line 77). Following a similar process, the Beautiful Soup library is used again to obtain the module name from "timetable.ul.ie/tt{\_}moduledetails.asp".
 
 	\begin{figure}[!ht]
+		\vspace{0.5cm}
 		\centering
 		\includegraphics[width=14cm]{back_captures/timetable_object}
 		\caption{\textit{Timetable} object}
@@ -2450,8 +2472,6 @@ The \textit{routes.py} file is where the different calls to the server are defin
 \section{Testing}
 \label{sec:testing}
 Two approaches are possible to perform the testing: automated, where a set of unit tests are executed to obtain a "passed"/"failed" answer, and manual testing, where is a human who applies the tests to the system. The automated testing on a GUI is actually possible (e.g. \cite{maveryx_testing}), but the manual testing was finally chosen because its simplicity. The results of this testing are displayed in following tables (\ref{table:fun_1_req_validation}, \ref{table:fun_2_req_validation}, \ref{table:non_fun_req_validation}), where the requirements have been validated to verify the proper operation of the system.
-
-\clearpage
 
 \begin{table}[p]
 	\centering
@@ -2507,8 +2527,6 @@ Two approaches are possible to perform the testing: automated, where a set of un
     \label{table:fun_1_req_validation}
 \end{table}
 
-\clearpage
-
 \begin{table}[p]
 	\centering
 	\resizebox{\textwidth}{!}
@@ -2561,10 +2579,7 @@ Two approaches are possible to perform the testing: automated, where a set of un
     \label{table:fun_2_req_validation}
 \end{table}
 
-\clearpage
-
-
-\begin{table}[!ht]
+\begin{table}[p]
 	\centering
 	\resizebox{\textwidth}{!}
 	{
@@ -2696,7 +2711,9 @@ Software Quality methods help in the development of an application, allowing the
 
 However, because these methods follow strict and precise rules to be fully and efficiently implemented, and taking into account the fact that this FYP is treated by only one person (so the client, the provider and the working team are the same), it would be very laborious and pointless to fully implement such methods here when a lot of their faculties (e.g. client-developer communication) are not applicable. Nonetheless, some notions of Software Quality have been followed in the development of the project, collecting the initial ideas about the project into requirements (\ref{sec:requirements}) and after checking if they were finally included in the final result (\ref{sec:testing}).
 
-Besides the adaptation to the initial ideas, Software Quality is also present in other features such as the scalability or the maintainability, that were also took into consideration. One example is the choice to use SQLAlchemy, that offers the option to change the chosen database engine even when the application is fully developed without the need to change anything. As an \gls{orm}, it works with high-level entities and methods instead of SQL statements, so the code of the application would remain the same. 
+Besides the adaptation to the initial ideas, Software Quality is also present in other features such as the scalability or the maintainability, that were also took into consideration. One example is the choice to use SQLAlchemy, that offers the option to change the chosen database engine even when the application is fully developed without the need to change anything. 
+
+As an \gls{orm}, it works with high-level entities and methods instead of SQL statements, so the code of the application would remain the same. 
 
 The server has been configured to work with a single thread. This means that if the application wanted to be scaled and have a Raspberry Pi in each building of the University, for example, multi-threading would be required to to accept more than one request at the same time. It is in a situation like this when SQLite would be changed for another more robust databases engine (e.g. MySQL or PostgreSQL). During the changes to scale the server, the database may also need to change or grow. To be able to adapt the database to new models, the "Flask-Migrate" extension was also added to the server, which stores the database changes in "migrations" and allow to \textit{upgrade} the database to the new version or to \textit{downgrade} it to a previous one.
 

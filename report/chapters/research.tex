@@ -34,7 +34,7 @@ Recent \gls{ml} implementations do not have to make us think that \gls{ml} has b
 
 The technology needed to compute \gls{ml} algorithms was a prohibitive factor for a long time, but nowadays anyone can rent a really expensive GPU cluster for a few dollars an hour, something that PhD students dreamed about just 10 years ago (\cite{pyhton_n_intro_to_ML}). Nevertheless, besides the more powerful computing power, what actually made \gls{ml} to rise in the recent years was the release of easily readable APIs (e.g. \cite{tensorflow_main_website}) and the advent of cloud computing, that made \gls{ml} accessible to the big public.
 
-Within machine learning, we can find three different approaches (\cite{kevin_p_murphy_book}):
+Within machine learning, we can find (\cite{kevin_p_murphy_book}):
 \begin{itemize}
 	\item Supervised learning. Its goal is to learn a mapping from inputs $x$ to outputs $y$, given a labelled set of input-output pairs $D={(x_i ,y_i)}^N$, called training set. Each training input $x_i$ is a $D$-dimensional vector of numbers, which can represent from simple a height value to complex structured object, such as images. Similarly, the form of the output can in principle be anything, but most methods assume that $y_i$ is a categorical or nominal value from a finite set (e.g. male, female), making the problem to be called \textit{pattern recognition}, or an scalar (e.g. distance), making the problem to be called \textit{regression} instead.  
 
@@ -59,14 +59,16 @@ It is apparent that a neural network derives its computing power through, first,
 
 In the Figure \ref{fig:org_neuron} we can see the model of the organic equivalent of the neurons used in an \gls{ann}. Organic neurons interact with each others using synapses, which are constituted by axon terminals, the transmission lines, and dendrites (so called because of its resemblance to a tree), the receptive zones. The artificial neurons we use to build our neural networks are truly primitive in comparison with those found in the brain, but there is still a resemblance between them.
 
+\clearpage
+
+The \glspl{ann} design is actually motivated by analogy with the brain, which is the living proof that fault-tolerant parallel processing is not only physically possible, but also fast and powerful. While neurobiologists look to \glspl{ann} as a research tool to interpret the neurobiological phenomena (\cite{anastasio1993}), engineers look to neurobiology for new ideas to solve more complex problems (\cite{mead1989}).
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=10cm]{research/bio-neuron}
 	\caption{Organic Neuron model}
 	\label{fig:org_neuron}
 \end{figure}
-
-The \glspl{ann} design is actually motivated by analogy with the brain, which is the living proof that fault-tolerant parallel processing is not only physically possible, but also fast and powerful. While neurobiologists look to \glspl{ann} as a research tool to interpret the neurobiological phenomena (\cite{anastasio1993}), engineers look to neurobiology for new ideas to solve more complex problems (\cite{mead1989}).
 
 %Now going back to our artificial neural networks, we can see how the model of one of its units is pretty similar (\textit{Figure ~\ref{fig:art_neuron}}). In first place, the unit receives inputs ($x_i$) from an external source or from other units. Each of these inputs have an associated weight ($w_i$), assigned depending of its relative importance to the other inputs. After the unit applies a function $f$ to the weighted sum of its inputs, and finally it gives an output.
 
@@ -132,19 +134,30 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 		\end{equation}
 	\end{itemize}
 
+	\clearpage
+
 	\subsection{Linearly Separable attribute}
 	For the perceptron to function properly, the two classes ($C_0$,$C_1$) must be \textit{linearly separable}. This, in turn, means that the patterns to be classified must be sufficiently separated from each other to ensure that the decision surface consists of a hyperplane.
+
+	\vspace{0.4cm}
 
 	We are going to explain it with an example, using a percetron with two inputs (i.e. 2 dimensions). The use of a single neuron with two inputs results in a straight line (i.e. hyperplane) for a decision boundary in the input space (Figure \ref{fig:linear_sep_xor}, (a)). For all points on one side of this line, the perceptron outputs $+1$; for all points on the other side of the line, it outputs $-1$.
 
 	\begin{figure}[!ht]
 		\centering
+		\vspace{0.4cm}
 		\includegraphics[width=10cm]{research/linearly_sep_xor}
 		\caption{Linear separation problem of the XOR operation (\cite{mitchell1997})}
 		\label{fig:linear_sep_xor}
 	\end{figure}
 
-	However, non-linearly separable patterns commonly occur, like in the known \textit{exclusive-OR problem} or simply \textit{XOR problem}. We need to consider the four corners of a square centred in (0,0) that correspond to the input patterns (1,1), (1,-1), (-1,-1) and (-1,1) (Figure \ref{fig:linear_sep_xor}, (b)). With the top-left and bottom-right input patterns belonging to one class and the top-right and bottom-left belonging to the other class (Equation \ref{eq:xor_problem}), it is clear that we cannot construct a straight line for a decision boundary so the ($+$) class lie in one decision region and the ($-$) class lie in the other decision region. In other words, \textit{a single perceptron cannot solve the XOR problem} because \textit{the inputs are not linearly separable}.
+	\vspace{0.4cm}
+
+	However, non-linearly separable patterns commonly occur, like in the known \textit{exclusive-OR problem} or simply \textit{XOR problem}. We need to consider the four corners of a square centred in (0,0) that correspond to the input patterns (1,1), (1,-1), (-1,-1) and (-1,1) (Figure \ref{fig:linear_sep_xor}, (b)). 
+
+	\clearpage
+
+	With the top-left and bottom-right input patterns belonging to one class and the top-right and bottom-left belonging to the other class (Equation \ref{eq:xor_problem}), it is clear that we cannot construct a straight line for a decision boundary so the ($+$) class lie in one decision region and the ($-$) class lie in the other decision region. In other words, \textit{a single perceptron cannot solve the XOR problem} because \textit{the inputs are not linearly separable}.
 
 	\begin{equation}
 		\label{eq:xor_problem}
@@ -210,6 +223,8 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 
 	The Gradient Descent algorithm would start then with a random weight vector. It will apply the linear unit to all the training examples and then compute $\Delta w_i$ using the gradient descent formula (Equation \ref{gradient_descent_final_expr}). The weights are updated with the calculated value $\Delta{w_{i}}$ (Equation \ref{training_rule_component_form}). Finally, if the local minimum is reached, it stops. If not, the linear unit is applied to all the training examples and the process is repeated from that point, but using the weights from the previous step.
 
+	\clearpage
+
 	\subsection{Stochastic Approximation}
 	Using all the examples in each step to update the weights may imply a lot of computing work. Another approach is the incremental or stochastic gradient descent, where the gradient descent is just approximated, updating the weights with each training example (Equation \ref{delta_rule}). From a practical perspective, some accuracy is sacrificed in order to make the algorithm much faster.
 
@@ -249,13 +264,7 @@ The hidden layers act as feature detectors and, as such, play a critical role in
 the input data into a new space called the feature space. The formation of this feature space through supervised learning is what distinguishes \glspl{mlp} from the Rosenblatt’s perceptron.
 
 	\subsection{Is a perceptron valid for MLP? The Sigmoid Unit}
-	A perceptron, as non-linear neuron model, is perfectly valid for a \gls{mlp}. However, the discontinuous threshold output of the perceptron make it undifferentiable and hence not suitable for gradient descent (Figure \ref{fig:threshold_vs_sigmoid}). What we need is a unit whose output is a non-linear function of its inputs, but whose output is a differentiable function of its inputs. One solution is the \textit{sigmoid unit}, a unit very similar to the perceptron, but based on a smoothed, differentiable threshold function called logistic or \textit{sigmoid function} ($\sigma(y)$).
-
-		\begin{equation}
-			\label{sigmoid_function}
-			\sigma(y) = \frac{1}{1+e^{-y}}
-		\end{equation}
-
+	A perceptron, as non-linear neuron model, is perfectly valid for a \gls{mlp}. However, the discontinuous threshold output of the perceptron make it undifferentiable and hence not suitable for gradient descent (Figure \ref{fig:threshold_vs_sigmoid}). What we need is a unit whose output is a non-linear function of its inputs, but whose output is a differentiable function of its inputs. 
 
 	\begin{figure}[!ht]
 		\centering
@@ -269,6 +278,15 @@ the input data into a new space called the feature space. The formation of this 
 		\label{fig:threshold_vs_sigmoid}
 	\end{figure}
 
+	\clearpage
+
+	One solution is the \textit{sigmoid unit}, a unit very similar to the perceptron, but based on a smoothed, differentiable threshold function called logistic or \textit{sigmoid function} ($\sigma(y)$).
+	
+	\begin{equation}
+		\label{sigmoid_function}
+		\sigma(y) = \frac{1}{1+e^{-y}}
+	\end{equation}
+
 	The sigmoid function increases monotonically and continuously with its input (Figure \ref{fig:threshold_vs_sigmoid}). Because it is able to map a large input domain to a small range (0, 1) of outputs, it is usually referred as \textit{squashing function}. It also has the useful property of being easy derivable in terms of its output, which will be taken advantage of calculating the gradient descent learning rule.
 
 	\subsection{Backpropagation Algorithm}
@@ -279,7 +297,9 @@ the input data into a new space called the feature space. The formation of this 
 			E(\vec{w}) = \frac{1}{2} \sum_{d \varepsilon D} \sum_{k \varepsilon outputs} (t_{kd}-o_{kd})^2 
 		\end{equation}
 
-	As we have changed the error function definition, the error surface has changed too, having now more than one local minimum. This means that gradient descent may fail in order to find the global minimum and only reach local minima instead. Following with the metaphor of the error value and the small ball, the error surface could now be a golf terrain with many holes. The gradient descent will try to move the ball inside one of these holes (i.e. local minima), but it has no way to know whether that hole is the deepest of the field (i.e. global minima). 
+	As we have changed the error function definition, the error surface has changed too, having now more than one local minimum. This means that gradient descent may fail in order to find the global minimum and only reach local minima instead. Following with the metaphor of the error value and the small ball, the error surface could now be a golf terrain with many holes. The gradient descent will try to move the ball inside one of these holes (i.e. local minima), but it has no way to know whether that hole is the deepest of the field (i.e. global minima).
+
+	\clearpage 
 
 	Despite this obstacle, in practice the backpropagation algorithm has been found to produce excellent results in many real-world applications. It is also interesting to see that some of the variations of this algorithm are actually based in the physics of treating the error value as a ball. One example is including momentum in the gradient descent, so the "ball" tends to keep rolling in the same direction from one iteration to the next one.
 
@@ -370,6 +390,8 @@ The previously mentioned activation function $f$ was usually modelled as $f(x)=t
 
 At this point, we know how convolution and pooling works. Some stages of convolution using the non-linearity function followed by stages of pooling are stacked. After that, the results of these stages come to a fully-connected neural network, that process the data and finally an output layer shows the prediction as the class with highest percentage.
 
+\clearpage
+
 The network described in the Figure \ref{fig:conv_net_architecture} contains approximately 100,000 synaptic connections, but only about 2,600 free parameters. This dramatic reduction in the number of free parameters is achieved through the use of weight sharing. The capacity of the learning machine is thereby reduced, which in turn improves the machine’s generalization ability. The adjustments to these free parameters are made by using the stochastic mode of the backpropagation algorithm.
 
 
@@ -401,6 +423,10 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 	\label{subsec:face_detec_techniques}
 	In order to perform the face detection in a photo, there are many different techniques among which to choose. In 1998, Henry A. Rowley and his team presented an approach based in the use of neural networks. In the Figure \ref{fig:rowley_network} we can see the algorithm followed to perform the face detection on an image. Examining preprocessed small windows of a grayscaled image, a retinally connected network decides whether the window contains a face or not. The system arbitrates between multiple of these networks to improve the performance (\cite{rowley1998neural}). 
 
+	Another technique is presented in 2000 by Henry Schneiderman and Takeo Kanade for object detection, now using a statistical method (\cite{schneiderman2000statistical}). The inputs used here are still images, so to create visual attributes that are localized in space, frequency, and orientation, they needed to easily select information that is localized along these dimensions. The answer to this question was to perform a wavelet transform of the image. 
+	
+	\clearpage
+
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=13cm]{research/rowley_network}
@@ -408,13 +434,11 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 		\label{fig:rowley_network}
 	\end{figure}
 
-	Another technique is presented in 2000 by Henry Schneiderman and Takeo Kanade for object detection, now using a statistical method (\cite{schneiderman2000statistical}). The inputs used here are still images, so to create visual attributes that are localized in space, frequency, and orientation, they needed to easily select information that is localized along these dimensions. The answer to this question was to perform a wavelet transform of the image. 
-
 	Using a product of histograms, they represent the statistics of both object and "non-object" appearance. Each histogram represents the joint statistics of a subset of wavelet coefficients and their position on the object. Their approach was based in using many of these histograms in order to represent a wide variety of visual attributes. In the Figure \ref{fig:statistical_method_face_det} we can see how this method, in addition to detect the faces in the image, it also detects the direction to where the person is looking to.
 
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=8cm]{research/fd_statistical_method}
+		\includegraphics[width=6.2cm]{research/fd_statistical_method}
 		\caption{Results of applying the face detection method \\from \cite{schneiderman2000statistical}}
 		\label{fig:statistical_method_face_det}
 	\end{figure}
@@ -423,12 +447,15 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 
 	This method has a total of 4 stages:
 	
+	\vspace{-0.15cm}
+
 	\begin{enumerate}
 		\item Obtaining Haar features. In the Figure \ref{fig:haar_features} we can see the Haar filters that are used to extract face features (Haar features in short) in the OpenCV library. Haar features work with the similarities that all human faces share and that are shown in a photo as a difference in the intensities of the pixels. For example, in the Figure \ref{fig:application_haar_features} an horizontal line Haar feature is applied for detecting the position of the eyes, as the pixels that represent them are way darker than the pixels that represent the cheeks. The same happen with the vertical line Haar feature in the same figure, detecting the dark pixels of the eyebrows and the brighter ones for the space in the middle. The use of Haar filters was motivated by the work of \cite{haar_features_before_vj}, but in this case they do not work directly with image intensities. 
 
 		\begin{figure}[!ht]
 			\centering
-			\includegraphics[width=8cm]{research/types_haar_features}
+			\vspace{0.15cm}
+			\includegraphics[width=10cm]{research/types_haar_features}
 			\caption{Different types of Haar features (\cite{opencv_haar_cascade_tut})}
 			\label{fig:haar_features}
 		\end{figure}
@@ -499,7 +526,7 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
 	All the specifications of this device can be found in the table \ref{table:rasp_pi_specs}. For this project a camera will be needed to take photos of the users. There are a lot of camera models available for the Raspberry Pi with no big differences of performance in the scope of this \gls{fyp}. However, the Camera Module V2 (8 Megapixels) was finally chosen above the rest because it is the official camera for the Raspberry and has been used in many other projects. It counts with a Sony Exmor IMX219 Sensor and it is capable to record up to 1080p at 30fps.
 
 	\renewcommand{\arraystretch}{1.3}
-	\begin{table}[h!b]
+	\begin{table}[p]
 		\centering
 	    \begin{tabular}{| C{3.5cm} | l |}
 	    \hline
@@ -546,7 +573,7 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
                                                      
 \section{Python}
 \label{sec:python}
-Some of the features of Python have been already commented in the Introduction of this report, but there is more to talk about. Some people say that in order to explain something well, you need to start from the root of the question. If we apply it to Python, we have to talk about the Zen of Python (\cite{origin_zen_of_python}, \cite{zen_of_python}), a collection of software principles that influenced the design of this language. A total of 20 principles (of which only 19 were written down) that show how Tim Peters, one of the open source development leaders of Python, wanted it to be beautiful, explicit, simple among other thigs.
+Some people say that in order to explain something well, you need to start from the root of the question. If we apply it to Python, we have to talk about the Zen of Python (\cite{origin_zen_of_python}, \cite{zen_of_python}), a collection of software principles that influenced the design of this language. A total of 20 principles (of which only 19 were written down) that show how Tim Peters, one of the open source development leaders of Python, wanted it to be beautiful, explicit, simple among other thigs.
 
 The readability of Python was also in these principles and we can find many aspects of the language that confirm this feature. One that really impressed me at the first place was the lack of brackets ("\{\}"), which are the usual way to delimit control flow blocks in other languages. Instead of brackets, Python uses indentation. To indicate that a line is inside a function or an block (an \textit{if} block in the example), we just have to indent it one level deeper. We can see it clearly in the next comparative.
 
@@ -572,6 +599,8 @@ def foo(x):
 \end{lstlisting}
 \end{minipage}
 
+\vspace{0.5cm}
+
 Another feature of Python is that it is interactive, which means that we do not need to write a Python program in a file to execute it later although is also an option. Alternatively, we can interact with the prompt directly by executing the Python shell in the terminal. Also related with it, Python is interpreted, so it does not have to be compiled before executing (what happens to languages like C, C++ or Lisp). It is processed at runtime by the interpreter (\cite{python_overview}). 
 
 Finally, the most important feature of Python: it is very easy to learn. It has fewer keywords than other languages, its structure is much simpler and the syntax is can be easily understood with a certain level of English. 
@@ -580,6 +609,7 @@ These reasons have brought Python to be very popular. When looking at different 
 
 \begin{figure}[!ht]
 	\centering
+	\vspace{0.5cm}
 	\includegraphics[width=13cm]{research/TIOBE_python_ranking.png}
 	\caption{TIOBE Index for April 2018 (\cite{tiobe_index})}
 	\label{fig:tiobe_rank}

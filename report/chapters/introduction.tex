@@ -7,6 +7,8 @@ Humans have used body characteristics such as face, voice or even gait to recogn
 
 Nowadays, biometrics have advanced to the point that it is no surprise if criminals are imprisoned because their fingerprints were found in the crime scene. However, other biometric methods are not as known as fingerprints and for certain people it is something that can only be found in science fiction movies. Their doubts are not unfounded, biometrics have long been used in science fiction movies to portray futuristic worlds of advanced technology. From retina scans to voice identification and facial recognition, these technologies have been seen on the big screen for more than 50 years (\cite{biometrics_in_scifi}). 
 
+\clearpage
+
 Nonetheless, as we can see in \cite{iphonex_and_other_uses}, face recognition is already being used around the world to examine, investigate, and monitor. There it is explained how in the United States, more than half of all American adults are in a face recognition database that can be used for criminal investigations, simply because they have a driver’s license. In the UK, face recognition was also used at an annual West Indian cultural festival to identify revelers in real-time. 
 
 Although biometrics, and therefore face recognition, emerged from its extensive use in law enforcement to identify criminals, it is being increasingly used today to establish person recognition in a large number of civilian applications (\cite{jain_biometrics}), such as the recently released FaceID for the new iPhone model that identify the face of the owner to unlock the phone. 
@@ -15,6 +17,8 @@ The technology around face recognition has advanced following diverse paths, bei
 
 With the advent of several open source libraries, face recognition is now possible and available for everyone. Among this motley group of open source libraries, we find Tensorflow, originally developed by the Google Brain team for the purposes of conducting \gls{ml} and deep neural networks research (\cite{tensorflow_main_website}). Despite the fact that before TensorFlow there were plenty of \gls{ml} libraries that offered great functionality and were reasonably well documented (e.g. \cite{theano_main_site}, \cite{caffe_main_site}), this library has become very popular in the last years thanks to its powerful yet easily readable API, written in Python. 
 
+\clearpage
+
 These such libraries would not be possible without the previous work done in the fields of \gls{ml}, \gls{ai} and face recognition by researchers like Yann LeCun, Yoshua Bengio or Geoffrey Hinton (\cite{rumelhart1985learning}, \cite{lecun1995convolutional}, \cite{lecun1998efficient}, \cite{lecun1998gradient}, \cite{bengio2009learning}, \cite{krizhevsky2012deep}, \cite{lecun2015deep}), and it will be further discussed in the following sections.
 
 In this report we will explain the development of an application that we have called \textit{Intelligent Asissistant}. It is based in one of the currently most advanced implementations of face recognition: FaceNet (\cite{facenet_article}), heavily inspired by the previous OpenFace (\cite{amos2016openface}). Here we will use Tensorflow to re-train a kind of \gls{cnn} named \textit{Resnet Inception v1} from one of the models that FaceNet has left available in their Github website (\cite{facenet_github}).
@@ -22,6 +26,8 @@ In this report we will explain the development of an application that we have ca
 The objective of the \textit{Intelligent Assistant} is to help the students of the University of Limerick in their first days around the University. This help consists in showing them which is the next class that they will have in the day and the path to the classroom. Face recognition is used here to confirm the identity of a student and be able to search the timetable of such student. Other identification approaches were also available, but as a biometric system, face recognition allow students to be identified by "who they are", rather than "what they possess" (e.g. student ID card) or "what they remember" (e.g. password), which may be things not very clear in the first caotic days in the University. 
 
 The timetable information can be publicly accessed, in the website \textit{timetable.ul.ie}, so applying a technique known as web \gls{scraping}, the student's timetable is obtained and then analysed in order to find their next class. The path to the next class will be shown as a Google Map image, using the Static Google Map API (\cite{google_maps_static}). The face recognition process is preceded by a face \textit{detection} process, that will crop the face out of the image, removing the background and making easier the identification.
+
+\clearpage
 
 Architecturally, the \textit{Intelligent Assistant} is divided in a laptop, which will run the server that actually perform the different tasks of the assistant, and a small, low-cost and basic computer called Raspberry Pi, which will run the \gls{gui} used to interact with the application and will communicate with the server to obtain the needed information. The whole application is written in Python, allowing us to use the Tensorflow library and to learn this popular language, which, as the topics of \gls{ai} and \gls{ml}, was not previously taught in the study program. 
 
@@ -75,6 +81,8 @@ This \gls{fyp} was motivated for many reasons that started with the idea of doin
 
 Although it was forced by the circumstances, I do not regret the fact of doing my \gls{fyp} abroad. It gave me the opportunity to improve my academic writing in English by doing this document. I must apologise about this fact, because English is not my mother tongue and, even when I have spent much time looking for grammatical errors, there may still be some that I could not detect.
 
+\clearpage
+
 Another motivation of this project, already mentioned in the previous section, was to learn about topics that my degree in Spain did not cover in its study program. The decision I took in my third year of choosing the \textit{computer architecture} specialization closed me the doors to learn about \gls{ai} and \gls{ml}, so this project was the perfect occasion to expand my knowledge on such topics. Besides, other related (e.g. face detection, face recognition) and not related (e.g. Python, web \gls{scraping}, \gls{gui} design) issues that were never treated before, were also included in the project in order to learn more about them. 
 
 \section{Structure of the Document}
@@ -90,7 +98,6 @@ This present document is divided in:
 	\item Appendices. 
 	\begin{itemize}
 		\item Appendix A. Set of icons used in the \gls{gui} of the application.
-		\item Appendix B. Actual captures of the final version of the \gls{gui} of the application.
 	\end{itemize}
 \end{itemize}
 
