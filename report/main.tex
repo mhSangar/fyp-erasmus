@@ -11,7 +11,7 @@
 \usepackage[font={small,it}, justification=centering]{caption}
 \usepackage{multirow}
 \usepackage{makecell}
-\usepackage{amsmath,mathtools}	% maths 
+\usepackage{amsmath,mathtools, yhmath}	% maths 
 \usepackage{hyperref}	% linked references 
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{listings}	% code
@@ -26,14 +26,16 @@
 \usepackage{chngpage} % change page attr ad-hoc	
 \usepackage{float} % position of floats in the doc
 \usepackage{array} % tables attributes
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{filecontents} % write data file to make make MWE self contained 
 %\usepackage{enumitem,amssymb}	% checked lists
 %\usepackage{pifont}	% checked lists
-
-
 
 %
 % CONFIGURATION 
 %
+\pgfplotsset{compat=1.9} 
 \graphicspath{ {imgs/} }
 \def \chapterspath {./chapters}
 \makeglossaries
@@ -152,10 +154,11 @@
 
 \clearpage
 \pagenumbering{arabic}
-
+ 
 \include{\chapterspath/introduction}
 \include{\chapterspath/research}
 \include{\chapterspath/design}
+%\include{create-results}
 \include{\chapterspath/empirical-studies}
 \include{\chapterspath/last}
 
