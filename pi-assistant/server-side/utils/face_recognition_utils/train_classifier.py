@@ -11,7 +11,8 @@ from tensorflow.python.platform import gfile
 from sklearn.svm import SVC
 
 # own file
-from utils.face_recognition_utils import lfw_input_parsing
+#from utils.face_recognition_utils import lfw_input_parsing
+import lfw_input_parsing
 
 def get_train_test_datasets(input_dir, split_ratio):
 	dataset = lfw_input_parsing.parse_dataset(input_dir)
@@ -220,7 +221,7 @@ def main(input_dir, model_path, classifier_output_path, batch_size,
 		else:
 			eval_classifier(embeddings_arr, labels_arr, classifier_output_path, is_one_img)
 
-		duration = time.time() - start
+		duration = time.time() - start_time
 		msg = ""
 	
 		if duration > 3600:
@@ -241,15 +242,15 @@ if __name__ == "__main__":
 	
 	logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s >>> %(message)s", datefmt="%H:%M:%S")
 
-	_input_dir = "selected_out/Who_Dis/unknown-face-003_fd_01.jpg"
+	_input_dir = "img/"
 	_model_path = "~/model_dir/20170512-110547/20170512-110547.pb"
 	_batch_size = 128
-	_num_threads = 1
-	_num_epochs = 3
-	_split_ratio = 0.8
+	_num_threads = 4
+	_num_epochs = 1
+	_split_ratio = 0.01
 	_classifier_output_path = "svc_classifier.pkl"
 	_training = False
-	_is_one_img = True
+	_is_one_img = False
 
 	main(_input_dir, 
 		_model_path, 

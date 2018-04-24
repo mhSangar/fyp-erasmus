@@ -22,34 +22,17 @@ def fd_emp_study (input_dir, detected_matrix):
 	
 		detected_matrix.append( (file, is_detected) )
 
-if __name__ == '__main__':
-	parser = argparse.ArgumentParser(add_help=True)
-
-	parser.add_argument('--input-dir', type=str, action='store', default='img/', dest='input_dir')	
-	args = parser.parse_args()
-
-	detected_matrix = []
-	fd_emp_study(args.input_dir, detected_matrix)
-
-	for face in detected_matrix:
-		print(face[0] + ": " + str(face[1]))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#if __name__ == '__main__':
+#	parser = argparse.ArgumentParser(add_help=True)
+#
+#	parser.add_argument('--input-dir', type=str, action='store', default='img/', dest='input_dir')	
+#	args = parser.parse_args()
+#
+#	detected_matrix = []
+#	fd_emp_study(args.input_dir, detected_matrix)
+#
+#	for face in detected_matrix:
+#		print(face[0] + ": " + str(face[1]))
 
 
 all_imgs = True
@@ -59,8 +42,8 @@ limits = [100, 500]
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-#input_dir = os.path.join(basedir, "pi_img/")
-#_output_dir = os.path.join(basedir, "selected_out/")
+input_dir = os.path.join(basedir, "img/")
+_output_dir = os.path.join(basedir, "out/")
 
 
 
@@ -191,26 +174,26 @@ def proccess(_input_dir, multiple, skipped):
 
 
 
+if __name__ == '__main__':
+	multiple = []
+	skipped = []
 
-#	multiple = []
-#	skipped = []
-#
-#	for directory in os.listdir(input_dir):
-#		multiple, skipped = proccess(input_dir + directory, multiple, skipped)
-#		print("")
-#
-#	if display_info:
-#		if len(multiple) > 0:
-#			print("\n> More than one face detected in:")
-#			for i in multiple:
-#				print("\t", end="")
-#				print(i)
-#
-#		if len(skipped) > 0:
-#			print("\n> No faces detected in:")
-#			for i in skipped:
-#				print("\t", end="")
-#				print(i)
-#	else:
-#		print("")
+	for directory in os.listdir(input_dir):
+		multiple, skipped = proccess(input_dir + directory, multiple, skipped)
+		print("")
+
+	if display_info:
+		if len(multiple) > 0:
+			print("\n> More than one face detected in:")
+			for i in multiple:
+				print("\t", end="")
+				print(i)
+
+		if len(skipped) > 0:
+			print("\n> No faces detected in:")
+			for i in skipped:
+				print("\t", end="")
+				print(i)
+	else:
+		print("")
 	
