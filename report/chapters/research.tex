@@ -25,12 +25,12 @@ In this section we are going to explain the state of the art of the different fi
 
 
 \section{Machine Learning}
-Ever since computers were invented, we have wondered whether they might be able to learn. If we could understand how to program them to learn, improving automatically with experience, the impact would be dramatic. Althought we do not know yet how to make computers learn nearly as well as people do, several algorithms have been invented that are effective for certain types of learning tasks (\cite{mitchell1997}).  
+Ever since computers were invented, we have wondered whether they might be able to learn. If we could understand how to program them to learn, improving automatically with experience, the impact would be dramatic. Although we do not know yet how to make computers learn nearly as well as people do, several algorithms have been invented that are effective for certain types of learning tasks (\cite{mitchell1997}).  
 
 "Machine learning" was coined by \cite{ml_first_def}, an American pioneer in the field of computer gaming and \gls{ai}. He defined it as "the field of study that gives computer the ability to learn without being explicitly programmed". Time has passed since then, so a more updated definition of Machine Learning could be "a set of methods that can automatically detect patterns in data, and then use the uncovered patterns to predict future
 data, or to perform other kinds of decision making under uncertainty" (\cite{kevin_p_murphy_book}).
 
-Recent \gls{ml} implementations do not have to make us think that \gls{ml} has been being just theorical until now. An early application of machine learning was ELIZA (\cite{eliza_machine}), a natural language processing program able to read messages typed on a typewriter and respond by writing on the same instrument. Using pattern matching, it was capable of simulate a conversation and give users the illusion of being understood by the program.  
+Recent \gls{ml} implementations do not have to make us think that \gls{ml} has been being just theoretical until now. An early application of machine learning was ELIZA (\cite{eliza_machine}), a natural language processing program able to read messages typed on a typewriter and respond by writing on the same instrument. Using pattern matching, it was capable of simulate a conversation and give users the illusion of being understood by the program.  
 
 The technology needed to compute \gls{ml} algorithms was a prohibitive factor for a long time, but nowadays anyone can rent a really expensive GPU cluster for a few dollars an hour, something that PhD students dreamed about just 10 years ago (\cite{pyhton_n_intro_to_ML}). Nevertheless, besides the more powerful computing power, what actually made \gls{ml} to rise in the recent years was the release of easily readable APIs (e.g. \cite{tensorflow_main_website}) and the advent of cloud computing, that made \gls{ml} accessible to the big public.
 
@@ -57,7 +57,7 @@ Within machine learning, we can find three different approaches (\cite{kevin_p_m
 
 It is apparent that a neural network derives its computing power through, first, its massively parallel distributed structure of simple computing cells (i.e. neurons) and, second, its ability to learn and therefore generalize (i.e. product reasonable outputs for inputs not encountered during training). These last two capabilities make \glspl{ann} a good approximate solution for intractable problems, such as the previously mentioned speech and image recognition.
 
-In the Figure \ref{fig:org_neuron} we can see the model of the organic equivalent of the neurons used in an \gls{ann}. Organic neurons interact with each others using synapses, which are constituted by axon terminals, the transmission lines, and dendrites (so called because of its resemblance to a tree), the receptive zones. The artificial neurons we use to build our neural networks are truly primitive in comparison with those found in the brain, but there is still a ressemblance between them.
+In the Figure \ref{fig:org_neuron} we can see the model of the organic equivalent of the neurons used in an \gls{ann}. Organic neurons interact with each others using synapses, which are constituted by axon terminals, the transmission lines, and dendrites (so called because of its resemblance to a tree), the receptive zones. The artificial neurons we use to build our neural networks are truly primitive in comparison with those found in the brain, but there is still a resemblance between them.
 
 \begin{figure}[!ht]
 	\centering
@@ -66,7 +66,7 @@ In the Figure \ref{fig:org_neuron} we can see the model of the organic equivalen
 	\label{fig:org_neuron}
 \end{figure}
 
-The \glspl{ann} design is actually motivated by analogy with the brain, which is the living proof that fault-tolerant parallel processing is not only physically possible, but also fast and powerful. While neurobiologists look to \glspl{ann} as a research tool for to interpretate the neurobiological phenomena (\cite{anastasio1993}), engineers look to neurobiology for new ideas to solve more complex problems (\cite{mead1989}).
+The \glspl{ann} design is actually motivated by analogy with the brain, which is the living proof that fault-tolerant parallel processing is not only physically possible, but also fast and powerful. While neurobiologists look to \glspl{ann} as a research tool to interpret the neurobiological phenomena (\cite{anastasio1993}), engineers look to neurobiology for new ideas to solve more complex problems (\cite{mead1989}).
 
 %Now going back to our artificial neural networks, we can see how the model of one of its units is pretty similar (\textit{Figure ~\ref{fig:art_neuron}}). In first place, the unit receives inputs ($x_i$) from an external source or from other units. Each of these inputs have an associated weight ($w_i$), assigned depending of its relative importance to the other inputs. After the unit applies a function $f$ to the weighted sum of its inputs, and finally it gives an output.
 
@@ -101,12 +101,12 @@ The \glspl{ann} design is actually motivated by analogy with the brain, which is
 
 \section{The perceptron}
 \label{sec:perceptron}
-Within \glspl{ann}, we can find great variety of neurons, among which perceptrons occupy a special place in the historical development of neural networks, being the first algorithmically described. Invented by \cite{rosenblatt1958perceptron}, it is built around a nonlinear neuron model (Figure \ref{fig:nonlinear_neuron_model}) named McCulloch-Pitts, which is composed of:
+Within \glspl{ann}, we can find great variety of neurons, among which perceptrons occupy a special place in the historical development of neural networks, being the first algorithmically described. Invented by \cite{rosenblatt1958perceptron}, it is built around a non-linear neuron model (Figure \ref{fig:nonlinear_neuron_model}) named McCulloch-Pitts, which is composed of:
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=10cm]{research/ann_neuron_haykin}
-	\caption{Nonlinear model of a neuron (\cite{haykin2009neural})}
+	\caption{Non-linear model of a neuron (\cite{haykin2009neural})}
 	\label{fig:nonlinear_neuron_model}
 \end{figure}
 
@@ -144,7 +144,7 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
 		\label{fig:linear_sep_xor}
 	\end{figure}
 
-	However, nonlinearly separable patterns commonly occur, like in the known \textit{exclusive-OR problem} or simply \textit{XOR problem}. We need to consider the four corners of a square centered in (0,0) that correspond to the input patterns (1,1), (1,-1), (-1,-1) and (-1,1) (Figure \ref{fig:linear_sep_xor}, (b)). With the top-left and bottom-right input patterns belonging to one class and the top-right and bottom-left belonging to the other class (Equation \ref{eq:xor_problem}), it is clear that we cannot construct a straight line for a decision boundary so the ($+$) class lie in one decision region and the ($-$) class lie in the other decision region. In other words, \textit{a single perceptron cannot solve the XOR problem} because \textit{the inputs are not linearly separable}.
+	However, non-linearly separable patterns commonly occur, like in the known \textit{exclusive-OR problem} or simply \textit{XOR problem}. We need to consider the four corners of a square centred in (0,0) that correspond to the input patterns (1,1), (1,-1), (-1,-1) and (-1,1) (Figure \ref{fig:linear_sep_xor}, (b)). With the top-left and bottom-right input patterns belonging to one class and the top-right and bottom-left belonging to the other class (Equation \ref{eq:xor_problem}), it is clear that we cannot construct a straight line for a decision boundary so the ($+$) class lie in one decision region and the ($-$) class lie in the other decision region. In other words, \textit{a single perceptron cannot solve the XOR problem} because \textit{the inputs are not linearly separable}.
 
 	\begin{equation}
 		\label{eq:xor_problem}
@@ -236,7 +236,7 @@ Within \glspl{ann}, we can find great variety of neurons, among which perceptron
                                                                               
 
 \section{Multilayer Perceptron Networks}
-In the section \ref{sec:perceptron}, we explained Rosenblatt’s perceptron, which is basically a single-layer neural network. Therein, we showed that how it is limited to the classification of linearly separable patterns. To overcome the practical limitations of the perceptron, we look to the \glspl{mlp}. The Figure \ref{fig:mlp_architectural_graph} shows the architectural graph of a fully-connected \gls{mlp}. The perceptrons are organised in layers (i.e. input layer, hidden layers and ouput layer), so the signal flow through the network progresses in a forward direction.
+In the section \ref{sec:perceptron}, we explained Rosenblatt’s perceptron, which is basically a single-layer neural network. Therein, we showed that how it is limited to the classification of linearly separable patterns. To overcome the practical limitations of the perceptron, we look to the \glspl{mlp}. The Figure \ref{fig:mlp_architectural_graph} shows the architectural graph of a fully-connected \gls{mlp}. The perceptrons are organised in layers (i.e. input layer, hidden layers and output layer), so the signal flow through the network progresses in a forward direction.
 
 \begin{figure}[!ht]
 	\centering
@@ -245,11 +245,11 @@ In the section \ref{sec:perceptron}, we explained Rosenblatt’s perceptron, whi
 	\label{fig:mlp_architectural_graph}
 \end{figure}
 
-The hidden layers act as feature detectors and, as such, play a critical role in the operation of a \gls{mlp}. When the networks starts the learning process, the hidden neurons begin to gradually “discover” the salient features that characterize the training data. They do so by performing a nonlinear transformation on
+The hidden layers act as feature detectors and, as such, play a critical role in the operation of a \gls{mlp}. When the networks starts the learning process, the hidden neurons begin to gradually “discover” the salient features that characterize the training data. They do so by performing a non-linear transformation on
 the input data into a new space called the feature space. The formation of this feature space through supervised learning is what distinguishes \glspl{mlp} from the Rosenblatt’s perceptron.
 
 	\subsection{Is a perceptron valid for MLP? The Sigmoid Unit}
-	A perceptron, as nonlinear neuron model, is perfectly valid for a \gls{mlp}. However, the discontinuous threshold output of the perceptron make it undifferentiable and hence not suitable for gradient descent (Figure \ref{fig:threshold_vs_sigmoid}). What we need is a unit whose output is a nonlinear function of its inputs, but whose output is a differentiable function of its inputs. One solution is the \textit{sigmoid unit}, a unit very similar to the perceptron, but based on a smoothed, differentiable threshold function called logistic or \textit{sigmoid function} ($\sigma(y)$).
+	A perceptron, as non-linear neuron model, is perfectly valid for a \gls{mlp}. However, the discontinuous threshold output of the perceptron make it undifferentiable and hence not suitable for gradient descent (Figure \ref{fig:threshold_vs_sigmoid}). What we need is a unit whose output is a non-linear function of its inputs, but whose output is a differentiable function of its inputs. One solution is the \textit{sigmoid unit}, a unit very similar to the perceptron, but based on a smoothed, differentiable threshold function called logistic or \textit{sigmoid function} ($\sigma(y)$).
 
 		\begin{equation}
 			\label{sigmoid_function}
@@ -264,7 +264,7 @@ the input data into a new space called the feature space. The formation of this 
 		\caption
 		{
 			Activation functions of a neuron (\cite{haykin2009neural}). \\
-			(a) Threshold function. \hspace{1.5cm} (b) Sigmoid funtion.
+			(a) Threshold function. \hspace{1.5cm} (b) Sigmoid function.
 		}
 		\label{fig:threshold_vs_sigmoid}
 	\end{figure}
@@ -287,13 +287,13 @@ the input data into a new space called the feature space. The formation of this 
 
 		\begin{enumerate}
 			\item Input the values in the network and obtain the output values computing every unit of the network.
-			\item For each output unit ($k$), calculate its error term $\delta_k$, which is the usual $(t-o)$ multipied to the derivate of the sigmoid function:
+			\item For each output unit ($k$), calculate its error term $\delta_k$, which is the usual $(t-o)$ multiplied to the derivative of the sigmoid function:
 				\begin{equation}
 					\label{backpropagation_output_error}
 					\delta_k \leftarrow o_k (1 - o_k)(t_k - o_k)
 				\end{equation}				
 
-			\item For each hidden unit ($h$), calculate its error term $\delta_h$. This is similar to the output formula, but as we don't have a target value for a hidden unit, we must calculate it summing up the errors of the downstream units weigthing each error by the weight of the connection that links them. 
+			\item For each hidden unit ($h$), calculate its error term $\delta_h$. This is similar to the output formula, but as we don't have a target value for a hidden unit, we must calculate it summing up the errors of the downstream units weighting each error by the weight of the connection that links them. 
 				\begin{equation}
 					\label{backpropagation_hidden_error}
 					\delta_h \leftarrow o_h (1 - o_h) \sum_{l \varepsilon downstream} (w_{hl} \delta_i)
@@ -320,9 +320,9 @@ Up to this point, we have been concerned with the algorithmic design of \glspl{m
 
 First of all, we need to explain that the previously explained neural networks and \glspl{cnn} are not at the same level. While the \glspl{ann} seen until now usually have a few hidden layers, \glspl{cnn} belong to the group of networks that apply Deep Learning, where the term "deep" refer to the several hidden layers that are trained to make these such networks learn.
 
-A conjecture may be that by adding more hidden layers to a network, the learning potential of the network would see an improvement. However, it is actually one of the problems of the deep networks, becoming harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}. In this article is explained that the features of the input instance, or those computed by previous layers, are "washed out" in the proccess of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (or even impossible) to achieve learning in a deep neural network using backpropagation. Here is where the actual Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
+A conjecture may be that by adding more hidden layers to a network, the learning potential of the network would see an improvement. However, it is actually one of the problems of the deep networks, becoming harder to learn the weights as the network becomes "deeper". In \cite{huang2016deep}, they mentioned this problem as \textit{Diminishing Feature Reuse} or \textit{Loss in the Information Flow}. In this article is explained that the features of the input instance, or those computed by previous layers, are "washed out" in the process of learning, which makes it hard for later layers to learn meaningful gradient directions. Since the weights in the network are randomly initialised, it can become pretty hard (or even impossible) to achieve learning in a deep neural network using backpropagation. Here is where the actual Deep Learning comes into play, providing algorithms and architectures that helps in the training of such deep neural networks. 
 
-As \cite{lecun2015deep} explain, \glspl{cnn} are designed to proccess data that comes in the form of multiple arrays, which suits perfectly to our needs to work with images. For example, a colour image could be decomposed in three two-dimension arrays that contain the pixel intensities in the three colour channel of RGB. In terms of architecture, \glspl{cnn} are structured as a series of stages (Figure \ref{fig:conv_net_architecture}). 
+As \cite{lecun2015deep} explain, \glspl{cnn} are designed to process data that comes in the form of multiple arrays, which suits perfectly to our needs to work with images. For example, a colour image could be decomposed in three two-dimension arrays that contain the pixel intensities in the three colour channel of RGB. In terms of architecture, \glspl{cnn} are structured as a series of stages (Figure \ref{fig:conv_net_architecture}). 
 
 \begin{figure}[!ht]
 	\centering
@@ -332,7 +332,7 @@ As \cite{lecun2015deep} explain, \glspl{cnn} are designed to proccess data that 
 	\label{fig:conv_net_architecture}
 \end{figure}
 
-First few stages are composed by convolutional and pooling (i.e. subsampling) layers (\cite{lecun2015deep}). The pooling process is simple, it is just a down-sampling. We start with an image of a certain size and, taking it as a matrix, we select a window to apply pooling. In each window, we are going to perform the pooling, taking the highest value as the representative of the window (Figure \ref{fig:pooling_proc}). While other operations may obtain a better representative value (e.g. mean), "max-pooling" is preferred because it makes the training easier with a minimal loss of accuracy.
+First few stages are composed by convolutional and pooling (i.e. sub-sampling) layers (\cite{lecun2015deep}). The pooling process is simple, it is just a down-sampling. We start with an image of a certain size and, taking it as a matrix, we select a window to apply pooling. In each window, we are going to perform the pooling, taking the highest value as the representative of the window (Figure \ref{fig:pooling_proc}). While other operations may obtain a better representative value (e.g. mean), "max-pooling" is preferred because it makes the training easier with a minimal loss of accuracy.
 
 \begin{figure}[!ht]
 	\centering
@@ -344,7 +344,7 @@ First few stages are composed by convolutional and pooling (i.e. subsampling) la
 
 The result of the pooling is a new image, smaller than the initial one. At first glance it may look like pooling simply make the image less sharp, but the actual role of the pooling layers is to merge semantically similar features into one, discarding the rest of information of the window that is not important.
 
-Convolutional layers, on the other hand, follow a proccess more complex. They apply convolution (hence the name of the network) to the input image. A simple way to define "convolution" is as mixing information from two sources according to a specific rule (\cite{lecun2015deep}). From the mathematical point of view, convolution is the integral of the element-wise multiplication of the two input functions. While it is complex itself, it is usually used to simplify even more complex equations. Working with images, the only values that are treated are integers, so the convolution used is a \textit{discrete convolution}. 
+Convolutional layers, on the other hand, follow a process more complex. They apply convolution (hence the name of the network) to the input image. A simple way to define "convolution" is as mixing information from two sources according to a specific rule (\cite{lecun2015deep}). From the mathematical point of view, convolution is the integral of the element-wise multiplication of the two input functions. While it is complex itself, it is usually used to simplify even more complex equations. Working with images, the only values that are treated are integers, so the convolution used is a \textit{discrete convolution}. 
 
 \begin{equation}
 	\label{discrete_conv}
@@ -353,7 +353,7 @@ Convolutional layers, on the other hand, follow a proccess more complex. They ap
 
 If we apply the convolution definition to the algorithm of a \gls{cnn}, the first source would be a part of the image itself, called \textit{receptive field} or \textit{window}; and the second source would be the \textit{filter}, which is a matrix of weights of the same size of the window. The result of this convolution is a \textit{feature map}, a new image that shows how the feature recognised by the filter is distributed in the original picture. 
 
-The neurons of the convolutional layer are different from those explained above, but they still keep their basic structure. Each one of the inputs of the neuron receives a pixel from the image. If the image is is composed by the three different RGB channels (i.e. color images), the convolution is applied to all of them. The filter, which is nothing else than a matrix of weights, is multiplied to these inputs using the element-wise multiplication (\textit{Hadamard Product} when applied between matrices). The result of each channel is a matrix of the same size of the input image. 
+The neurons of the convolutional layer are different from those explained above, but they still keep their basic structure. Each one of the inputs of the neuron receives a pixel from the image. If the image is is composed by the three different RGB channels (i.e. colour images), the convolution is applied to all of them. The filter, which is nothing else than a matrix of weights, is multiplied to these inputs using the element-wise multiplication (\textit{Hadamard Product} when applied between matrices). The result of each channel is a matrix of the same size of the input image. 
 
 The three resultant matrices are sum in a single scalar, something similar to what we did in the previously explained neurons, using in that case a linear combination. The activation function $f$ is applied to this scalar, obtaining the value of the first pixel of the feature map. The convolution process is repeated again using a new window from the image until the whole feature map is obtained. 
 
@@ -362,13 +362,13 @@ The process of selecting a new window from the image is referred as "slide" the 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\textwidth]{research/convolution}
-	\caption{Convolution proccess for the creation of a Feature Map}
+	\caption{Convolution process for the creation of a Feature Map}
 	\label{fig:convol_creation_feature_map}
 \end{figure}
 
-The previously mentioned activation function $f$ was usually modelled as $f(x)=tanh(x)$. However, in \cite{krizhevsky2012deep} it is explained how these kind of saturating nonlinearities are much slower than non-saturating nonlinearities such as $f(x)=max(0, x)$. The neurons that use this nonlinearity are called Rectified Linear Units or ReLUs, and help to train a deep convolutional network several times faster than their equivalents with $f(x)=tanh(x)$.
+The previously mentioned activation function $f$ was usually modelled as $f(x)=tanh(x)$. However, in \cite{krizhevsky2012deep} it is explained how these kind of saturating non-linearities are much slower than non-saturating non-linearities such as $f(x)=max(0, x)$. The neurons that use this non-linearity are called Rectified Linear Units or ReLUs, and help to train a deep convolutional network several times faster than their equivalents with $f(x)=tanh(x)$.
 
-At this point, we know how convolution and pooling works. Some stages of convolution using the non-linearity function followed by stages of pooling are stacked. After that, the results of these stages come to a fully-connected neural network, that process the data and finally an output layer shows the prediction as the class with highest percenteage.
+At this point, we know how convolution and pooling works. Some stages of convolution using the non-linearity function followed by stages of pooling are stacked. After that, the results of these stages come to a fully-connected neural network, that process the data and finally an output layer shows the prediction as the class with highest percentage.
 
 The network described in the Figure \ref{fig:conv_net_architecture} contains approximately 100,000 synaptic connections, but only about 2,600 free parameters. This dramatic reduction in the number of free parameters is achieved through the use of weight sharing. The capacity of the learning machine is thereby reduced, which in turn improves the machine’s generalization ability. The adjustments to these free parameters are made by using the stochastic mode of the backpropagation algorithm.
 
@@ -390,16 +390,16 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 
 	\begin{itemize}
 		\item Pose. Face images may vary due to the relative position of the camera with respect to the face, resulting in a front, profile or even an inverted photo of the face.  
-		\item Structural components. The presence or not of facial features such as moustaches and beards or accesories such as glasses may lead to not detect a face in the photo. Apart from the presence of the elements themselves, their wide diversity of shape, size and color also represent a limitation.  
+		\item Structural components. The presence or not of facial features such as moustaches and beards or accessories such as glasses may lead to not detect a face in the photo. Apart from the presence of the elements themselves, their wide diversity of shape, size and colour also represent a limitation.  
 		\item Facial expression. Certain facial expressions may distort a face so much that it cannot be detected.    
 		\item Occlusion. The faces in the image may be partially covered by other objects or even other faces.
-		\item Image orientation. Not only the portrait and landscape orientations, but also all the posible rotations that the image could have from what is expected in first place.
+		\item Image orientation. Not only the portrait and landscape orientations, but also all the possible rotations that the image could have from what is expected in first place.
 		\item Imaging conditions. In this section are included all factors that come from the construction of the photo, such as the illumination, for example.  
 	\end{itemize}
 
 	\subsection{Techniques}
 	\label{subsec:face_detec_techniques}
-	In order to perform the face detection in a photo, there are many different techniques among which to choose. In 1998, Henry A. Rowley and his team presented an approach based in the use of neural networks. In the Figure \ref{fig:rowley_network} we can see the algorithm followed to perfom the face detection on an image. Examining preprocessed small windows of a grayscaled image, a retinally connected network decides whether the window contains a face or not. The system arbitrates between multiple of these networks to improve the performance (\cite{rowley1998neural}). 
+	In order to perform the face detection in a photo, there are many different techniques among which to choose. In 1998, Henry A. Rowley and his team presented an approach based in the use of neural networks. In the Figure \ref{fig:rowley_network} we can see the algorithm followed to perform the face detection on an image. Examining preprocessed small windows of a grayscaled image, a retinally connected network decides whether the window contains a face or not. The system arbitrates between multiple of these networks to improve the performance (\cite{rowley1998neural}). 
 
 	\begin{figure}[!ht]
 		\centering
@@ -419,12 +419,12 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 		\label{fig:statistical_method_face_det}
 	\end{figure}
 
-	Finally, in 2001, Paul Viola and Michael Jones presented a framework for fast object recognition (\cite{viola2001rapid}). Althought it could be trained to detect a wide variety of objects, the main objective always was the face detection. It stands out for performing a high detection rate with a very low false positive rate and capable to work in a real time situation, such as face detection in video.
+	Finally, in 2001, Paul Viola and Michael Jones presented a framework for fast object recognition (\cite{viola2001rapid}). Although it could be trained to detect a wide variety of objects, the main objective always was the face detection. It stands out for performing a high detection rate with a very low false positive rate and capable to work in a real time situation, such as face detection in video.
 
 	This method has a total of 4 stages:
 	
 	\begin{enumerate}
-		\item Obtaining Haar features. In the Figure \ref{fig:haar_features} we can see the Haar filters that are used to extract face features (Haar features in short) in the OpenCV library. Haar features work with the similarities that all human faces share and that are shown in a photo as a difference in the intensities of the pixels. For example, in the Figure \ref{fig:application_haar_features} an horizontal line Haar feature is applied for detecting the position of the eyes, as the pixels that represent them are way darker than the pixels that represent the cheeks. The same happen with the vertical line Haar feature in the same figure, dectecting the dark pixels of the eyebrows and the brighter ones for the space in the middle. The use of Haar filters was motivated by the work of \cite{haar_features_before_vj}, but in this case they do not work directly with image intensities. 
+		\item Obtaining Haar features. In the Figure \ref{fig:haar_features} we can see the Haar filters that are used to extract face features (Haar features in short) in the OpenCV library. Haar features work with the similarities that all human faces share and that are shown in a photo as a difference in the intensities of the pixels. For example, in the Figure \ref{fig:application_haar_features} an horizontal line Haar feature is applied for detecting the position of the eyes, as the pixels that represent them are way darker than the pixels that represent the cheeks. The same happen with the vertical line Haar feature in the same figure, detecting the dark pixels of the eyebrows and the brighter ones for the space in the middle. The use of Haar filters was motivated by the work of \cite{haar_features_before_vj}, but in this case they do not work directly with image intensities. 
 
 		\begin{figure}[!ht]
 			\centering
@@ -453,7 +453,7 @@ if there is a face in the image, and second, where it is located (\cite{marques2
 				\end{cases}
 		\end{equation}
 
-		\item Cascade architecture. The main idea of this stage is to build a degenerated decission tree (called \textit{"cascade"} in the article) using strong classifiers like the one we can see in the Figure \ref{fig:cascade_decission_tree}. Image sub-windows are feeded to this cascade, so if a face is detected by the first classifier, it triggers the evaluation of the second classifier. A positive result in the sencond triggers a third classifier, and so on. If a face is not detected in one of the classifiers, the sub-window is rejected. 
+		\item Cascade architecture. The main idea of this stage is to build a degenerated decision tree (called \textit{"cascade"} in the article) using strong classifiers like the one we can see in the Figure \ref{fig:cascade_decission_tree}. Image sub-windows are fed to this cascade, so if a face is detected by the first classifier, it triggers the evaluation of the second classifier. A positive result in the second triggers a third classifier, and so on. If a face is not detected in one of the classifiers, the sub-window is rejected. 
 		
 		\begin{figure}[!ht]
 			\centering
@@ -474,12 +474,12 @@ if there is a face in the image, and second, where it is located (\cite{marques2
                                                                       
 
 \section{Public Data Sets} 
-Face recognition is nothing but another kind of machine learning and as such, it needs to be feeded with data (i.e. face images). The problem is that in order to be trained, \glspl{cnn} require a large quantity of data where each train example must be sufficiently different from the others. Otherwise, the model would be "overfitted" to the set used in the training and it would not be able to generalise the learned features. As we cannot generate this kind of dataset by ourselves, a research was done with the purpose of finding a public dataset of face images that we could use for the application:
+Face recognition is nothing but another kind of machine learning and as such, it needs to be fed with data (i.e. face images). The problem is that in order to be trained, \glspl{cnn} require a large quantity of data where each train example must be sufficiently different from the others. Otherwise, the model would be "over-fitted" to the set used in the training and it would not be able to generalise the learned features. As we cannot generate this kind of dataset by ourselves, a research was done with the purpose of finding a public dataset of face images that we could use for the application:
 
 \begin{itemize}
-	\item CASIA Webface Database. It is the second largest database of faces (the first is private and belongs to Facebook), with more than 10,000 subjects and almost 500,000 images (\cite{casia_db}). To be able to use it, it is necessary to sign an agreement where we assure that it will be for non-comercial, research or educational purposes. It was discarded because its size correspond more a project of a larger scale. 
+	\item CASIA Webface Database. It is the second largest database of faces (the first is private and belongs to Facebook), with more than 10,000 subjects and almost 500,000 images (\cite{casia_db}). To be able to use it, it is necessary to sign an agreement where we assure that it will be for non-commercial, research or educational purposes. It was discarded because its size correspond more a project of a larger scale. 
 	\item WIDER FACE. This database (\cite{widerf_db}) has more than 32,000 images that can be freely accessed by Google Drive. It has the advantage of having the images already labelled and the faces in them marked with a square. However, in many of the images appear more than person, plus that the marked images would make the training to depend of this pre-processing, so it is finally discarded.
-	\item \gls{lfw}. This database has more than 13,000 images where the person appears in a near front-face position, which fits perfectly the needs of this project. It can be explored online and has been recently updated (09/05/2017, \cite{lfw_db}). Althought it has the option to download the images already aligned using funneling or commercial software, the "raw" set of images is preferred in order to include the preprocessing in the application.
+	\item \gls{lfw}. This database has more than 13,000 images where the person appears in a near front-face position, which fits perfectly the needs of this project. It can be explored online and has been recently updated (09/05/2017, \cite{lfw_db}). Although it has the option to download the images already aligned using funnelling or commercial software, the "raw" set of images is preferred in order to include the preprocessing in the application.
 \end{itemize}
 
 
@@ -493,7 +493,7 @@ Face recognition is nothing but another kind of machine learning and as such, it
                                                                          
 \section{Raspberry Pi}	
 \label{sec:rasp_pi}
-The Raspberry Pi was designed by scientists from the University of Cambridge and realeased their first commercial model in 2012. At the first instance it was thought to be a programming learning tool accessible for everyone thanks to the low cost of the device (\cite{raspberry_pi_for_learning}), now around the 40e (\cite{price_raspberry_pi}). However, a huge community has grown around this project that goes from the original purpose of programming learning to industrial and comercial products.
+The Raspberry Pi was designed by scientists from the University of Cambridge and released their first commercial model in 2012. At the first instance it was thought to be a programming learning tool accessible for everyone thanks to the low cost of the device (\cite{raspberry_pi_for_learning}), now around the 40e (\cite{price_raspberry_pi}). However, a huge community has grown around this project that goes from the original purpose of programming learning to industrial and commercial products.
 
 	\subsection{Specifications}
 	All the specifications of this device can be found in the table \ref{table:rasp_pi_specs}. For this project a camera will be needed to take photos of the users. There are a lot of camera models available for the Raspberry Pi with no big differences of performance in the scope of this \gls{fyp}. However, the Camera Module V2 (8 Megapixels) was finally chosen above the rest because it is the official camera for the Raspberry and has been used in many other projects. It counts with a Sony Exmor IMX219 Sensor and it is capable to record up to 1080p at 30fps.
@@ -517,7 +517,7 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
                              	   & \makecell[tl]{Micro-SD port for OS and storage (power \\ source up to 2.5A)} \\\hline
         \multirow{2}{*}{Video output} & Full size HDMI (rev 1.3 \& 1.4) \\ \cline{2-2}
                              	   & Composite RCA (PAL \& NTSC) \\\hline
-        Audio output & 3.5mm jack conector \\\hline
+        Audio output & 3.5mm jack connector \\\hline
 	    \end{tabular}
 	    \caption{Specifications of the Raspberry Pi 3 Model B}
 	    \label{table:rasp_pi_specs}
@@ -546,7 +546,7 @@ The Raspberry Pi was designed by scientists from the University of Cambridge and
                                                      
 \section{Python}
 \label{sec:python}
-Some of the features of Python have been already commented in the Introduction of this report, but there is more to talk about. Some people say that in order to explain something well, you need to start from the root of the question. If we apply it to Python, we have to talk about the Zen of Python (\cite{origin_zen_of_python}, \cite{zen_of_python}), a collection of software principles that influenced the design of this language. A total of 20 principles (of which only 19 were written down) that show how Tim Peters, one of the open source development leaders of Python, wanted it to be beatiful, explicit, simple among other thigs.
+Some of the features of Python have been already commented in the Introduction of this report, but there is more to talk about. Some people say that in order to explain something well, you need to start from the root of the question. If we apply it to Python, we have to talk about the Zen of Python (\cite{origin_zen_of_python}, \cite{zen_of_python}), a collection of software principles that influenced the design of this language. A total of 20 principles (of which only 19 were written down) that show how Tim Peters, one of the open source development leaders of Python, wanted it to be beautiful, explicit, simple among other thigs.
 
 The readability of Python was also in these principles and we can find many aspects of the language that confirm this feature. One that really impressed me at the first place was the lack of brackets ("\{\}"), which are the usual way to delimit control flow blocks in other languages. Instead of brackets, Python uses indentation. To indicate that a line is inside a function or an block (an \textit{if} block in the example), we just have to indent it one level deeper. We can see it clearly in the next comparative.
 
@@ -572,11 +572,11 @@ def foo(x):
 \end{lstlisting}
 \end{minipage}
 
-Another feature of Python is that it is interactive, which means that we do not need to write a Python program in a file to execute it later althought is also an option. Alternatively, we can interact with the prompt directly by executing the Python shell in the terminal. Also related with it, Python is interpreted, so it does not have to be compiled before executing (what happens to languages like C, C++ or Lisp). It is processed at runtime by the interpreter (\cite{python_overview}). 
+Another feature of Python is that it is interactive, which means that we do not need to write a Python program in a file to execute it later although is also an option. Alternatively, we can interact with the prompt directly by executing the Python shell in the terminal. Also related with it, Python is interpreted, so it does not have to be compiled before executing (what happens to languages like C, C++ or Lisp). It is processed at runtime by the interpreter (\cite{python_overview}). 
 
-Finally, the most important feature of Python: it is very easy to learn. It has fewer keywords than other languages, its strucure is much simpler and the syntax is can be easily understood with a certain level of English. 
+Finally, the most important feature of Python: it is very easy to learn. It has fewer keywords than other languages, its structure is much simpler and the syntax is can be easily understood with a certain level of English. 
 
-These reasons have brought Python to be very popular. When looking at different sites, the ranking of the most popular languages can vary depending on the parameters that have been used for the calculations. The TIOBE Programming Community index in the Figure \ref{fig:tiobe_rank} shows a rank based in the hits for the search query, using engines like Google, Yahoo, or Wikipedia (\cite{tiobe_index_def}). The PYPL PopularitY is another rank that we can find in the Figure \ref{fig:pypl_rank}, which was created by analyzing how often language tutorials are searched on Google. The last one but not less important is the rank from the Github Octoverse, in the Figure \ref{fig:github_octoverse_rank}, which shows the number of pull request during 2017.
+These reasons have brought Python to be very popular. When looking at different sites, the ranking of the most popular languages can vary depending on the parameters that have been used for the calculations. The TIOBE Programming Community index in the Figure \ref{fig:tiobe_rank} shows a rank based in the hits for the search query, using engines like Google, Yahoo, or Wikipedia (\cite{tiobe_index_def}). The PYPL PopularitY is another rank that we can find in the Figure \ref{fig:pypl_rank}, which was created by analysing how often language tutorials are searched on Google. The last one but not less important is the rank from the Github Octoverse, in the Figure \ref{fig:github_octoverse_rank}, which shows the number of pull request during 2017.
 
 \begin{figure}[!ht]
 	\centering

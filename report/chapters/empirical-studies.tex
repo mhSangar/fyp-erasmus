@@ -35,7 +35,7 @@ In this section we include the analysis of two of the techniques used in the pro
 	\subsection{Data set}
 	The dataset used in the experiment is composed of a total of 90 images, where 30 of them contain a human face, 30 contain a pattern that humans could interpret as face and 30 do not contain any face. In the Figure \ref{fig:fd_dataset} we can see the complete dataset. All images are square-shaped with a resolution of 250x250 pixels. The face images belong to the \gls{lfw} dataset (\cite{lfw_db}), while near-face images and non-face images were obtained using Google images and after cropped manually.
 
-	The non-face images were obtained after searching for the keys "background" and "abstract wallpaper". The near-face dataset must be explained in detail because the subjective decission of whether the image look like a face enough or not. This group of photos is internally divided in another three sub-groups:
+	The non-face images were obtained after searching for the keys "background" and "abstract wallpaper". The near-face dataset must be explained in detail because the subjective decision of whether the image look like a face enough or not. This group of photos is internally divided in another three sub-groups:
 
 	\begin{itemize}
 		\item Images from 1 to 11. The first contain pencil or graphic drawings that represent human faces looking straight forward.
@@ -107,7 +107,7 @@ In this section we include the analysis of two of the techniques used in the pro
 	    \label{table:true_false_exp1}
 	\end{table}
 
-	To measure the results we are going to use two metrics widely employed for binary classification: \textit{precission} and \textit{recall}. Precision (i.e. positive predictive value) is the fraction of relevant instances among retrieved instances, while Recall (i.e. sensitivity) is the fraction of relevant instances that have been retrieved over the total amount of relevant instances.  
+	To measure the results we are going to use two metrics widely employed for binary classification: \textit{precision} and \textit{recall}. Precision (i.e. positive predictive value) is the fraction of relevant instances among retrieved instances, while Recall (i.e. sensitivity) is the fraction of relevant instances that have been retrieved over the total amount of relevant instances.  
 
 	\begin{flalign}
 		\label{eq:prec_exp1}
@@ -165,9 +165,9 @@ In this section we include the analysis of two of the techniques used in the pro
 		\label{fig:fr_dataset}
 	\end{figure}
 
-	All images are square-shaped with a resolution of 160x160 pixels. They have been pre-processed using the \textit{face{\_}detection} module, discussed in the Design chapter (\ref{subsec:face_det}), so they contain only the face of the person with a minimal background. The images in which no faces were detected were cropped manually simulating the pre-processing.
+	All images are square-shaped with a resolution of 160x160 pixels. They have been pre-processed using the \textit{face{\_}detection} module, discussed in the Design chapter (\ref{subsec:face_det}), so they contain only the face of the person with a minimal background. The images in which no faces were detechttps://www.linguee.es/espanol-ingles/traduccion/esta+contemplado.htmlhttps://www.linguee.es/espanol-ingles/traduccion/esta+contemplado.htmlhttps://www.linguee.es/espanol-ingles/traduccion/esta+contemplado.htmlhttps://www.linguee.es/espanol-ingles/traduccion/esta+contemplado.htmlted were cropped manually simulating the pre-processing.
 
-	The \gls{mset} is going to be exlained in detail because a decission was made as to which photos to take. It is composed of 4 groups of images in which the illumination and the fact that the author wear glasses or not is variated:
+	The \gls{mset} is going to be explained in detail because a decision was made as to which photos to take. It is composed of 4 groups of images in which the illumination and the fact that the author wear glasses or not is varied:
 
 	\begin{itemize}
 		\item First group (Images 1-10). The light comes from the right and the author wear glasses.
@@ -373,23 +373,23 @@ In this section we include the analysis of two of the techniques used in the pro
 	    \label{table:true_false_exp2}
 	\end{table}
 
-	As we did in the previous experiment, we are going to use the metrics of \textit{precission} and \textit{recall}.
+	As we did in the previous experiment, we are going to use the metrics of \textit{precision} and \textit{recall}.
 
 	\begin{flalign}
-		\label{eq:prec_exp1}
+		\label{eq:prec_exp2}
 		Precission  &= \frac{relevant \cap retrieved}{retrieved} = \\ \nonumber
 					&= \frac{positive_{true}}{positive_{true} \cup positive_{false}} = \frac{37}{37+0} = 100\%
 	\end{flalign}
 
 	\begin{flalign}
-		\label{eq:recall_exp1}
+		\label{eq:recall_exp2}
 		Recall 	&= \frac{relevant \cap retrieved}{relevant} = \\\nonumber
 				&= \frac{positive_{true}}{positive_{true} \cup negative_{false}} = \frac{37}{37+3} = 92.5\%
 	\end{flalign}
 
-	With a 100\% of precission and 92.5\% of recall, we can see the huge potential of the Convolutional Neural Networks for face recognition, even with variations in pose, gesture, illumination and accesories (e.g. glasses). From the \gls{lfw} dataset none of the faces were recognised, not only as the author, but neither as any of the other "students" (in fact, different subjects also from the \gls{lfw}) for who the network was trained. The highest confidence value of this dataset was 79.3\%, not even close to the necessary 90\% .
+	With a 100\% of precision and 92.5\% of recall, we can see the huge potential of the Convolutional Neural Networks for face recognition, even with variations in pose, gesture, illumination and accessories (e.g. glasses). From the \gls{lfw} dataset none of the faces were recognised, not only as the author, but neither as any of the other "students" (in fact, different subjects also from the \gls{lfw}) for who the network was trained. The highest confidence value of this dataset was 79.3\%, not even close to the necessary 90\% .
 
-	About the false negatives, the three photos were rejected because they did not exceed the selected confidence level of 90\%, but with more than 80\% in all of them, the identification of the author was almost confirmed. One option would be to lower this value to, say, 80\%. However, the use of this application tolerate better the false negatives than the false positives, which could have occured with an 80\%, so the conficence value will be kept at 90\%. 
+	About the false negatives, the three photos were rejected because they did not exceed the selected confidence level of 90\%, but with more than 80\% in all of them, the identification of the author was almost confirmed. One option would be to lower this value to, say, 80\%. However, the use of this application tolerate better the false negatives than the false positives, which could have occurred with an 80\%, so the confidence value will be kept at 90\%. 
 
 	In the case of a false positive, the user would be recognised as another student and would have to wait for the \textit{timetable} and \textit{map} calls to the server to know that in fact, from the beginning, the information is not valid. On the other hand, in the case of a false negative, the Error window would show up after the failed recognition, allowing the user to repeat the process much faster.
 	
